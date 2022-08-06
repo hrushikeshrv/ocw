@@ -38,8 +38,8 @@ data structures. Some important properties of python’s built in data structure
 
 1. Accessing any element in a list takes O(1) time
 2. Appending to a list uses table doubling and so takes amortized O(1) time
-3. Adding 2 lists and returning takes linear time or O(|L1| + |L2|) time
-4. Extending a list L1 with a list L2 takes O(1+|L2|) time (l1.extend(l2))
+3. Adding 2 lists and returning takes linear time or O(\|L1\| + \|L2\|) time
+4. Extending a list L1 with a list L2 takes O(1+\|L2\|) time (l1.extend(l2))
 5. Retrieving the length of a list takes O(1) time because python keeps track of the length of a list as it’s being built
 6. The in operator takes linear time
 7. The sorted() function and List.sort() takes O(nlogn) time, and uses a comparison sort (quick sort)
