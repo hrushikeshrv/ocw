@@ -22,7 +22,7 @@ For any arbitrary boolean expression, draw a truth table or all possible input
 combinations. Then, only consider the input combinations which output a 1. 
 For each such input combination, build a circuit that would output a 1. That is,
 if one input combination that outputs a 1 for 3 inputs is $ \{X, Y, Z\} = \{0, 0, 1\} $, then
-we would build a circuit for this combination as $ (~X \land ~Y) \lor Z $.
+we would build a circuit for this combination as $ \lnot X \land \lnot Y \land Z $.
 
 Once we have circuits for each such row (that outputs a 1 in the final boolean
 expression), we just OR all of those circuits to get our expression.
@@ -79,7 +79,7 @@ number of circuits of size $S$ using n inputs is ${n \choose 2} \cdot {(n+1) \ch
 
 Now we want 
 
-$$ (n+S)^{2S} = 2^{2^{n}} $$.
+$$ {n+S}^{2S} = 2^{2^{n}} $$.
 
 Which gives us 
 
