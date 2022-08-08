@@ -79,11 +79,11 @@ number of circuits of size $S$ using n inputs is ${n \choose 2} \cdot {(n+1) \ch
 
 Now we want 
 
-$$ {n+S}^{2S} = 2^{2^{n}} $$.
+$ (n+S)^{2S} = 2^{2^{n}} $
 
 Which gives us 
 
-$$ S = \Theta(\frac{2^n}{n}) $$.
+$ S = \Theta(\frac{2^n}{n}) $
 
 This means that to represent a boolean expression with n inputs, most circuits will
 have to be of size $ S = \Theta(\frac{2^n}{n}) $.
