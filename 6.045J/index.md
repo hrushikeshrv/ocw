@@ -21,3 +21,4 @@ topics.
 ## Lectures
 1. [Introduction](./lec1.md)
 2. [Logic, Circuits, and Gates](./lec2.md)
+3. [Finite State Automata, Regular Languages](./lec3.md)
