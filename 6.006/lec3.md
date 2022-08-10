@@ -1,6 +1,6 @@
 # Lecture 3 - Insertion Sort, Merge Sort
 ## Insertion Sort
-Insertion sort is an $O(n2)$ algorithm. The pseudocode for insertion sort is -
+Insertion sort is an $O(n^2)$ algorithm. The pseudocode for insertion sort is -
 
 1. Consider you have already sorted a prefix of the array A[:i-1] and are considering
 key i.
@@ -21,7 +21,7 @@ Since insertion sort requires an entire iteration through the array, and since i
 
 One optimization we could perform is to the number of comparisons. To find the right place in which we have to insert the current key, we could use binary search to find the right index and then do pairwise swaps to insert it into the right place. This would reduce the complexity w.r.t. the number of comparisons but we would still need to do a linear number of swaps to get the key into the right place.
 
-This still doesn’t change the asymptotic time complexity of insertion sort, because we still have to do $O(n)$ swaps for each step. So we have a total of $O(n \cdot log n)$ comparisons but we have a total of $O(n^2)$ swaps. This helps you improve the total runtime if comparing two items in the array is expensive (like one or more database lookups), but if comparison and swapping are both $O(1)$ operations, insertion sort remains a $O(n^2)$ algorithm.
+This still doesn’t change the asymptotic time complexity of insertion sort, because we still have to do $O(n)$ swaps for each step. So we have a total of $O(n \cdot log\,n)$ comparisons but we have a total of $O(n^2)$ swaps. This helps you improve the total runtime if comparing two items in the array is expensive (like one or more database lookups), but if comparison and swapping are both $O(1)$ operations, insertion sort remains a $O(n^2)$ algorithm.
 
 ## Merge Sort
 Merge sort is a recursive sorting algorithm. Instead of sorting an array as is, it splits the array into 2 halves, sorts them, and then merges them. Of course, it doesn’t explicitly sort the two half arrays either - it splits them into two more arrays, tries to sort them, and merges them together.
@@ -37,42 +37,42 @@ The pseudocode for the merge routine is -
 3. Remove the added element from the half-array.
 
 ~~~
-    # Untested, rough merge sort implementation
-    def merge_sort(arr):
-        if len(arr) == 1:
-            return arr
-        left = arr[:len(arr)//2]
-        right = arr[len(arr)//2:]
-    return merge(merge_sort(left), merge_sort(right))
-    
-    def merge(left, right):
-        i, j = 0, 0
-        ans = []
-        while True:
-            if i >= len(left) and j >= len(right):
-                break
-            elif i >= len(left):
+# Untested, rough merge sort implementation
+def merge_sort(arr):
+    if len(arr) == 1:
+        return arr
+    left = arr[:len(arr)//2]
+    right = arr[len(arr)//2:]
+return merge(merge_sort(left), merge_sort(right))
+
+def merge(left, right):
+    i, j = 0, 0
+    ans = []
+    while True:
+        if i >= len(left) and j >= len(right):
+            break
+        elif i >= len(left):
+            ans.append(right[j])
+            j += 1
+        elif j >= len(right):
+            ans.append(left[i])
+            i += 1
+        else:
+            if left[i] > right[j]:
                 ans.append(right[j])
                 j += 1
-            elif j >= len(right):
+            else:
                 ans.append(left[i])
                 i += 1
-            else:
-                if left[i] > right[j]:
-                    ans.append(right[j])
-                    j += 1
-                else:
-                    ans.append(left[i])
-                    i += 1
-        return ans
+    return ans
 ~~~
 {: .language-python}
 
 ## Complexity
-Merge sort involves dividing the arrays $lg(n)$ times, and the merge routine for each division takes $\Theta(n)$ steps. Therefore, merge sort is a $\Theta(n \cdot log n)$ algorithm. More formally, we can write the recurrence for merge sort as -
+Merge sort involves dividing the arrays ${log}_{2}(n)$ times, and the merge routine for each division takes $\Theta(n)$ steps. Therefore, merge sort is a $\Theta(n \cdot log\,n)$ algorithm. More formally, we can write the recurrence for merge sort as -
 
-$$ T(n) = \Theta(1) + \Theta(n) + 2T(n/2) $$
+$$ T(n) = \Theta(1) + \Theta(n) + 2 \cdot T(n/2) $$
 
-The $O(1)$ comes from splitting the array into two halves, and the $O(n)$ comes from the work required to merge the two half-arrays after they have been sorted. Solving this recurrence using the techniques given in [6.042J lecture 15](../6.042J/lec15.md), we get the time complexity of merge sort to be $O(n log n)$.
+The $O(1)$ comes from splitting the array into two halves, and the $O(n)$ comes from the work required to merge the two half-arrays after they have been sorted. Solving this recurrence using the techniques given in [6.042J lecture 15](../6.042J/lec15.md), we get the time complexity of merge sort to be $O(n \cdot log\,n)$.
 
 One disadvantage of merge sort is that it is not in place. To sort an array you have to essentially create a sorted copy of it in memory, which may not be possible if the array is too big to fit twice into memory. In this case, insertion sort may be preferred, since even though it is $O(n^2)$, it is in place. There does exist an in place version of merge sort, but it doesn’t do too well on the constant factors, so we prefer quick sort, or any other in place algorithm instead of merge sort.
