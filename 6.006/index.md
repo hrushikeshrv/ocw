@@ -14,3 +14,4 @@ problems.
 ## Lectures
 1. [Algorithmic Thinking, Peak Finding](./lec1.md)
 2. [Models of Computation, Document Distance](./lec2.md)
+3. [Insertion Sort, Merge Sort](./lec3.md)
