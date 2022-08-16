@@ -18,3 +18,4 @@ problems.
 4. [Heaps and Heap Sort](./lec4.md)
 5. [Binary Search Trees, BST Sort](./lec5.md)
 6. [AVL Trees, AVL Sort](./lec6.md)
+7. [Counting Sort, Radix Sort, Lower Bounds for Sorting](./lec7.md)

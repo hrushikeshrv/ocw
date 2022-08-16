@@ -3,7 +3,7 @@ AVL Trees were the original way to keep BSTs balanced.
 
 The height of a tree is defined as the length of the longest path from the root of the tree down to a leaf. The height of a node is defined as the length of the longest path from the node down to a leaf.
 
-The height of a node is $1 + max(height of left child, height of right child)$.
+The height of a node is 1 + max(height of left child, height of right child).
 
 The invariant in AVL Trees is that the height of the left and the right subtrees of any node differ by at most 1.
 
@@ -21,7 +21,7 @@ $$ F(h) = h/5 $$
 
 $$ Nh = n > h/5 $$
 
-$$ h = 1.44*log2(n) $$
+$$ h = 1.44*{log}_{2}\,(n) $$
 
 $$ h = \Theta(log\,n) $$
 
