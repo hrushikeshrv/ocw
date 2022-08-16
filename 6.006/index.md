@@ -16,3 +16,4 @@ problems.
 2. [Models of Computation, Document Distance](./lec2.md)
 3. [Insertion Sort, Merge Sort](./lec3.md)
 4. [Heaps and Heap Sort](./lec4.md)
+5. [Binary Search Trees, BST Sort](./lec5.md)
