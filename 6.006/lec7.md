@@ -2,11 +2,12 @@
 ## Lower bounds for sorting
 We can represent the execution of an algorithm as a decision tree. The leaves of the tree are the endpoints or the “answers” of the algorithm, and the path to a leaf is one execution of the algorithm. In this case, we can define the worst case running time of an algorithm to be the height of the tree.
 
-Using this representation, we can prove that we need at least $O({log}_{2}\,n)$ time for searching and at least $O(n \cdot {log}_{2}\,n)$ time for sorting (except for some special cases in which we can sort in linear time).
+Using this representation, we can prove that we need at least $O(log\,n) $ 
+time for searching and at least $O(n \cdot {log}_{2}\,n)$ time for sorting (except for some special cases in which we can sort in linear time).
 
 The number of leaves in the tree for a searching algorithm is at least n, since in a data structure containing n items, the item to search for can be in any of the n different spots. For a binary tree containing at least n leaves, the height of the tree has to be at least ${log}_{2}\,n$.
 
-Similarly for sorting, the number of leaves has to be at least $\Theta(n!)$. So the height of the tree has to be at least $log_2\,(n!)$, which, if you calculate, is at least $\omega(n \cdot log\,n)$.
+Similarly for sorting, the number of leaves has to be at least $\Theta(n!)$. So the height of the tree has to be at least $log_2\,(n!)$, which, if you calculate, is at least $\Omega(n \cdot log\,n)$.
 
 ## Counting Sort
 For sorting n integers in `range(k)`, when k is not too big, we can sort in linear time.

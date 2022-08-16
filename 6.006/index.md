@@ -19,3 +19,4 @@ problems.
 5. [Binary Search Trees, BST Sort](./lec5.md)
 6. [AVL Trees, AVL Sort](./lec6.md)
 7. [Counting Sort, Radix Sort, Lower Bounds for Sorting](./lec7.md)
+8. [Hashing with Chaining](./lec8.md)
