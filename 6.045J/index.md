@@ -22,3 +22,4 @@ topics.
 1. [Introduction](./lec1.md)
 2. [Logic, Circuits, and Gates](./lec2.md)
 3. [Finite State Automata, Regular Languages](./lec3.md)
+4. [Regular Expressions, Context-Free Grammars](./lec4.md)

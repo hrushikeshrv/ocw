@@ -50,7 +50,7 @@ when it reads the symbol 0, for example, whereas a DFA only has one path per sym
 For example, we have the NDFA that accepts the language where the 3rd to last bit is a 1, which
 can be drawn as given below -
 
-![NDFA accepting language where 3rd to last bit is 1](./media/lec4-1.jpg)
+![NDFA accepting language where 3rd to last bit is 1](media/lec3-1.jpg)
 
 It turns out that NDFAs are essentially equivalent to DFAs. For every NDFA that accepts a language $L$,
 we can construct a DFA that accepts the same language, and for every DFA that accepts a language $L$, 
@@ -70,4 +70,4 @@ state 01.
 An example conversion is shown below for the NDFA that accepts languages where the second to last bit 
 is a 1 to its corresponding DFA.
 
-![Converting from NDFAs to DFAs](./media/lec4-2.jpg)
+![Converting from NDFAs to DFAs](media/lec3-2.jpg)

@@ -36,7 +36,7 @@ A hash function does not convert any arbitrary object into an integer. That is t
 def division_hash(x, m):
     return x % m
 ~~~
-{. :language-python} 
+{: .language-python} 
 
 This gives you an integer between 0 and m. This method is not too good because the performance of this hash function depends on our choice of K and m. It performs well in practice when m is prime or at least not a power of 2 or 10, but this solution does not seem so robust.
 
@@ -49,7 +49,7 @@ def multiplication_hash(x, m):
     r = math.log2(m)
     return ((a*x) % 2**w) >> (w-r)
 ~~~
-{. :language-python}
+{: .language-python}
 
 Here a is any random number that we choose for our hash function, and w is the word size for our machine. ‘r’ is log<sub>2</sub>m. The reason this works is as follows - a$\cdot$x first gives us a number that is 2 words long (since multiplying two words will give us a number that is two words long). This number is randomized because a is random. Taking the modulus to the base 2<sup>w</sup> gets rid of the upper half bits. Shifting the number to the right by (w-r) bits leaves us with r bits, which is a number between 0 and m-1.
 
@@ -62,6 +62,6 @@ def universal_hash(x, m):
     p = os.environ.get(‘p’)
     return ((a*k + b) % p) % m
 ~~~
-{. :language-python}
+{: .language-python}
 
 Here p is a big prime number, larger than the size of your universe of keys, and a and b are any random numbers between 0 and p. Using linearity of expectation and a similar technique which we used to prove that simple uniform hashing gave us a reasonable hash function, we can prove that universal hashing gives us a O(1) time hash table implementation.
