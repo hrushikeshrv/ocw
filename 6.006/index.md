@@ -22,3 +22,4 @@ problems.
 8. [Hashing with Chaining](./lec8.md)
 9. [Table Doubling, Karp Rabin](./lec9.md)
 10. [Open Addressing, Cryptographic Hashing](./lec10.md)
+16. [Dijkstra](./lec16.md)
