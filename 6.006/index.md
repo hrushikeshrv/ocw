@@ -23,3 +23,4 @@ problems.
 9. [Table Doubling, Karp Rabin](./lec9.md)
 10. [Open Addressing, Cryptographic Hashing](./lec10.md)
 16. [Dijkstra](./lec16.md)
+17. [Bellman-Ford](./lec17.md)
