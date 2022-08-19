@@ -20,6 +20,7 @@ Dijkstra(G, w, s):
         if u == t:
             return
 ~~~
+{: .language-python}
 
 If you know what the destination vertex is, you don’t need to keep relaxing edges after you are done with the destination vertex. So you return if you are done with the destination vertex.
 

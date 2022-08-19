@@ -1,4 +1,5 @@
-# DBMSs
+# Introduction & Relational Model
+## DBMSs
 A database is an organized collection of related data that models some aspect
 of the real world (e.g., modeling the students in a class, or a digital music store).
 A DBMS is a software that allows applications to store and analyze the information
@@ -15,7 +16,7 @@ itself, which made the database much harder to manage. If the structure of the d
 or the requirements of the application changed, the whole physical layer needed
 to be rewritten.
 
-# Relational Model
+## Relational Model
 Ted Codd proposed the relational model in 1970. The relational model has 3 key 
 points -
 
@@ -35,3 +36,16 @@ The relational model defines three concepts -
    can either be defined by the designer or the database itself.
 3. Manipulation - Describes how the contents of the database can be modified.
 
+## Relational Algebra
+Relational algebra gives a set of operations we can perform on relations to produce 
+new relations. You can think of a relation as a table in a database. Relational
+algebra operators take a relation as an input and produce another relation.
+
+The basic few relational algebra operators are - 
+1. Select ($\sigma$<sub>predicate</sub>(R)) - Acts like a filter. Selects tuples from the relation that satisfy the predicate.
+2. Projection ($\pi$<sub>A1,A2,...</sub>(R)) - Returns the same relation but only with the attributes A1, A2, ... selected from the relation.
+3. Union (R $\cup$ S) - Produces a new relation that contains all the tuples in at least one of the relations (the relations need to have the same attributes).
+4. Intersection (R $\cap$ S) - Produces a new relation that contains only those tuples that exist in both R and S (the relations need to have the same attributes).
+5. Difference (R - S) - Produces a new relation that contains all tuples that appear in the first relation but not in the second relation (the relations need to have the same attributes).
+6. Product (R $\times$ S) - Product takes in two relations and outputs a relation that contains all possible combinations for tuples from the input relations.
+7. Join (R \Join S) - outputs a relation that contains all the tuples that are a combination of two tuples where for each attribute that the two relations share, the values for that attribute of both tuples is the same.
