@@ -41,3 +41,13 @@ only outgoing edges, and only one accepting state with only incoming edges. Once
 to a GNFA with some number of states k, we reduce the k states down to 2 (as shown in the lecture, 
 pretty straightforward). Once we are left with 2 states in our GNFA, we can write it as a regular 
 expression.
+
+## Context-Free Grammars
+A context-free grammar is a set of rules for generating any string in a language. It can be defined
+by the following tuple - (V, $\Sigma$, R, S). V is the set of variables for the grammar, $\Sigma$ 
+is the alphabet of the language we are going to generate, R is the set of rules for generating the 
+language, and S is the start variable from which we start generation.
+
+An example of a context-free grammar is 
+
+![Context-free grammar](./media/lec4-2.jpg)
