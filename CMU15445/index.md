@@ -16,3 +16,4 @@ The course is appropriate for students with lit systems programming skills.
 
 ## Lectures 
 1. [Introduction & Relational Model](./lec1.md)
+2. [Advanced SQL](./lec2.md)
