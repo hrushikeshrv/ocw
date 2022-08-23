@@ -25,3 +25,4 @@ problems.
 16. [Dijkstra](./lec16.md)
 17. [Bellman-Ford](./lec17.md)
 18. [Speeding up Dijkstra](./lec18.md)
+19. [Dynamic Programming 1: Fibonacci, Shortest Paths](./lec19.md)
