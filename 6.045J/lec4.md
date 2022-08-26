@@ -51,3 +51,16 @@ language, and S is the start variable from which we start generation.
 An example of a context-free grammar is 
 
 ![Context-free grammar](./media/lec4-2.jpg)
+
+Languages that are generated from a context-free grammar are called context-free languages. As you 
+might expect, since CFG is a more powerful model of computation as compared to regular expressions
+or DFAs, regular languages are a subset of context-free languages. That is, every regular language 
+is a context-free language (i.e. can be expressed with a CFG).
+
+## Pushdown Automata
+Pushdown automata (PDAs) are a more powerful variation of NFAs. Think of them as basically NFAs
+with access to a stack onto which they can push items and pop items. They allow us to express a 
+larger set of languages.
+
+Even though NFAs are equivalent to DFAs, PDAs are not equivalent to their deterministic counterparts.
+That is, DPDAs != PDAs.
