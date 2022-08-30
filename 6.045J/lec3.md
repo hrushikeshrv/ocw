@@ -37,11 +37,6 @@ this language, so it is not regular. This was just a rough proof, but the lectur
 gives a detailed proof.
 
 ## Nondeterministic Finite State Automata
-- definition
-- example for tracking if third last letter was 1
-- Equivalent to DFAs
-- Conversion example
-
 A non-deterministic finite state automaton is an extension of DFAs. It has the property that
 it can have any number of ways to transition from one state to another, even when it reads the 
 same symbol. That means that if it is in a state $q_i$, it can have any number of paths to follow
