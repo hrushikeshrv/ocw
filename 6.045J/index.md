@@ -24,3 +24,4 @@ topics.
 3. [Finite State Automata, Regular Languages](./lec3.md)
 4. [Regular Expressions, Context-Free Grammars](./lec4.md)
 5. [Turing Machines](./lec5.md)
+6. [Decidability](./lec6.md)

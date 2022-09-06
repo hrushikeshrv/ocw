@@ -63,4 +63,4 @@ with access to a stack onto which they can push items and pop items. They allow 
 larger set of languages.
 
 Even though NFAs are equivalent to DFAs, PDAs are not equivalent to their deterministic counterparts.
-That is, DPDAs != PDAs.
+That is, DPDAs $\ne$ PDAs.
