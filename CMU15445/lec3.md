@@ -32,3 +32,27 @@ kinds of pages -
 1. Hardware pages - The blocks exposed by the SSD/disk itself on the hardware level. Usually 4kB.
 2. OS page - The blocks as defined by the OS (4kB).
 3. Database page - The blocks as defined by the DBMS (0.5 to 16kB).
+
+## Heap File Organization
+There are a few ways to organize pages in memory, and the one covered in the lecture
+is the heap file organization. A heap file just means that pages are stored in memory
+in an unordered way, and tuples are stored inside those pages.
+
+We maintain something called a page directory, which is basically a hash table that
+maps page ids to the location of the pages in memory. It can also contain metadata
+about the page.
+
+## Page Structure
+The data contained in the page itself can be stored in two ways - slotted pages 
+and log-structured pages. 
+
+Slotted pages are pages which contain "slots" for tuples to go into. The page has
+a header that stores metadata about the page, and the top of the page contains a 
+"slots" array that maps slot locations to an offset in the page. The tuples are 
+stored starting from the bottom of the page working up. The page is said to be full
+when the slots array and the tuples touch.
+
+Log structured pages store only logs, i.e, records of how the page was modified.
+The data present in the page can then be inferred from the logs during a read. 
+This results in fast writes, but could lead to slow reads. However, there are a 
+few techniques to make reads practical as well.
