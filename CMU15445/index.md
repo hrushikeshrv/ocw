@@ -18,3 +18,4 @@ The course is appropriate for students with lit systems programming skills.
 1. [Introduction & Relational Model](./lec1.md)
 2. [Advanced SQL](./lec2.md)
 3. [Database Storage 1](./lec3.md)
+4. [Database Storage 2](./lec4.md)
