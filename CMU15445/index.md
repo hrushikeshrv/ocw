@@ -20,3 +20,5 @@ The course is appropriate for students with lit systems programming skills.
 3. [Database Storage 1](./lec3.md)
 4. [Database Storage 2](./lec4.md)
 5. [Buffer Pools](./lec5.md)
+6. Hash Tables
+7. [Tree Indexes](./lec7.md)
