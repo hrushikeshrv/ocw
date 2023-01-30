@@ -7,11 +7,6 @@ state, just like a DFA, but it can also write a symbol on the same paper it is r
 can further move the paper it is reading from either to the right or to the left. It turns out that
 this model is powerful enough to be able to make arbitrary finite computations.
 
-- why not more powerful models of computation?
-- Chuch-Turing thesis
-- example of church-turing thesis using one-way turing machine
-- computable language
-
 For example, we can have a Turing machine that accepts the language of palindromes. Let's say we have
 an infinitely long tape with an input. The start and end of the input are marked with special symbols, say `#`,
 so we know that the input has started or ended. Then we can design a Turing machine to accept the input only

@@ -50,7 +50,7 @@ by using the pythagorean theorem in the plane. However, we can’t come up with 
 just 1s, 0s, and the above operations. The proof of this requires Galois theory, but it
 is a proven limitation.
 
-This example is more mathematically than computational, but this illustrates the type of
+This example is more mathematical than computational, but this illustrates the type of
 reasoning we perform in this course. We start with a set of well defined rules, and then
 extend them to find out exactly what we can and cannot do, as well as give reasons as to
 why we definitely cannot do something, regardless of how clever we are or how much computational

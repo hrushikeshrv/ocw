@@ -1,7 +1,7 @@
 # Lecture 3 - Finite State Automata & Regular Languages
 
 ## Finite Automata
-A finite automata is the same as a finite state machine. It has a finite set of states
+A finite automaton is the same as a finite state machine. It has a finite set of states
 that it can be in, and it takes input from a set called its alphabet. It has a transition
 function that takes one alphabet and the current state as input and transitions to the next
 state.
