@@ -25,3 +25,4 @@ topics.
 4. [Regular Expressions, Context-Free Grammars](./lec4.md)
 5. [Turing Machines](./lec5.md)
 6. [Decidability](./lec6.md)
+7. [Turing Recognizability, Oracles](./lec7.md)
