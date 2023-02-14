@@ -16,7 +16,7 @@ In a sense, we can say that an NP complete problem is one of the hardest problem
 that will be able to solve any NP complete problem in polynomial time.
 
 ## Interval Scheduling Version 1
-Letís say you have one resource that you are receiving requests for - it may be a physical resource like a shared printer, it could be your personal time, 
+Let‚Äôs say you have one resource that you are receiving requests for - it may be a physical resource like a shared printer, it could be your personal time, 
 or computation time on a server. Your goal is to schedule requests by choosing a subset of the requests you receive such that no two requests conflict with 
 each other, and you fulfil the maximum number of requests possible.
 
@@ -30,11 +30,11 @@ This is an easy problem to solve with a greedy algorithm. Our greedy algorithm w
 
 Our choice of the rule which chooses a request will determine if this algorithm will perform correctly. We go through a few different rules in the lecture, 
 but the correct rule is to just choose the request with the earliest finish time. So the algorithm looks something like this - look at all the requests you 
-have and choose the request that finishes first. Then eliminate all of the requests that conflict with the request you chose. We ìmove forwardî a step and 
+have and choose the request that finishes first. Then eliminate all of the requests that conflict with the request you chose. We ‚Äúmove forward‚Äù a step and 
 repeat this process till we have no requests left.
 
 ## Interval Scheduling Version 2
-We change the problem definition to include a ìweightî for each request. Each request has a weight, and we want to schedule requests for our resource such 
+We change the problem definition to include a ‚Äúweight‚Äù for each request. Each request has a weight, and we want to schedule requests for our resource such 
 that the total weight of requests we select is maximum.
 
 This small change in problem specification means that our greedy algorithm no longer works, no matter the rule you use to select a request. We need to change 

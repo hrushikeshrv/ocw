@@ -1,12 +1,12 @@
 # Lecture 2 - Convex Hull, Median Finding
 ## Divide & Conquer
-The general ideology behind divide and conquer is a simple idea - we divide a problem into ìaî subproblems of size n/b, where a is an integer greater than or 
+The general ideology behind divide and conquer is a simple idea - we divide a problem into ‚Äúa‚Äù subproblems of size n/b, where a is an integer greater than or 
 equal to 1 and b is an integer greater than 1. We then usually use the solutions to all other problems and combine them into a single solution for the original problem.
 We can write a recurrence for the time complexity of a general divide and conquer algorithm as -
 
 $ T(n) = a \cdot T(n/b) + [w] $
 
-Where w is the work required to merge the ìaî solutions to the subproblems.
+Where w is the work required to merge the ‚Äúa‚Äù solutions to the subproblems.
 
 ## Convex Hull
 We are given a set of points S = $\{(x_i, y_i)\}$. Our objective is to find a convex polygon with the smallest number of sides that uses the points in S as 
@@ -57,7 +57,7 @@ the lower tangent.
 The recurrence for this algorithm, as you can clearly see, is T(n) = 2T(n/2) + O(n), which is the same as the merge sort recurrence, and so the time complexity 
 of this algorithm is $O(n log n)$. This is the optimal time complexity for the general convex hull problem.
 
-There is a final step left of removing the edges of the two sub hulls now that we have merged them. For doing that we follow a ìcopy and pasteî procedure. 
+There is a final step left of removing the edges of the two sub hulls now that we have merged them. For doing that we follow a ‚Äúcopy and paste‚Äù procedure. 
 Let us say that we have found the upper tangent going from point
 $a_i$ to point $b_j$, where $a_i$ is a point in the left sub hull and $b_j$ is a point on the right sub hull, and we have found a lower tangent going from point $a_k$
 to point $b_m$, where $a_k$ is a point on the left sub hull and $b_m$ is a point on the right sub hull.
@@ -74,7 +74,7 @@ the rank of an element, which is the number of elements in the given set smaller
 Our lower median is the element with rank floor(n+1 / 2) and our upper median is the element with rank ceiling(n+1 / 2). We define a selection routine that 
 will select the element with some rank. We can then find the median by just calling the select routine on the rank of the median.
 
-The select routine first chooses an element in the array, x. We donít choose this number randomly, but use a complex subroutine to choose x cleverly. Once we have 
+The select routine first chooses an element in the array, x. We don‚Äôt choose this number randomly, but use a complex subroutine to choose x cleverly. Once we have 
 chosen x, we divide the set of elements into two sub arrays. We iterate through the array and compare each element with x. We put all the elements less than or equal 
 to x in the left array, and the elements greater than x in the right array.
 
