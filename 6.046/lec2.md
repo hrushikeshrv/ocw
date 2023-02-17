@@ -30,15 +30,15 @@ on both subproblems, which gives us two convex hulls that we need to merge toget
 but the merge step is interesting, as it is not immediately obvious.
 
 ```python
-    # Rough, untested solution
-    def CH(S: list) -> list:
-        if len(S) < 10:
-            # If there are less than 10 points left, we just use
-            # the simple brute force algorithm
-            return brute_force_ch(S)
-        left = S[:len(S)//2]
-        right = S[len(S)//2:]
-        return merge(CH(left, CH(right))
+# Rough, untested solution
+def CH(S: list) -> list:
+    if len(S) < 10:
+        # If there are less than 10 points left, we just use
+        # the simple brute force algorithm
+        return brute_force_ch(S)
+    left = S[:len(S)//2]
+    right = S[len(S)//2:]
+    return merge(CH(left, CH(right))
 ```
     
 The merge routine uses the two finger algorithm to merge the two hulls together. We are given two convex hulls on the opposite side of some dividing line 

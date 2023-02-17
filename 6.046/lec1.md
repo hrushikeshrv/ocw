@@ -47,6 +47,6 @@ values as the index in L which contains the first request that comes after this 
 consider each request in L as a possible _first_ request for our resource. This means there are n sub-problems
 (suffixes). Writing out the recursion is then fairly obvious -
 
-$ opt(R) = max(w_i + opt({R}^{f(i)}) for i in range(n)) $
+$ opt(R) = max(w_i + opt({R}^{f(i)})$ `for i in range(n))`
 
 This is the solution for one sub problem, and it takes O(n) time. Since we have n sub problems, our algorithm runs in $O(n^2)$ time.

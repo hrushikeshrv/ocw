@@ -1,11 +1,12 @@
-# OCW Notes
-This website contains notes for all the open courseware courses
-I have taken, mainly for my own reference. 
+# OpenCourseWare & Other Notes
+This website contains notes for all the MIT OCW and other online courses I have taken, mainly for my own reference. 
+Most of the notes are still incomplete, and I update them every time I watch a new lecture. You can view
+the source files for the website on [github](https://github.com/hrushikeshrv/ocw).
 
 This work is licensed under the Creative Commons license - 
 [(CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-# Coursework
+# Course List
 1. [MIT 6.006 - Introduction to Algorithms](./6.006/index.md)
 2. [MIT 6.042J - Mathematics for Computer Science](https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.ol0v6d6j0pp6)
 3. [MIT 6.046J - Design and Analysis of Algorithms](./6.046/index.md)

@@ -11,3 +11,4 @@ dynamic programming, greedy algorithms, incremental improvement, complexity, and
 ## Lectures
 1. [Interval Scheduling](./lec1.md)
 2. [Convex Hull, Median Finding](./lec2.md)
+3. [FFT: Divide & Conquer](./lec3.md)
