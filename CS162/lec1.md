@@ -19,5 +19,4 @@ seem to the application that it has the entire machine to itself, because it iso
 application from every other application running on the machine. You can think of a process as
 and isolated execution environment with restricted rights provided by the operating system.
 
-## Processes
 ![Image](./media/lec1-1.png)
