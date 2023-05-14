@@ -13,7 +13,7 @@ The only difference between a decidable and recognizable language is the very la
 clause, which allows the machine to go into an infinite loop. This means that the halting 
 problem can be phrased in terms of a Turing Recognizable language.
 
-$ HALT = \{\<M\>,x : M halts on x\} $
+$ HALT = \{M,x : \text{M halts on x}\} $
 
 We can clearly see that for all strings in the language, we can construct a Turing machine 
 to either halt and accept (just run M on x), or go into an infinite loop (just run M on x again,
@@ -70,9 +70,9 @@ problems also forms a Turing degree.
 
 <img src="media/lec7-2.png" alt="Turing degrees">
 
-Each Turing degree has ${\aleph}_{0}$ languages. This is because each pair of 
+Each Turing degree has ${\aleph}$ languages. This is because each pair of 
 languages in a degree can be reduced to each other, and you need a Turing machine
-to do reduce any problem to another. And since there are only ${\aleph}_{0}$ number 
+to do reduce any problem to another. And since there are only ${\aleph}$ number 
 of Turing machines, there can be at most ${\aleph}_{0}$ number of problems in a degree.
 
 Another interesting fact is that there are problems even harder than the halting 
