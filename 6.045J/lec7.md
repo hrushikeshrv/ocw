@@ -13,7 +13,7 @@ The only difference between a decidable and recognizable language is the very la
 clause, which allows the machine to go into an infinite loop. This means that the halting 
 problem can be phrased in terms of a Turing Recognizable language.
 
-$ HALT = \{M,x : \text{M halts on x}\} $
+$ HALT = \{\<M\>,x : \text{M halts on x}\} $
 
 We can clearly see that for all strings in the language, we can construct a Turing machine 
 to either halt and accept (just run M on x), or go into an infinite loop (just run M on x again,
