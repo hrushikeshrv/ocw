@@ -23,7 +23,7 @@ powerful. What if we have random access in our model of computation, or multiple
 and write to instead of just one. It turns out that all of these models of computation are no more
 powerful than a Turing machine, because they can be simulated by a Turing machine.
 
-This is called the Church-Turing thesis. It is a hypothesis that doesn't have a proof, and could be
+This is called the Church-Turing thesis. It is a hypothesis and doesn't have a proof, and could be
 disproved some time in the future, but for now we haven't found a counterexample.
 
 The Church-Turing thesis says that any model of computation you can conceive that follows the physical

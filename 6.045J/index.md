@@ -26,4 +26,4 @@ topics.
 5. [Turing Machines](./lec5.md)
 6. [Decidability](./lec6.md)
 7. [Turing Recognizability, Oracles](./lec7.md)
-8. [](./lec8.md)
+8. [More Reducibility, Dovetailing, Godel](./lec8.md)
