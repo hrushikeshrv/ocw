@@ -40,3 +40,22 @@ else {
     wait(&stat);   // Wait for the child process to finish and exit
 }
 ```
+
+## Files
+A key idea in Unix/POSIX is that everything is a file. This means that (almost) all
+system calls have an identical interface. POSIX gives an identical interface for -
+
+1. Files
+2. Devices (terminals, printers, etc.)
+3. Networking sockets
+4. Interprocess communication (pipes, sockets)
+
+and more. This standard interface is based around the system calls `open()`, `read()`,
+`write()`, `close()`. If you are writing a device driver that doesn't necessarily fit into this interface,
+you can use `ioctl()`, which stands for I/O control. A "folder" is just a special type of
+file that maps to a set of other files/folders, instead of having any arbitrary
+content.
+
+The high level abstractions of files is streams. A stream is just an unformatted sequence
+of bytes. Kubi then explains the API C gives us for working with streams/files, which 
+I won't write about here, since it is fairly simple and can be looked up if you need it.
