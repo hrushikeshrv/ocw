@@ -59,3 +59,44 @@ content.
 The high level abstractions of files is streams. A stream is just an unformatted sequence
 of bytes. Kubi then explains the API C gives us for working with streams/files, which 
 I won't write about here, since it is fairly simple and can be looked up if you need it.
+
+## File Descriptors
+A file descriptor is just an integer that corresponds to an entry in a system-wide file description
+table that is maintained by the kernel. The kernel maintains a list of open files, and a list of
+processes and which files they have access to.
+
+On a successful call to `open()`, which is a low level function to open files (or anything that
+behaves like a file, which is everything), a file descriptor for the corresponding file is
+returned to the user, and an open file description is created in the kernel.
+
+For each process, the kernel maintains a mapping from the file descriptor to the open file
+description. On performing system calls (e.g. `read()`), the kernel looks up the open file
+description using the file descriptor and services the system call.
+
+<img src="./media/lec4-1.png" alt="File descriptors">
+
+Since everything in POSIX is a file, stdin, stdout, and stderr also have file descriptors 
+associated with them. The file descriptors associated with these are -
+
+- stdin -> 0
+- stdout -> 1
+- stderr -> 2
+
+Not only that, but this means that other hardware resources like sockets also have file descriptors
+associated with them.
+
+File descriptors is how pipes can be implemented. If you take the file descriptor for the stdout
+for a process, and map it to the file descriptor for stdin for another process (using the pipe
+function), then the output of one process is fed to the input of another process.
+
+All calls to high-level file handling APIs like `fread()`, `fwrite()`, etc. are buffered at the
+user level. This is how they are able to provide us functionality like "read until the next newline".
+Moreover, all reads and writes are also buffered at the kernel level by the OS. Another reason for
+having buffers at both the user and kernel level is because buffering in user level is faster than 
+having to access the kernel buffer, for which the process would need to go into kernel mode (or 
+make a syscall).
+
+When you `fork()` a process, all of its file descriptors are also copied. This means that both
+the parent and the child process can read and write to and from the same file. This is a useful
+way to have the processes communicate with each other. This works not only for files, but also
+for hardware resources like network sockets.
