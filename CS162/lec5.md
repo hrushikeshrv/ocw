@@ -17,3 +17,21 @@ as the number of processes increases.
 The approach we use is to have an in-memory queue maintained by the kernel, which provides
 the same POSIX interface for reading and writing as reading and writing to a file. This is
 called a "pipe". You can create a pipe using the `pipe(int filedes[2])` syscall.
+
+## Sockets
+When we extend the principle of IPC to two processes that are not running on the same
+machine, we get communication across the network. This involves a "network connection",
+which is essentially a pair of sockets connected to each other (for a bidirectional 
+connection).
+
+Actually transmitting data over the network is a whole another task, and this course
+does not deal with that. We assume that the messages we send over the network are
+correctly transmitted and reach the other device across the network.
+
+Aside from the fact that these two sockets are on different physical devices, they
+work in the exact same way that a local socket (or pipe) works.
+
+The client has a socket that is connected to a socket on the server. The client opens
+the socket (which may establish a TCP connection using a 3-way handshake), and can then
+read from it or write to it. Data written to the socket is transmitted over the network,
+arrives at the server, which reads it, and sends a response.
