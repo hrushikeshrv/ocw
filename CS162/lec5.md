@@ -34,4 +34,19 @@ work in the exact same way that a local socket (or pipe) works.
 The client has a socket that is connected to a socket on the server. The client opens
 the socket (which may establish a TCP connection using a 3-way handshake), and can then
 read from it or write to it. Data written to the socket is transmitted over the network,
-arrives at the server, which reads it, and sends a response.
+arrives at the server, which reads it, and sends a response. The server then closes the
+socket once the client's request has been served.
+
+In order to serve multiple requests at once, the server may create either a new process or 
+a new thread for each request. Creating a new process for each request gives us better
+isolation, but is more heavyweight. Creating a new thread is faster, but doesn't offer 
+the same isolation.
+
+If a server creates a different thread for each request, then there is a chance that
+a spike in traffic can create so many threads that the throughput actually decreases.
+To avoid that, we create a group of threads called the "thread pool". The thread pool
+has a certain number of threads waiting to serve requests. We maintain a queue of 
+requests that are waiting to be served, and when a thread from the thread pool 
+becomes free, it dequeues the next request from the request queue. This way, there
+is an upper limit on how many threads can be created, and requests are still served
+concurrently.
