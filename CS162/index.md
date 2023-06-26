@@ -9,3 +9,4 @@ Taught by John Kubiatowicz
 3. [Lecture 3 - Abstractions 1: Threads and Processes](./lec3.md)
 4. [Lecture 4 - Abstractions 2: Files and I/O](./lec4.md)
 5. [Lecture 5 - Abstractions 3: IPC, Pipes, and Sockets](./lec5.md)
+6. [Lecture 6 - Synchronization 1: Concurrency, Mutual Exclusion](./lec6.md)
