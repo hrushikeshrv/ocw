@@ -25,3 +25,18 @@ while (1) {
 ```
 
 One can even argue that this is all that the operating system does.
+
+## Context Switching
+When the scheduler decides to run a thread, it essentially gives up control of the CPU 
+to the process it decided to run. It needs some way to get that control back from the process.
+
+This can happen because of internal events, i.e. the thread yields control voluntarily, or
+because of external events like interrupts. The POSIX API provides a syscall `ptherad_yield()`
+or `sched_yield()`, that give up control of the CPU.
+
+When a process yields, it goes into the kernel, tells the scheduler to run a new thread, and then 
+performs a context switch. The context switch basically saves the state of all registers and the stack
+of the first thread/process into the TCB/PCB, and loads in the registers and the stack of the 
+new thread/process.
+
+Switching between threads is much faster than switching between processes (about 30x faster).
