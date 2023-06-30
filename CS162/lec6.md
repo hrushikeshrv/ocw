@@ -40,3 +40,25 @@ of the first thread/process into the TCB/PCB, and loads in the registers and the
 new thread/process.
 
 Switching between threads is much faster than switching between processes (about 30x faster).
+
+What happens if a process never yields or never does any operation (like waiting for I/O or 
+disk read/writes) that causes it to voluntarily give up control of the CPU? In primitive 
+operating systems like Windows 3.1, this would cause the OS to crash. Since the OS has 
+completely given up control of the CPU to the currently executing process, there is no way
+for the OS to regain control of the CPU.
+
+In that case, we use external interrupts. Today's computers have hardware timers that are
+configured to interrupt the CPU at a fixed interval. A hardware interrupt is designed to 
+stop the currently executing process and transfer control back to the OS.
+
+## Mutual Exclusion
+We have seen mutual exclusion in a previous lecture. This lecture goes over the concept
+again and shows some examples. When we write multithreaded code, a big problem is 
+correctness. Since threads share memory, if multiple threads access the same memory at
+the same time, and if at least one of those threads is doing a write, then we run into
+a race condition. The result of the program in that case is unpredictable.
+
+The way we fix this is by using locks or semaphores. Before entering a critical section
+of code where multiple threads are going to access the same memory, we acquire a lock
+over that memory. This lock only lets one thread access that memory at a time. Once
+the thread is done using that part of memory, it releases that lock.
