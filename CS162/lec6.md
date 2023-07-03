@@ -62,3 +62,59 @@ The way we fix this is by using locks or semaphores. Before entering a critical 
 of code where multiple threads are going to access the same memory, we acquire a lock
 over that memory. This lock only lets one thread access that memory at a time. Once
 the thread is done using that part of memory, it releases that lock.
+
+## Semaphores
+Semaphores are a higher level abstraction than locks. They are a little different, and
+can be used in a scenario where using locks is cumbersome. The lecture gives an example
+where using a semaphore is better than using a lock.
+
+Consider a publish-subscribe application with producers and consumers connected with a buffer.
+We want the enqueue and dequeue operations on the buffer to be atomic, and we want a
+producer to go to sleep when it tries to publish an event when the buffer is full, and 
+we want a consumer to go to sleep when it tries to read from an empty queue.
+
+Using a lock to enforce this behaviour is not really ideal (you can try to write the pseudocode
+for it and see what problems arise). Instead, we use semaphores. The constraints we
+have on the resource (the buffer) are the following -
+
+1. If the buffer is empty, the consumer must go to sleep (if it tries to read)
+2. If the buffer is full, the producer must go to sleep (if it tries to write)
+3. Only one thread can read or write at a time (standard mutual exclusion)
+
+The general rule of thumb is that you have one semaphore for each constraint. So we would
+have to following semaphores -
+
+1. `Semaphore fullBuffers`
+2. `Semaphore emptyBuffers`
+3. `Semaphore mutex`
+
+Then the pseudocode for producers and consumers would look as follows -
+
+```
+Semaphore fullSlots = 0;            // No full slots initially
+Semaphore emptySlots = buffSize;    // The max size of the buffer
+Semaphore mutex = 1;                // Standard mutex
+
+Producer(item) {
+    semaphoreDown(emptySlots);      // Decrement empty slots or wait until we have space
+    semaphoreDown(mutex);           // Mutex for actual enqueue/dequeue
+    Enqueue(item);
+    semaphoreUp(mutex);             // Release mutex after enqueue/dequeue
+    semaphoreUp(fullSlots);         // Signal that an item has been enqueued. This wakes up sleeping consumers
+}
+
+Consumer() {
+    semaphoreDown(fullSlots);       // Decrement full slots or wait until there is something in the queue
+    semaphoreDown(mutex);           // Mutex for actual enqueue/dequeue
+    item = Dequeue();
+    semaphoreUp(mutex);             // Release mutex after enqueue/dequeue
+    semaphoreUp(emptySlots);        // Signal that an item has been dequeued. This wakes up sleeping producers
+}
+```
+
+Notice that the `semaphoreDown()` operation is used to keep track of the amount of available resources,
+in this case the space in the buffer, and the `semaphoreUp()` operation is used to signal that
+some change has taken place in the resource. This is why we have two semaphores. The `fullSlots` 
+semaphore signals that at least one item has been enqueued, and wakes up any sleeping consumers.
+The `emptySlots` semaphore signals that the queue has some space left, and wakes up any
+sleeping producers.
