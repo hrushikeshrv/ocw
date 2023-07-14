@@ -11,3 +11,4 @@ Taught by John Kubiatowicz
 5. [Lecture 5 - Abstractions 3: IPC, Pipes, and Sockets](./lec5.md)
 6. [Lecture 6 - Synchronization 1: Concurrency, Mutual Exclusion](./lec6.md)
 7. [Lecture 7 - Synchronization 2: Semaphores, Lock Implementation](./lec7.md)
+8. [Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers](./lec8.md)
