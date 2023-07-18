@@ -37,3 +37,8 @@ compare&swap(&address, reg1, reg2) {
     else return failure;
 }
 ```
+
+## Implementing Locks With test&set
+The lecture gives a few ways in which we can implement locks using `test&set()`, but I won't 
+write about them here because they are very intuitive to come up with but result in busy waiting, so we don't
+use those implementations anyway.
