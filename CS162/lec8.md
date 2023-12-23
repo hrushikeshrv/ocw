@@ -45,9 +45,8 @@ use those implementations anyway.
 
 ## Monitors
 Monitors are a concurrent programming paradigm that are, in a way, cleaner and more intuitive 
-than semaphores. A monitor is a lock and zero or more _condition variables_ that represent
-some constraint. A condition variable is just a variable that represents some constraint
-on the system.
+than semaphores. A monitor is a lock and zero or more _condition variables_ associated with it. 
+A condition variable is just a variable that represents some constraint on the system.
 
 We have the following functions to use with monitors -
 1. `Wait(&lock)` - Automatically release the lock and go to sleep

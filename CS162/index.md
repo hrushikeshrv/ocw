@@ -12,3 +12,4 @@ Taught by John Kubiatowicz
 6. [Lecture 6 - Synchronization 1: Concurrency, Mutual Exclusion](./lec6.md)
 7. [Lecture 7 - Synchronization 2: Semaphores, Lock Implementation](./lec7.md)
 8. [Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers](./lec8.md)
+9. [Lecture 10 - Scheduling 1: Concepts & Classic Policies](./lec10)
