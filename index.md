@@ -17,3 +17,4 @@ This work is licensed under the Creative Commons license -
 8. [MIT 6.890 - Algorithmic Lower Bounds](https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.j62llohq37q3)
 9. [MIT 6.851 - Advanced Data Structures](https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.y6d0wld558lb)
 10. [CMU 15-445 - Database Systems](./CMU15445/index.md)
+11. [UCB CS 162 - Operating Systems](./CS162/index.md)
