@@ -13,3 +13,4 @@ Taught by John Kubiatowicz
 7. [Lecture 7 - Synchronization 2: Semaphores, Lock Implementation](./lec7.md)
 8. [Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers](./lec8.md)
 9. [Lecture 10 - Scheduling 1: Concepts & Classic Policies](./lec10)
+10. [Lecture 11 - Scheduling 2: Case Studies, Real Time, Forward Progress](./lec11.md)
