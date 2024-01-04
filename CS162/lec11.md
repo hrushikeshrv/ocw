@@ -28,7 +28,7 @@ This scheduling policy simply takes the task which has the earliest deadline and
 
 EDF is proven to be optimal if you have a reasonable number of jobs to run. If the number of jobs keeps increasing, at one point EDF will not be able to guarantee deadlines. That point is given by -
 
-$$ \sum_{i = 1}^{n}{\frac{{C}_{i}}{{D}_{i}}} \leq 1 $$
+$$ \sum_{i = 1}^{n}{\frac{Ci}{Di}} \leq 1 $$
 
 Where C_i is the burst time of task i and D_i is the deadline or period of task i. This inequality just says that the percentage of CPU used by each task should add up to be less than or equal to 100%. If it is greater than 100%, the scheduler obviously won't be able to meet all deadlines.
 
