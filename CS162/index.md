@@ -14,3 +14,4 @@ Taught by John Kubiatowicz
 8. [Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers](./lec8.md)
 9. [Lecture 10 - Scheduling 1: Concepts & Classic Policies](./lec10)
 10. [Lecture 11 - Scheduling 2: Case Studies, Real Time, Forward Progress](./lec11.md)
+11. [Lecture 12 - Scheduling 3: Deadlock](./lec12.md)
