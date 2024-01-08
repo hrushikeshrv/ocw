@@ -15,8 +15,49 @@ The weight of a job is calculated as $$ weight = \frac{1024}{{1.25}^{nice}} $$
 
 The virtual time slice of a job is then calculated as 
 
-$$ max(min_slice, \frac{w_i}{\sum_{p}^{}{w_p}*target_latency) $$
+$$ max(min_slice, \frac{Wi}{\sum_{p}^{}{Wp}}*target_latency) $$
 
 Where w_i is the weight of the ith job. CFS then tries to give every job this virtual time slice instead of real time.
 
 <img src="./media/lec12-1.png" alt="Choosing the right scheduler">
+
+## Deadlock
+A deadlock is a type of starvation that never resolves, and only occurs non-deterministically, when the schedule creates a cycle of accessing resources. A deadlock can be caused due to any resource - locks, terminals, memory, printers, sockets, pipes, etc.
+
+There are 4 conditions that are necessary (but not sufficient) for deadlock to occur -
+
+1. Mutual exclusion - There has to be a resource that only one thread can access at a time.
+2. Hold and wait - A thread holding at least one resource is waiting to acquire more resources held by other threads.
+3. No preemption - Resources are only released voluntarily by the thread, and the kernel cannot preempt it into giving up the resource
+4. Circular wait - There exists a set of threads {T1, T2, ..., Tn} such that
+    - T1 is waiting for a resource held by T2
+    - T2 is waiting for a resource held by T3
+    - ...
+    - Tn-1 is waiting for a resource held by Tn
+    - Tn is waiting for a resource held by T1
+
+In order to detect deadlock, we can build a resource-allocation graph. A resource-allocation graph is a graph with 2 types of vertices - one representing threads and one representing resources. It has directed edges that signify the following -
+
+- A directed edge from a thread vertex T to a resource vertex R means that the thread T is requesting resource R.
+- A directed edge from a resource vertex R to a thread vertex T means that the thread T has ownership of resource R.
+
+The slides show a few examples of resource allocation graphs. Below, a resource vertex has one or more dots which represent an instance of the resource.
+
+<img src="./media/lec12-2.png" alt="Resource allocation graph examples">
+
+### Detecting Deadlock
+Just because there is a cycle in this graph does not mean that there will be deadlock. To detect deadlock, we have a simple algorithm. Instead of describing it here, I'll just attach a screenshot of the lecture slide.
+
+<img src="./media/lec12-3.png" alt="Deadlock detection algorithm">
+
+### Dealing with Deadlock
+There are 4 common ways of dealing with deadlock -
+
+- Deadlock prevention - Write your code in such a way that deadlock won't occur. This means that you trust the apps running on your machine to be written this way as well.
+- Deadlock recovery - Let deadlock happen, and then figure out how to recover from it, maybe by rolling back a transaction (if transactions and rollbacks are supported).
+- Deadlock avoidance - Dynamically delay resource requests so that deadlock doesn't happen. Requires you to do extra work while writing and maintaining the kernel.
+- Deadlock denial - Don't deal with deadlock 🤷‍♂️
+
+The Linux operating system makes sure that the kernel is not involved in any deadlock, but ignores any deadlock that happens in applications.
+
+There is an algorithm that can detect if allocating a resource to a particular thread would lead to deadlock called the banker's algorithm (described in the lecture and the slides).
