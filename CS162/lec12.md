@@ -11,11 +11,13 @@ However, if the target latency is 20ms, and there are 200 threads to be schedule
 
 So far this looks like a slightly modified version of round-robin, but the difference becomes clear when we see how CFS handles job priorities. It allows you to give each job (thread) a priority, and then instead of calculating the time slice for each thread equally, it calculates the time slice to give based on the weight of the job. The weight of the job is decided by the "nice" value of the job. A nice value typically ranges between -20 to 19, and a higher nice value means lower priority.
 
-The weight of a job is calculated as $$ weight = \frac{1024}{1.25^{nice}} $$
+The weight of a job is calculated as 
+
+$$ weight = \frac{1024}{1.25^{nice}} $$
 
 The virtual time slice of a job is then calculated as 
 
-$$ max(min_slice, \frac{Wi}{\sum_{p}^{}{Wp}}*target_latency) $$
+$$ max(min slice, \frac{Wi}{\sum_{p}^{}{Wp}}*target latency) $$
 
 Where w_i is the weight of the ith job. CFS then tries to give every job this virtual time slice instead of real time.
 
