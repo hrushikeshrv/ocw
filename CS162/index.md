@@ -2,6 +2,7 @@
 Taught by John Kubiatowicz
 
 [Course Website](https://cs162.org/)
+[Fall 2020 Course Website](https://inst.eecs.berkeley.edu/~cs162/fa20/)
 
 ## Lectures
 1. [Lecture 1 - What is an Operating System?](./lec1.md)
