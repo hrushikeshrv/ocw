@@ -17,3 +17,4 @@ Taught by John Kubiatowicz
 10. [Lecture 11 - Scheduling 2: Case Studies, Real Time, Forward Progress](./lec11.md)
 11. [Lecture 12 - Scheduling 3: Deadlock](./lec12.md)
 12. [Lecture 13 - Memory 1: Address Translation and Virtual Memory](./lec13.md)
+13. [Lecture 14 - Memory 2: Virtual Memory, Caching and TLBs](./lec14.md)
