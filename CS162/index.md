@@ -19,3 +19,4 @@ Taught by John Kubiatowicz
 12. [Lecture 13 - Memory 1: Address Translation and Virtual Memory](./lec13.md)
 13. [Lecture 14 - Memory 2: Virtual Memory, Caching and TLBs](./lec14.md)
 14. [Lecture 15 - Memory 3: Caching & TLBs, Demand Paging](./lec15.md)
+15. [Lecture 16 - Memory 4: Demand Paging Policies](./lec16.md)
