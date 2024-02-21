@@ -1,4 +1,4 @@
---
+---
 layout: default
 title: "Lecture 12 - Scheduling 3: Deadlock"
 parent: UCB CS 162 - Operating Systems and Systems Programming
