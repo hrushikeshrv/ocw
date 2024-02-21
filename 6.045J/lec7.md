@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 7 - Turing Recognizability, Oracles
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 7
+---
+
 # Turing Recognizability, Oracles
 
 ## Turing Recognizability

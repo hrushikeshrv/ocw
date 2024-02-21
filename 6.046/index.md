@@ -1,3 +1,10 @@
+---
+layout: default
+title: MIT 6.046 - Design & Analysis of Algorithms
+nav_order: 4
+has_children: true
+---
+
 # MIT 6.046 - Design & Analysis of Algorithms
 Taught by Prof. Erik Demaine, Prof. Srini Devadas, and Prof. Nancy Lynch
 

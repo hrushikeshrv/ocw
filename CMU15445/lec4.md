@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 4 - Database Storage 2
+parent: CMU 15-445 - Database Systems
+nav_order: 4
+---
+
 # Database Storage 2
 
 ## Data Representation

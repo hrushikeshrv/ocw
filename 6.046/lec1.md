@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 1 - Interval Scheduling
+parent: MIT 6.046 - Design & Analysis of Algorithms
+nav_order: 1
+---
+
 # Lecture 1 - Interval Scheduling
 ## P vs NP
 A small change in the problem specification can dramatically change the running time of the optimal solution. A small change in the specification can turn a problem from having a linear time solution to a $O(n^2)$ solution, or even worse.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 8 - Hashing with Chaining
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 8
+---
+
 # Hashing with Chaining
 ## Dictionaries
 Dictionaries in python are an implementation of hash tables. A hash table is an ADT which has the following specifications -

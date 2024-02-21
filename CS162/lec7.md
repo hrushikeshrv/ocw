@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 7 - Synchronization 2: Semaphores, Lock Implementation"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 7
+---
+
 # Lecture 7 - Synchronization 2: Semaphores, Lock Implementation
 This lecture gives an intuition about how locks are actually implemented in an operating
 system. We want an interface which lets us acquire a lock on a critical section of code,

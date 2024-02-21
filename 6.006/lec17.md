@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 17 - Bellman-Form Algorithm
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 12
+---
+
 # Bellman-Ford Algorithm
 Bellman-Ford should be able to-
 1. Correctly calculate the (u,v) values for all vertices v that are not part of negative cycles and can be reached without encountering a negative cycle.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 1 - What is an Operating System?
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 1
+---
+
 # Lecture 1: What is an Operating System?
 
 An operating system is a piece of software that provides other software

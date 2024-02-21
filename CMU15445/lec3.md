@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 3 - Database Storage 1
+parent: CMU 15-445 - Database Systems
+nav_order: 3
+---
+
 # Database Storage 1
 
 ## Memory Hierarchy

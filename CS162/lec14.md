@@ -1,3 +1,10 @@
+--
+layout: default
+title: "Lecture 14 - Memory 2: Virtual Memory, Caching and TLBs"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 13
+---
+
 # Lecture 14 - Memory 2: Virtual Memory, Caching and TLBs
 So far, the implementation of paging that we have seen is not very efficient. If we assume that a page is 4KB, then we need 12 bits to represent the offset into each page. If we have a 32 bit machine, then the remaining 20 bits will be used as an index into the page table, which means that the page table has to have 2^20  entries, each of 4 bytes, which means we use around 4MB to store the page table for a process. That may not be too much for today's machines to handle, but if we have a 64 bit machine, then using a 12 bit offset, we use 52 bits as an index into the page table, which means our page table takes around 36 exabytes.
 

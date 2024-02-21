@@ -1,3 +1,10 @@
+--
+layout: default
+title: "Lecture 15 - Memory 3: Caching & TLBs, Demand Paging"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 14
+---
+
 # Lecture 15 - Memory 3: Caching & TLBs, Demand Paging
 
 Demand paging is a simple but powerful idea. Most modern programs require a lot of memory, but they don't use all of their memory at once. On average, they follow the 90-10 rule - 90% of the time the program executes 10% of its code, and 90% of the time, the program only needs 10% of its memory.

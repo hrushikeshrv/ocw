@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 7 - Counting Sort, Radix Sort, Sorting Lower Bounds
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 7
+---
+
 # Counting Sort, Radix Sort, Lower Bounds for Sorting
 ## Lower bounds for sorting
 We can represent the execution of an algorithm as a decision tree. The leaves of the tree are the endpoints or the “answers” of the algorithm, and the path to a leaf is one execution of the algorithm. In this case, we can define the worst case running time of an algorithm to be the height of the tree.

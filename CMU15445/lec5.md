@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 5 - Locks vs. Latches
+parent: CMU 15-445 - Database Systems
+nav_order: 5
+---
+
 # Locks vs. Latches
 Locks and latches mean different things in a DBMS than in an OS.
 

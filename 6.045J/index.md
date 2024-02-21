@@ -1,3 +1,10 @@
+---
+layout: default
+title: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 3
+has_children: true
+---
+
 # MIT 6.045J - Automata, Computability, Complexity
 Taught by Prof. Scott Aaronson
 

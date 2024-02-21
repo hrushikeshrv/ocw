@@ -1,3 +1,10 @@
+---
+layout: default
+title: MIT 6.006 - Introduction to Algorithms
+nav_order: 2
+has_children: true
+---
+
 # MIT 6.006 - Introduction to Algorithms
 Taught by Prof. Erik Demaine, Prof. Srini Devadas in Fall, 2011
 

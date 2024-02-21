@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 10 - Scheduling 1: Concepts & Classic Policies"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 9
+---
+
 # Lecture 10 - Scheduling 1: Concepts & Classic Policies
 
 In a modern OS, all IO operations have the same interface, usually consisting of `read()`, `write()`, `open()`, `close()`, etc. This applies to file IO, network IO, peripheral device communication, etc. This is possible because of device drivers.

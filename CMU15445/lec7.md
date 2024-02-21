@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 7 - B-Trees and Indexes
+parent: CMU 15-445 - Database Systems
+nav_order: 6
+---
+
 # B-Trees and Indexes
 
 A table index is a replica of a subset of a table's columns that is 

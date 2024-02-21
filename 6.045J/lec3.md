@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 3 - Finite State Automata & Regular Languages
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 3
+---
+
 # Lecture 3 - Finite State Automata & Regular Languages
 
 ## Finite Automata

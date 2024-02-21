@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 5 - Abstractions 3: IPC, Sockets"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 5
+---
+
 # Lecture 5: Abstractions 3: IPC, Sockets
 
 ## IPC

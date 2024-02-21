@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 2 - Convex Hull, Median Finding
+parent: MIT 6.046 - Design & Analysis of Algorithms
+nav_order: 2
+---
+
 # Lecture 2 - Convex Hull, Median Finding
 ## Divide & Conquer
 The general ideology behind divide and conquer is a simple idea - we divide a problem into “a” subproblems of size n/b, where a is an integer greater than or 

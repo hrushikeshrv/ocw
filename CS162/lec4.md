@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 4 - Abstractions 2: Files and I/O"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 4
+---
+
 # Lecture 4 - Abstractions 2: Files and I/O
 
 ## Semaphores

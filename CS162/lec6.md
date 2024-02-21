@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 6 - Synchronization 1: Concurrency, Mutual Exclusion"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 6
+---
+
 # Lecture 6: Synchronization 1: Concurrency, Mutual Exclusion
 
 ## Concurrency

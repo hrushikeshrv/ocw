@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 5 - Binary Search Trees, BST Sort
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 5
+---
+
 # Binary Search Trees, BST Sort
 ## Scheduling problem   
 Imagine we have an airport with 1 runway that needs to schedule the landing and take off times of a lot of planes. We start at t = 0, and increase time monotonically. No plane can land or take off $k$ minutes within any other plane. We have to write an algorithm to take as input a landing/take off time and insert it into a table of landing/take off times if it is a valid time.

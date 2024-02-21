@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 3 - Insertion Sort, Merge Sort
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 3
+---
+
 # Lecture 3 - Insertion Sort, Merge Sort
 ## Insertion Sort
 Insertion sort is an $O(n^2)$ algorithm. The pseudocode for insertion sort is -

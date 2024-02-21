@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 8
+---
+
 # Lecture 8 - Synchronization 3: Atomic Instructions, Monitors, Readers/Writers
 
 The previous lock implementation we saw was impractical because it involved a system

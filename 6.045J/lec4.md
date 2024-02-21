@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 4 - Regular Expressions, Context-Free Grammars
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 4
+---
+
 # Regular Expressions, Context-Free Grammars
 
 ## Regular Expressions to DFAs

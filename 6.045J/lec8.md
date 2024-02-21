@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 8 - Turing Degrees, Dovetailing, Godel
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 8
+---
+
 # Turing Degrees, Dovetailing, Godel
 
 In the last lecture we defined Turing degrees, which are basically sets of languages.

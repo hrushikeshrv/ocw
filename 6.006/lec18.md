@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 18 - Speeding Up Dijkstra
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 13
+---
+
 # Speeding Up Dijkstra
 We can perform some optimizations to our dijkstra implementation to improve the average runtime. The worst case complexity remains the same, but the average case complexity goes down.
 

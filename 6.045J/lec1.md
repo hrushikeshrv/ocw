@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 1 - Introduction
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 1
+---
+
 # Lecture 1 - Introduction
 ## What is Computer Science?
 This course justifies why computer science deserves to be called a "science".

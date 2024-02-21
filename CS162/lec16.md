@@ -1,3 +1,10 @@
+--
+layout: default
+title: "Lecture 16 - Memory 4: Demand Paging Policies"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 15
+---
+
 # Lecture 16 - Memory 4: Demand Paging Policies
 
 Demand paging aims to improve the average memory access time. The average memory access time (AMAT) can be calculated as -

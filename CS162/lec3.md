@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 3 - Abstractions 1: Threads and Processes"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 3
+---
+
 # Lecture 3 - Abstractions 1: Threads and Processes
 
 ## Multiprocessing vs. Multiprogramming

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 9 - Table Doubling, Karp Rabin
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 9
+---
+
 # Table Doubling, Karp Rabin
 A key piece we are missing if we want to complete our implementation of hash tables is our choice of m. We will map from the set of all keys K, which could be infinite, to a small subset m, and we want to choose an m such that the load factor $\alpha$ remains O(1), but we also don’t want to make m too big and waste space. We want m to be $\Theta(n)$, where n is the number of elements in our hash table.
 

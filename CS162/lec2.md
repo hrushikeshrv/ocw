@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 2 - Four Fundamental OS Concepts
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 2
+---
+
 # Lecture 2: Four Fundamental OS Concepts
 
 This lecture introduces four fundamental concepts of an operating system -

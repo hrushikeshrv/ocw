@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 4 - Heaps and Heap Sort
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 4
+---
+
 # Heaps and Heap Sort
 ## Heaps
 Heaps are an implementation of a priority queue. Heaps can do the following operations -

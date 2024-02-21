@@ -1,3 +1,10 @@
+--
+layout: default
+title: "Lecture 11 - Scheduling 2: Case Studies, Real Time, Forward Progress"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 10
+---
+
 # Lecture 11 - Scheduling 2: Case Studies, Real Time, Forward Progress
 
 ## Multi-level Feedback Scheduling

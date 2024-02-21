@@ -1,7 +1,13 @@
-# OpenCourseWare & Other Notes
+---
+layout: default
+title: Home
+nav_order: 1
+---
+
+# OpenCourseWare & Course Notes
 This website contains notes for all the MIT OCW and other online courses I have taken, mainly for my own reference. 
-Most of the notes are still incomplete, and I update them every time I watch a new lecture. You can view
-the source files for the website on [github](https://github.com/hrushikeshrv/ocw).
+Most of the notes are on Google Docs, and I'm still translating them to markdown. You can view
+the source files for the website on [GitHub](https://github.com/hrushikeshrv/ocw).
 
 This work is licensed under the Creative Commons license - 
 [(CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)

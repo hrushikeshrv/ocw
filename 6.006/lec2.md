@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 2 - Models of Computation, Document Distance
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 2
+---
+
 # Lecture 2 - Models of Computation, Document Distance
 ## Models of Computation
 A model of computation gives you the set of operations that you can perform in constant time.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 2 - Logic, Circuits, and Gates
+parent: MIT 6.045J - Automata, Computability, Complexity
+nav_order: 2
+---
+
 # Lecture 2 - Logic, Circuits, and Gates
 ## Gates and Universality
 This lecture introduces the fundamental logic gates - AND, OR, and NOT, and then talks about 

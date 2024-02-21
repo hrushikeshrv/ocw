@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 1 - Algorithmic Thinking, Peak Finding
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 1
+---
+
 # Lecture 1 - Algorithmic Thinking, Peak Finding
 ## 1D Peak Finding
 In a one dimensional case, peak finding is trivial. You just parse through all the elements

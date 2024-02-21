@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 6 - AVL Trees, AVL Sort
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 6
+---
+
 # AVL Trees, AVL Sort
 AVL Trees were the original way to keep BSTs balanced.
 

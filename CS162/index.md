@@ -1,5 +1,12 @@
+---
+layout: default
+title: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 6
+has_children: true
+---
+
 # CS162 - Operating Systems and Systems Programming
-Taught by John Kubiatowicz
+Taught by Prof. John Kubiatowicz in Fall, 2020
 
 [Course Website](https://cs162.org/)
 [Fall 2020 Course Website](https://inst.eecs.berkeley.edu/~cs162/fa20/)

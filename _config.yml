@@ -1,0 +1,39 @@
+title: OpenCourseWare & Course Notes
+description: Open source lecture notes for MIT OpenCourseWare and other courses I have taken
+theme: just-the-docs
+
+url: https://hrushikeshrv.github.io/ocw
+
+aux_links:
+  "View on GitHub": https://github.com/hrushikeshrv/ocw
+
+enable_copy_code_button: true
+
+callouts:
+  warning:
+    title: Warning
+    color: red
+  note:
+    title: Note
+    color: purple
+
+ga_tracking: G-TGM5F6WJNV
+
+nav_external_links:
+  - title: MIT 6.042J - Mathematics for Computer Science
+    url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.ol0v6d6j0pp6
+    opens_in_new_tab: true
+  - title: MIT 6.046 - Design and Analysis of Algorithms
+    url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.z9wcm6zhjlt5
+    opens_in_new_tab: true
+  - title: MIT 6.004 - Computation Structures
+    url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.uetcvbt511e3
+    opens_in_new_tab: true
+  - title: View on GitHub
+    url: https://github.com/hrushikeshrv/ocw
+    opens_in_new_tab: true
+  - title: Improve These Notes
+    url: https://github.com/hrushikeshrv/ocw/issues
+    opens_in_new_tab: true
+
+favicon_ico: "/media/favicon.png"

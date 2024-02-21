@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 2 - Advanced SQL
+parent: CMU 15-445 - Database Systems
+nav_order: 2
+---
+
 # Advanced SQL
 ## Aggregates
 SQL has a few aggregate functions that take a bag of tuples as the input and produce

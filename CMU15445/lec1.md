@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 1 - Introduction & Relational Model
+parent: CMU 15-445 - Database Systems
+nav_order: 1
+---
+
 # Introduction & Relational Model
 ## DBMSs
 A database is an organized collection of related data that models some aspect

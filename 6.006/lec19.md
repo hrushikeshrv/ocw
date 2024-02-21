@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 19 - Dynamic Programming 1
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 14
+---
+
 # Lecture 19 - Dynamic Programming 1: Fibonacci, Shortest Paths
 Dynamic programming is a very powerful algorithm design paradigm. Dynamic programming can be thought of as a smart way of applying brute force. Dynamic programming breaks a problem into smaller sub-problems, solves the sub problem, and uses the same solution to solve the higher problem. It is well suited to optimization problems.
 

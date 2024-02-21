@@ -1,3 +1,10 @@
+---
+layout: default
+title: CMU 15-445 - Database Systems
+nav_order: 5
+has_children: true
+---
+
 # CMU 15-445/645 - Database Systems
 Taught by Prof. Andy Pavlo in Fall, 2019
 

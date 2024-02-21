@@ -1,3 +1,10 @@
+---
+layout: default
+title: Lecture 10 - Open Addressing, Cryptographic Hashing
+parent: MIT 6.006 - Introduction to Algorithms
+nav_order: 10
+---
+
 # Open Addressing, Cryptographic Hashing
 ## Open Addressing & Probing
 Open addressing is another method of dealing with collisions in a hash table. Instead of simply chaining collisions, we use the notion of probing to compute a slightly different hash if the first hash caused a collision.

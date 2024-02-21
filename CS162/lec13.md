@@ -1,3 +1,10 @@
+--
+layout: default
+title: "Lecture 13 - Memory 1: Address Translation and Virtual Memory"
+parent: UCB CS 162 - Operating Systems and Systems Programming
+nav_order: 12
+---
+
 # Lecture 13 - Memory 1: Address Translation and Virtual Memory
 
 ## Virtual Address Spaces

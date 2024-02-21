@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Lecture 3 - FFT: Divide & Conquer"
+parent: MIT 6.046 - Design & Analysis of Algorithms
+nav_order: 3
+---
+
 # Lecture 3 - FFT: Divide & Conquer
 ## Operations on Polynomials
 This lecture focuses on fast fourier transforms and operations on polynomials. We represent polynomials as a one dimensional vector of real numbers, 
