@@ -22,10 +22,10 @@ The course is appropriate for students with lit systems programming skills.
 [Course Website](https://15445.courses.cs.cmu.edu/fall2019/)
 
 ## Lectures 
-1. [Introduction & Relational Model]({% link lec1.md %})
-2. [Advanced SQL]({% link lec2.md %})
-3. [Database Storage 1]({% link lec3.md %})
-4. [Database Storage 2]({% link lec4.md %})
-5. [Buffer Pools]({% link lec5.md %})
+1. [Introduction & Relational Model]({% link CMU15445/lec1.md %})
+2. [Advanced SQL]({% link CMU15445/lec2.md %})
+3. [Database Storage 1]({% link CMU15445/lec3.md %})
+4. [Database Storage 2]({% link CMU15445/lec4.md %})
+5. [Buffer Pools]({% link CMU15445/lec5.md %})
 6. Hash Tables
-7. [Tree Indexes]({% link lec7.md %})
+7. [Tree Indexes]({% link CMU15445/lec7.md %})
