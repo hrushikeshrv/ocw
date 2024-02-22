@@ -16,6 +16,6 @@ dynamic programming, greedy algorithms, incremental improvement, complexity, and
 [Course Website](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/)
 
 ## Lectures
-1. [Interval Scheduling]({% link lec1.md %})
+1. [Interval Scheduling]({% link 6.046/lec1.md %})
 2. [Convex Hull, Median Finding]({% link lec2.md %})
 3. [FFT: Divide & Conquer]({% link lec3.md %})
