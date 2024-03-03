@@ -13,7 +13,7 @@ Demand paging aims to improve the average memory access time. The average memory
 
 Which can be simplified to 
 
-`AMAT = Hit Time + Miss Rate x Miss Time`
+`AMAT = Hit Time + Miss Rate x Miss Penalty`
 
 You can think of demand paging as being a cache managed in software. The pages live on the disk, and only the pages that are needed are brought from the disk into the DRAM. The mechanism of demand paging is as follows -
 
@@ -34,8 +34,8 @@ In case we get a page fault, the OS gets the page from the disk into DRAM -
 ## Memory Access Behaviors
 There are two common types of memory access behaviors that a process follows - 
 
-1. A process has a specific set of pages that it accesses, and it doesn't access any other pages. This working set can change over time.
-2. A process does not have a specific set of pages it accesses, but it accesses some pages more frequently than others. In this case we can say that some pages are popular for a process, and give each page it accesses a rank depending on the number of times it is accessed.
+1. A process has a specific set of pages that it accesses, and it doesn't access any other pages. This working set can change over time. This is called the working set model.
+2. A process does not have a specific set of pages it accesses, but it accesses some pages more frequently than others. In this case we can say that some pages are popular for a process, and give each page it accesses a rank depending on the number of times it is accessed. This is called the Zipf model.
 
 Cache hit rate under the working set model grows in steps as the cache size increases.
 

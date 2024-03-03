@@ -50,7 +50,7 @@ def merge_sort(arr):
         return arr
     left = arr[:len(arr)//2]
     right = arr[len(arr)//2:]
-return merge(merge_sort(left), merge_sort(right))
+    return merge(merge_sort(left), merge_sort(right))
 
 def merge(left, right):
     i, j = 0, 0

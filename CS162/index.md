@@ -6,7 +6,7 @@ has_children: true
 ---
 
 # CS162 - Operating Systems and Systems Programming
-Taught by Prof. John Kubiatowicz in Fall, 2020
+Taught by Prof. John Kubiatowicz at UC Berkeley in Fall, 2020
 
 [Course Website](https://cs162.org/)  
 [Fall 2020 Course Website](https://inst.eecs.berkeley.edu/~cs162/fa20/)
@@ -27,3 +27,4 @@ Taught by Prof. John Kubiatowicz in Fall, 2020
 13. [Lecture 14 - Memory 2: Virtual Memory, Caching and TLBs]({% link CS162/lec14.md %})
 14. [Lecture 15 - Memory 3: Caching & TLBs, Demand Paging]({% link CS162/lec15.md %})
 15. [Lecture 16 - Memory 4: Demand Paging Policies]({% link CS162/lec16.md %})
+16. [Lecture 17 - Demand Paging, General I/O, Storage Devices]({% link CS162/lec17.md %})
