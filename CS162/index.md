@@ -28,3 +28,7 @@ Taught by Prof. John Kubiatowicz at UC Berkeley in Fall, 2020
 14. [Lecture 15 - Memory 3: Caching & TLBs, Demand Paging]({% link CS162/lec15.md %})
 15. [Lecture 16 - Memory 4: Demand Paging Policies]({% link CS162/lec16.md %})
 16. [Lecture 17 - Demand Paging, General I/O, Storage Devices]({% link CS162/lec17.md %})
+17. [Lecture 18 - General I/O, Storage Devices, Performance]({% link CS162/lec18.md %})
+18. [Lecture 19 - Filesystems 1: Performance, Queueing Theory, Filesystem Design]({% link CS162/lec19.md %})
+19. [Lecture 20 - Filesystems 2: Filesystem Design, Case Studies]({% link CS162/lec20.md %})
+20. [Lecture 21 - Filesystems 3: Case Studies, Buffering, Reliability, Transactions]({% link CS162/lec21.md %})
