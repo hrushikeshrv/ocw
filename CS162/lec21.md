@@ -14,3 +14,13 @@ In previous lectures, we saw that a directory is just a file mapping file names 
 
 ## Memory Mapped Files
 Traditional I/O involves reading and writing to regions of memory on disk, usually with buffers and caches in between. Memory mapping of files is a technique in which we "map" the file into RAM by giving it a virtual address, and then we can use the RAM as a cache without needing buffers, and the RAM is backed by the file in memory. This technique is often used to set up inter process communication.
+
+## Buffer Cache
+The buffer cache is just a region in memory that is used to cache (hash table) disk blocks, inodes, directory entries, etc. It is a write back cache with LRU replacement, and is completely implemented in software by the kernel. It also supports prefetching for sequential disk access. It also writes blocks back to the disk periodically, in case of a crash.
+
+It improves the performance a lot, but it also means that we have to worry about reliability. In the lecture, Kubi describes 3 important properties of a system -
+
+1. Availability - The probability that the system is responsive, but not necessarily working correctly.
+2. Durability - The ability of the system to recover despite faults.
+3. Reliability - The ability of a system to perform correctly under the stated conditions.
+
