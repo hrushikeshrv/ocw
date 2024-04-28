@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Lecture 20 - Filesystems 3: Case Studies, Buffering, Reliability, Transactions"
+title: "Lecture 21 - Filesystems 3: Case Studies, Buffering, Reliability, Transactions"
 parent: UCB CS 162 - Operating Systems and Systems Programming
 nav_order: 20
 ---

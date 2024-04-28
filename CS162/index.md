@@ -32,3 +32,4 @@ Taught by Prof. John Kubiatowicz at UC Berkeley in Fall, 2020
 18. [Lecture 19 - Filesystems 1: Performance, Queueing Theory, Filesystem Design]({% link CS162/lec19.md %})
 19. [Lecture 20 - Filesystems 2: Filesystem Design, Case Studies]({% link CS162/lec20.md %})
 20. [Lecture 21 - Filesystems 3: Case Studies, Buffering, Reliability, Transactions]({% link CS162/lec21.md %})
+21. [Lecture 22 - Transactions, End-to-End Arguments, Distributed Decision Making]({% link CS162/lec22.md %})
