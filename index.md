@@ -24,3 +24,5 @@ This work is licensed under the Creative Commons license -
 9. [MIT 6.851 - Advanced Data Structures](https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.y6d0wld558lb)
 10. [CMU 15-445 - Database Systems]({% link CMU15445/index.md %})
 11. [UCB CS 162 - Operating Systems & Systems Programming]({% link CS162/index.md %})
+12. [MIT 6.041 - Probabilistic Systems Analysis and Applied Probability]({% link 6.041/index.md %})
+13. [MIT 6.858 - Computer Systems Security]({% link 6.858/index.md %})

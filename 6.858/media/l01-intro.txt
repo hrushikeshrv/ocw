@@ -1,0 +1,419 @@
+-----------------------------------------------------------------
+Taken from https://css.csail.mit.edu/6.858/2020/lec/l01-intro.txt
+-----------------------------------------------------------------
+
+What goes wrong #1: problems with the policy.
+  I.e. system correctly enforces policy -- but policy is inadequate.
+
+Example: Business-class airfare.
+  Airlines allow business-class tickets to be changed at any time, no fees.
+  Is this a good policy?
+  Turns out, in some systems ticket could have been changed even AFTER boarding.
+  Adversary can keep boarding plane, changing ticket to next flight, ad infinitum.
+  Revised policy: ticket cannot be changed once passenger has boarded the flight.
+    Sometimes requires changes to the system architecture.
+    Need computer at the aircraft gate to send updates to the reservation system.
+
+Example: Verifying domain ownership for TLS certificates.
+  Browser verifies server's certificate to ensure talking to the right server.
+  Certificate contains server's host name and cryptographic key,
+    signed by some trusted certificate authority (CA).
+  Browser has CA's public key built in to verify certificates.
+  CA is in charge of ensuring that certificate is issued only to
+    legitimate domain (hostname) owner.
+  Typical approach: send email to the contact address for a domain.
+  Some TLDs (like .eu) do not reveal the contact address in ASCII text.
+    Most likely to prevent spam to domain owners.
+  Instead, they reveal an ASCII image of the email address.
+  One CA (Comodo) decided to automate this by OCR'ing the ASCII image.
+  Turns out, some ASCII images are ambiguous!
+    E.g., foo@a1telekom.at was mis-OCRed as foo@altelekom.at
+    Adversary can register mis-parsed domain name, get certificate for
+      someone else's domain.
+  [ Ref: https://www.mail-archive.com/dev-security-policy@lists.mozilla.org/msg04654.html ]
+
+Example: Fairfax County, VA school system.
+  [ Ref: http://catless.ncl.ac.uk/Risks/26.02.html#subj7.1 ]
+  Student can access only his/her own files in the school system.
+  Superintendent has access to everyone's files.
+  Teachers can add new students to their class.
+  Teachers can change password of students in their class.
+  What's the worst that could happen if student gets teacher's password?
+    Student adds the superintendent to the compromised teacher's class.
+    Changes the superintendent's password, since they're a student in class.
+    Logs in as superintendent and gets access to all files.
+  Policy amounts to: teachers can do anything.
+
+Example: Sarah Palin's email account.
+  [ Ref: http://en.wikipedia.org/wiki/Sarah_Palin_email_hack ]
+  Yahoo email accounts have a username, password, and security questions.
+  User can log in by supplying username and password.
+  If user forgets password, can reset by answering security Qs.
+  Some adversary guessed Sarah Palin's high school, birthday, etc.
+  Policy amounts to: can log in with either password *or* security Qs.
+    No way to enforce "Only if user forgets password, then ..."
+  Thus user should ensure that password *and* security Qs are
+    both hard to guess.
+
+Example: Mat Honan's accounts at Amazon, Apple, Google, etc.
+  [ Ref: http://www.wired.com/gadgetlab/2012/08/apple-amazon-mat-honan-hacking/all/ ]
+  Honan an editor at wired.com; someone wanted to break into his gmail account.
+  Gmail password reset: send a verification link to a backup email address.
+    Google helpfully prints part of the backup email address.
+    Mat Honan's backup address was his Apple @me.com account.
+  Apple password reset: need billing address, last 4 digits of credit card.
+    Address is easy, but how to get the 4 digits?
+  How to get hold of that e-mail?
+  Call Amazon and ask to add a credit card to an account.
+    No authentication required,
+    presumably because this didn't seem like a sensitive operation.
+  Call Amazon tech support again, and ask to change the email address on an account.
+    Authentication required!
+    Tech support accepts the full number of any credit card registered with the account.
+    Can use the credit card just added to the account.
+  Now go to Amazon's web site and request a password reset.
+    Reset link sent to the new e-mail address.
+  Now log in to Amazon account, view saved credit cards.
+    Amazon doesn't show full number, but DOES show last 4 digits of all cards.
+    Including the account owner's original cards!
+  Now attacker can reset Apple password, read gmail reset e-mail,
+    reset gmail password.
+  Lesson: attacks often assemble apparently unrelated trivia.
+  Lesson: individual policies OK, but combination is not.
+    Apple views last 4 as a secret, but many other sites do not.
+  Lesson: big sites cannot hope to identify which human they are talking to;
+    at best "same person who originally created this account".
+    security questions and e-mailed reset link are examples of this.
+
+Example: Insecure defaults.
+  Well-known default passwords in routers.
+  Public default permissions in cloud services (e.g., objects in AWS S3 bucket).
+  Secure defaults are crucial because of the "negative goal" aspect.
+    Large systems are complicated, lots of components.
+    Operator might forget to configure some component in their overall system.
+    Important for components to be secure if operator forgets to configure them.
+
+Policies typically go wrong in "management" or "maintenance" cases.
+  Who can change permissions or passwords?
+  Who can access audit logs?
+  Who can access the backups?
+  Who can upgrade the software or change the configuration?
+  Who can manage the servers?
+  Who revokes privileges of former admins / users / ...?
+
+What goes wrong #2: problems with threat model / assumptions.
+  I.e. designer assumed an attack wasn't feasible (or didn't think of the attack).
+
+Example: assume the design/implementation is secret
+  "Security through obsecurity"
+  Clipper chip
+    [ Ref: https://en.wikipedia.org/wiki/Clipper_chip ]
+  Broken secret crypto functions
+
+Example: most users are not thinking about security.
+  User gets e-mail saying "click here to renew your account",
+    then plausible-looking page asks for their password.
+  Or dialog box pops up with "Do you really want to install this program?"
+  Or tech support gets call from convincing-sounding user to reset password.
+
+Example: computational assumptions change over time.
+  MIT's Kerberos system used 56-bit DES keys, since mid-1980's.
+  At the time, seemed fine to assume adversary can't check all 2^56 keys.
+  No longer reasonable: now costs about $100.
+    [ Ref: https://www.cloudcracker.com/dictionaries.html ]
+    Several years ago, 6.858 final project showed can get any key in a day.
+
+Example: assuming a particular kind of a solution to the problem.
+  Many services use CAPTCHAs to check if a human is registering for an account.
+    Requires decoding an image of some garbled text, for instance.
+  Goal is to prevent mass registration of accounts to limit spam, prevent
+    high rate of password guessing, etc.
+  Assumed adversary would try to build OCR to solve the puzzles.
+    Good plan because it's easy to change image to break the OCR algorithm.
+    Costly for adversary to develop new OCR!
+  Turns out adversaries found another way to solve the same problem.
+    Human CAPTCHA solvers in third-world countries.
+    Human solvers are far better at solving CAPTCHAs than OCRs or even regular users.
+    Cost is very low (fraction of a cent per CAPTCHA solved).
+  [ Ref: https://www.cs.uic.edu/pub/Kanich/Publications/re.captchas.pdf ]
+
+Example: all TLS CAs are fully trusted.
+  If attacker compromises CA, can generate fake certificate
+    for any server name.
+  Originally there were only a few CAs; seemed unlikely that
+    attacker could compromise a CA.
+  But now browsers fully trust 100s of CAs!
+  In 2011, two CAs were compromised, issued fake certs for many domains
+    (google, yahoo, tor, ...), apparently used in Iran (?).
+    [ Ref: http://en.wikipedia.org/wiki/DigiNotar ]
+    [ Ref: http://en.wikipedia.org/wiki/Comodo_Group ]
+  In 2012, a CA inadvertently issued a root certificate valid for any domain.
+    [ Ref: http://www.h-online.com/security/news/item/Trustwave-issued-a-man-in-the-middle-certificate-1429982.html ]
+  Several other high-profile incidents since then too.
+  Mistake: maybe reasonable to trust one CA, but not 100s.
+
+Example: assuming your hardware is trustworthy.
+  If NSA is your adversary, turns out to not be a good assumption.
+  [ Ref: https://www.schneier.com/blog/archives/2013/12/more_about_the.html ]
+
+Example: assuming you are running the expected software.
+  1. In the 80's, military encouraged research into secure OS'es.
+    Surprise: successful attacks by gaining access to development systems
+    Mistake: implicit trust in compiler, developers, distribution, &c
+  2. Apple's development tools for iPhone applications (Xcode) are large.
+    Downloading them from China required going to Apple's servers outside of China.
+    Takes a long time.
+    Unofficial mirrors of Xcode tools inside China.
+    Some of these mirrors contained a modified version of Xcode that injected malware
+      into the resulting iOS applications.
+    Found in a number of high-profile, popular iOS apps!
+      [ Ref: https://en.wikipedia.org/wiki/XcodeGhost ]
+  Classic paper: Reflections on Trusting Trust.
+
+Example: decomissioned disks.
+  Many laptops, desktops, servers are thrown out without deleting sensitive data.
+  One study reports large amounts of confidential data on disks bought via ebay, etc.
+  [ Ref: https://simson.net/page/Real_Data_Corpus ]
+
+Example: software updates.
+  Apple iPhone software updates vs FBI.
+    [ Ref: http://www.apple.com/customer-letter/ ]
+  Chrome extensions bought by malware/adware vendors.
+    [ Ref: https://arstechnica.com/security/2014/01/malware-vendors-buy-chrome-extensions-to-send-adware-filled-updates/ ]
+  Node.js library updated to include code that steals Bitcoin keys.
+    [ Ref: https://www.theregister.co.uk/2018/11/26/npm_repo_bitcoin_stealer/ ]
+
+Example: machines disconnected from the Internet are secure?
+  Stuxnet worm spread via specially-constructed files on USB drives.
+
+What to do about threat model problems?
+  More explicit threat models, to understand possible weaknesses.
+  Simpler, more general threat models.
+    E.g., should a threat model assume that system design is secret?
+    May be incrementally useful but then hard to recover.
+    Probably not a good foundation for security.
+  Better designs may eliminate / lessen reliance on certain assumptions.
+    E.g., alternative trust models that don't have fully-trusted CAs.
+    E.g., authentication mechanisms that aren't susceptible to phishing.
+
+What goes wrong #3: problems with the mechanism -- bugs.
+  Bugs routinely undermine security.
+    Rule of thumb: one bug per 1000 lines of code.
+    Bugs in implementation of security policy.
+    But also bugs in code that may seem unrelated to security, but they are not.
+      Good mindset: Any bug is a potential security exploit.
+      Especially if there is no isolation around the bug.
+
+Example: Apple's iCloud password-guessing rate limits.
+  [ Ref: https://github.com/hackappcom/ibrute ]
+  People often pick weak passwords; can often guess w/ few attempts (1K-1M).
+  Most services, including Apple's iCloud, rate-limit login attempts.
+  Apple's iCloud service has many APIs.
+  One API (the "Find my iPhone" service) forgot to implement rate-limiting.
+  Attacker could use that API for millions of guesses/day.
+  Lesson: if many checks are required, one will be missing.
+
+Example: Missing access control checks in Citigroup's credit card web site.
+  [ Ref: http://www.nytimes.com/2011/06/14/technology/14security.html ]
+  Citigroup allowed credit card users to access their accounts online.
+  Login page asks for username and password.
+  If username and password OK, redirected to account info page.
+  The URL of the account info page included some numbers.
+    e.g. x.citi.com/id=1234
+  The numbers were (related to) the user's account number.
+  Adversary tried different numbers, got different people's account info.
+  The server didn't check that you were logged into that account!
+  Lesson: programmers tend to think only of intended operation.
+
+Example: poor randomness for cryptography.
+  Need high-quality randomness to generate the keys that can't be guessed.
+  Android's Java SecureRandom weakness leads to Bitcoin theft.
+    [ Ref: https://bitcoin.org/en/alert/2013-08-11-android ]
+    [ Ref: https://www.nilsschneider.net/2013/01/28/recovering-bitcoin-private-keys.html ]
+    Bitcoins can be spent by anyone that knows the owner's private key.
+    Many Bitcoin wallet apps on Android used Java's SecureRandom API.
+    Turns out the system sometimes forgot to seed the PRNG!
+      A Pseudo-Random Number Generator is deterministic after you set the seed.
+      So the seed had better be random!
+    As a result, some Bitcoin keys turned out to be easy to guess.
+    Adversaries searched for guessable keys, spent any corresponding bitcoins.
+      Really it was the nonce in the ECDSA signature that wasn't random,
+      and repeated nonce allows private key to be deduced.
+    Lesson: be careful.
+  Embedded devices generate predictable keys.
+    Problem: embedded devices, virtual machines may not have much randomness.
+    As a result, many keys are similar or susceptible to guessing attacks.
+    [ Ref: https://factorable.net/weakkeys12.extended.pdf ]
+  Casino slot machines.
+    [ Ref: https://www.wired.com/2017/02/russians-engineer-brilliant-slot-machine-cheat-casinos-no-fix/ ]
+
+Example: Moxie's SSL certificate name checking bug
+  [ Ref: http://www.wired.com/2009/07/kaminsky/ ]
+  Certificates use length-encoded strings, but C code often is null-terminated.
+  CAs would grant certificate for amazon.com\0.nickolai.org
+  Browsers saw the \0 and interpreted as a cert for amazon.com
+  Lesson: parsing code is a huge source of security bugs.
+
+Example: buffer overflows (see below).
+
+Case study: buffer overflows.
+  An important class of security problems,
+    for which many attacks and defenses are known.
+  This is the topic of Lab 1.
+  Suppose your web server has a bug in the HTTP input parsing.
+    On certain inputs, it crashes.
+  Should you be worried?
+  Let's take a look at a simplified example.
+
+    % cat readreq.c
+
+#include <stdio.h>
+#include <stdlib.h>
+
+char *
+gets(char *buf) {
+  int c;
+  while((c = getchar()) != EOF && c != '\n')
+    *buf++ = c;
+  *buf = '\0';
+  return buf;
+}
+
+int
+read_req(void) {
+  char buf[128];
+  int i;
+  gets(buf);
+  i = atoi(buf);
+  return i;
+}
+
+int
+main() {
+  int x = read_req();
+  printf("x = %d\n", x);
+}
+
+    % gcc -g -static -fno-stack-protector -fcf-protection=none readreq.c -o readreq
+    % ./readreq
+    1234
+    % ./readreq
+    AAAAAAAAAAAA....AAAA
+
+  Why did it crash?
+  We should think "this is a bug; could an attacker exploit it?"
+  Let's figure out what exactly is happening.
+    Need to know details of x86-64.
+
+    % gdb ./readreq
+    b read_req
+    r
+    disas $rip
+    info reg
+
+  Where is buf[]?
+
+    print &buf[0]
+    print $rsp
+    print &i
+
+  Aha, buf[] is on the stack, followed by i.
+  The sub $0x90, %rsp allocates space for buf[] and i.
+
+  Let's draw a picture of what's on the stack.
+                         +------------------+
+                         |  main()'s frame  |
+                         |                  |
+                         |                  |
+                         +------------------+
+                         |  return address  |
+                         +------------------+
+            %rbp ------> |    saved %rbp    |
+                         +------------------+
+                         |        i         |
+                         +------------------+
+                         |       ...        |
+                         +------------------+
+                         |     buf[127]     |
+                         |       ...        |
+            %rsp ------> |      buf[0]      |
+                         +------------------+
+  The x86 stack grows down in addresses.
+  push == decrement %rsp, then write to *%rsp
+
+  %rbp is "frame pointer" -- saved stack ptr at function entry.
+
+    x $rbp
+    x $rbp+8
+
+  Let's see what the saved return %rip refers to:
+
+    disas 0x00401cf3
+
+  It's the instruction in main() after the call to read_req()
+  OK, back to read_req, just before gets()
+
+    disas $rip
+    next
+    AAAAAAA...AAA (190 times)
+
+  What did gets() do to the stack?
+
+    print &buf[0]
+
+  Hmm, 190 is more than 128!
+  How can that be?
+
+    x $rbp
+    x $rbp+8
+
+  Saved frame pointer and return eip are 0x41414141!
+  What's 0x41?
+
+    next
+    disas
+    stepi
+    stepi
+    disas
+
+  Now about to execute read_req()'s return instruction.
+
+    x $rsp
+    note rip will be 0x41414141
+    stepi -- crash, this is our seg fault
+
+  Is this a serious problem?
+    I.e. if our web server code had this bug,
+      could an attacker exploit it to break into our computer?
+
+  Is the attacker limited to jumping somewhere random?
+    No: "code injection" attack.
+    How does the adversary know the address of the buffer?
+    Simulate attack:
+      handle SIGSEGV nopass
+      set{long}$rsp=<address of lea before call to printf in main>.
+
+  What can the adversary do once they are executing injected code?
+    If the process is running as root or Administrator, can do anything.
+    Even if not, can still send spam, read files (web server, database), ..
+    Can load bigger program from somewhere on the net.
+
+  What happens if stack grows up, instead of down?
+    Stack frame for read_req() has buf[] at highest address,
+      so won't overflow onto read_req()'s return %rip.
+    Can an attacker still exploit this bug?
+
+How to defend against buffer overflows?
+  Use a language that checks array bounds automatically.
+  For C:
+    Don't call gets().
+    Intel lets you mark the stack as non-executable.
+      Is this a 100% solution for C?
+    Randomize layout, canaries, &c
+    Structure the application to limit damage from bugs (Lab 2).
+    Good news: simple buffer overruns like this do not work any more.
+
+Buffer overflow lessons:
+  Bugs are a problem in all parts of code, not just in security mechanism.
+  Policy may be irrelevant if the implementation has bugs.
+  But stay tuned; there is hope for the defense.
