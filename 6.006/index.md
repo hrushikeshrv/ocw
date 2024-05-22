@@ -16,7 +16,8 @@ emphasizes the relationship between algorithms and programming, and
 introduces basic performance measures and analysis techniques for these 
 problems.
 
-[Course website](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/)
+[Course website](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/)  
+[Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb)
 
 ## Lectures
 1. [Algorithmic Thinking, Peak Finding]({% link 6.006/lec1.md %})

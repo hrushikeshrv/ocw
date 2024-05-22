@@ -9,7 +9,9 @@ has_children: true
 Taught by Prof. John Kubiatowicz at UC Berkeley in Fall, 2020
 
 [Course Website](https://cs162.org/)  
-[Fall 2020 Course Website](https://inst.eecs.berkeley.edu/~cs162/fa20/)
+[Fall 2020 Course Website](https://inst.eecs.berkeley.edu/~cs162/fa20/)  
+[Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLF2K2xZjNEf97A_uBCwEl61sdxWVP7VWC)
+
 
 ## Lectures
 1. [Lecture 1 - What is an Operating System?]({% link CS162/lec1.md%})

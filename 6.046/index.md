@@ -13,7 +13,8 @@ This is an intermediate algorithms course with an emphasis on teaching technique
 analysis of efficient algorithms, emphasizing methods of application. Topics include divide-and-conquer, randomization, 
 dynamic programming, greedy algorithms, incremental improvement, complexity, and cryptography.
 
-[Course Website](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/)
+[Course Website](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/)  
+[Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLUl4u3cNGP6317WaSNfmCvGym2ucw3oGp)  
 
 ## Lectures
 1. [Interval Scheduling]({% link 6.046/lec1.md %})

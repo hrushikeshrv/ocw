@@ -23,7 +23,8 @@ computing and the physical limits of computation. Class participation is
 important, as the class will include discussion and debate about many of these 
 topics.
 
-[Course website](https://ocw.mit.edu/courses/6-045j-automata-computability-and-complexity-spring-2011/)
+[Course website](https://ocw.mit.edu/courses/6-045j-automata-computability-and-complexity-spring-2011/)  
+[Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLmUkKyGlHupqtANK5Pmo1gjLlmW1pF1q7)
 
 ## Lectures
 1. [Introduction]({% link 6.045J/lec1.md %})

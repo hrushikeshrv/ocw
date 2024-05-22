@@ -7,6 +7,7 @@ url: https://hrushikeshrv.github.io/ocw
 aux_links:
   "View on GitHub": https://github.com/hrushikeshrv/ocw
 
+color_scheme: dark
 enable_copy_code_button: true
 
 callouts:
@@ -20,13 +21,13 @@ callouts:
 ga_tracking: G-TGM5F6WJNV
 
 nav_external_links:
-  - title: MIT 6.042J
+  - title: MIT 6.042J - Mathematics For Computer Science (Google Doc)
     url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.ol0v6d6j0pp6
     opens_in_new_tab: true
-  - title: MIT 6.046
+  - title: MIT 6.046 - Design and Analysis of Algorithms (Google Doc)
     url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.z9wcm6zhjlt5
     opens_in_new_tab: true
-  - title: MIT 6.004
+  - title: MIT 6.004 - Computation Structures (Google Doc)
     url: https://docs.google.com/document/d/1R45m9aDnBevrHaDSq0DdEzmRHZFV40cQ41g7GezPBK8/edit#heading=h.uetcvbt511e3
     opens_in_new_tab: true
   - title: View on GitHub

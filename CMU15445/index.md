@@ -6,7 +6,8 @@ has_children: true
 ---
 
 # CMU 15-445/645 - Database Systems
-Taught by Prof. Andy Pavlo in Fall, 2019
+Taught by Prof. Andy Pavlo in Fall, 2019 and Fall, 2023.  
+The first 7 lectures are from the course taught in Fall, 2019, the rest are from the course taught in Fall, 2023.
 
 ## Course Description
 This course is on the design and implementation of database management systems. 
@@ -19,7 +20,9 @@ parallel architectures (multi-core, distributed). Case studies on open-source an
 commercial database systems are used to illustrate these techniques and trade-offs.
 The course is appropriate for students with lit systems programming skills.
 
-[Course Website](https://15445.courses.cs.cmu.edu/fall2019/)
+[Course Website (2019)](https://15445.courses.cs.cmu.edu/fall2019/)
+[Course Website (2023)](https://15445.courses.cs.cmu.edu/fall2023/)
+[Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLSE8ODhjZXjbj8BMuIrRcacnQh20hmY9g)
 
 ## Lectures 
 1. [Introduction & Relational Model]({% link CMU15445/lec1.md %})
