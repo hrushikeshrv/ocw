@@ -3,6 +3,7 @@ layout: default
 title: MIT 6.041 - Probabilistic Systems Analysis and Applied Probability
 nav_order: 7
 has_children: true
+has_toc: false
 ---
 
 # MIT 6.041 - Probabilistic Systems Analysis and Applied Probability

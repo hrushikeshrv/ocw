@@ -3,6 +3,7 @@ layout: default
 title: CMU 15-445 - Database Systems
 nav_order: 5
 has_children: true
+has_toc: false
 ---
 
 # CMU 15-445/645 - Database Systems

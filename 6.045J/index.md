@@ -3,6 +3,7 @@ layout: default
 title: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 3
 has_children: true
+has_toc: false
 ---
 
 # MIT 6.045J - Automata, Computability, Complexity
