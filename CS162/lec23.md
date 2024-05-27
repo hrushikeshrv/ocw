@@ -30,3 +30,16 @@ The high-level overview of the algorithm is -
 All workers and the coordinator have an internal log in which they record their decision so that they will remember their decision even after a crash.
 
 ![2PC algorithm](./media/lec23-2.png)
+
+A key drawback of the 2PC algorithm is that it is blocking. If a node fails or keeps failing, the other nodes are blocked and cannot make progress. A blocked node can also hold resources like locks, which make the blocking problem worse. There are some alternatives to the 2PC algorithm, such as the 3 phase commit, which has 3 phases instead of 2, PAXOS, a complicated distributed decision making algorithm used by Google in its internal systems, etc.
+
+Another limitation of the 2PC algorithm (and also the alternatives to it) is that it assumes all nodes are working correctly, and no node is malicious. If a distributed system can have malicious nodes, you need a different class of algorithms. This situation is demonstrated by the Byzantine general's problem.
+
+## Byzantine General's Problem
+The Byzantine general's problem has n players (nodes), out of which one or more can be malicious. One of the nodes is the General (leader), and has to send a boolean message to all nodes. The outcome must be that all correctly working nodes perform the same action, regardless of how the malicious nodes try to throw them off.
+
+![Byzantine General's Problem](./media/lec23-3.png)
+
+The leader itself could be compromised. In this case, all the correctly functioning nodes still perform the same action, but that action may not be what the leader communicates to each node.
+
+The lecture doesn't actually describe the algorithms that solve this problem, but today's algorithms are $ O(n^2) $, and block chain based algorithms can even be $ O(n) $ in the number of messages that need to be exchanged between the nodes.
