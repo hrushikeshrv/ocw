@@ -18,3 +18,4 @@ Taught by Prof. Nikolai Zeldovich at MIT in Spring, 2020.
 
 ## Lectures
 1. [Lecture 1: Introduction]({% link 6.858/lec1.md %})
+2. [Lecture 2: Security Architecture]({% link 6.858/lec2.md %})
