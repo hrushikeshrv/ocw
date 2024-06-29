@@ -45,4 +45,10 @@ Now, we don't want every service to be 100% isolated all the time. We want servi
                       +-----------------------+
                       HOST enforcing isolation
 ```
-In the diagram above, a principal can be a user, a device, a service, etc.
+In the diagram above, a principal can be a user, a device, a service, etc. Resources can be services, like Gmail or Drive, or files and user data.
+
+The guard performs three functions -
+
+1. Authenticate - Identifies who is issuing the request.
+2. Authorize - Determines whether that request should be allowed.
+3. Audit - Records each request along with its authentication and authorization information, and other useful metadata.
