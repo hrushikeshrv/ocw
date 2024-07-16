@@ -2,7 +2,7 @@
 layout: default
 title: "Lecture 2 - Security Architecture"
 parent: MIT 6.858 - Computer Systems Security
-nav_order: 1
+nav_order: 2
 ---
 
 # Lecture 2 - Security Architecture
