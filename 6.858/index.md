@@ -20,3 +20,4 @@ Taught by Prof. Nikolai Zeldovich at MIT in Spring, 2020.
 1. [Lecture 1: Introduction]({% link 6.858/lec1.md %})
 2. [Lecture 2: Security Architecture]({% link 6.858/lec2.md %})
 3. [Lecture 3: User Authentication]({% link 6.858/lec3.md %})
+4. [Lecture 4: Buffer Overflows]({% link 6.858/lec4.md %})
