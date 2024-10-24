@@ -18,3 +18,4 @@ This is an introductory course covering elementary data structures (dynamic arra
 ## Lectures
 1. [Algorithms and Computation]({% link 6.006/spring-2020/lec1.md %})
 2. [Data Structures and Dynamic Arrays]({% link 6.006/spring-2020/lec2.md %})
+3. [Problem Session 1]({% link 6.006/spring-2020/ps1.md %})
