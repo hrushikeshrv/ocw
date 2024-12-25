@@ -14,6 +14,8 @@ Heaps are an implementation of a priority queue. Heaps can do the following oper
 
 Heaps are just an array visualized as a nearly complete binary tree. We map an array to a binary tree by setting the first element as the root, then the next element as the first child, the next as the right child, and so on, in order. So for any node i in the tree, its parent is node i/2, its left child is node 2i, its right child is node 2i + 1.
 
+![Heap representation of an array](./media/lec4-1.png)
+
 There are 2 types of heaps - min heaps and max heaps. Min heaps have the property that the root of their tree representation is the smallest element in the array, and the key of every node i is less than or equal to the keys of its children. Max heaps have the property that the root of their tree representation is the largest element in the array, and the key of every node i is greater than or equal to the keys of its children.
 
 For heaps to be useful, we need the heaps to maintain their max/min property as we perform extract max or extract min on them. We also need a function to build a max or min heap from a normal array.
@@ -28,10 +30,10 @@ For heaps to be useful, we need the heaps to maintain their max/min property as 
 ~~~
 def build_heap(A, n, max = True):
     for i in range(n/2, 1, -1):
-    if max:
-        max_heapify(A, i)
-    else:
-        min_heapify(A, i)
+       if max:
+           max_heapify(A, i)
+       else:
+           min_heapify(A, i)
     return A
 ~~~
 {: .language-python}

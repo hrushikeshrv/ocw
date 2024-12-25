@@ -94,13 +94,26 @@ $ \left(f_5, f_2, f_1, f_3, f_4\right) $
 
 \begin{problemparts}
 \problempart % Problem 2a
+Consider a sub-array of length k starting at index i. We swap element at 
+index \texttt{i} with the element at index \texttt{i+k-1}, and then recurse, 
+decreasing the length of the subarray by 2. For the base case we consider a
+sub-array of length 1 or lesser.
 
-
-{\tt for j in range(k): }
-
-\qquad{\tt D.insert\_at(i, D.delete\_at(i+k-1)) }
+\begin{lstlisting}
+def reverse(D, i, k):
+    if k <= 1:
+        return
+    start = D.delete_at(i)
+    end = D.delete_at(i + k - 1)
+    D.insert_at(i, end)
+    D.insert_at(i + k - 1, start)
+    reverse(D, i + 1, k - 2)
+\end{lstlisting}
 
 \problempart % Problem 2b
+Starting from the end index \texttt{i + k}, delete the element at index
+\texttt{i + k} and insert it at index \texttt{}
+
 \end{problemparts}
 
 \newpage
