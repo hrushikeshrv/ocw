@@ -31,6 +31,7 @@ problems.
 8. [Hashing with Chaining]({% link 6.006/fall-2011/lec8.md %})
 9. [Table Doubling, Karp Rabin]({% link 6.006/fall-2011/lec9.md %})
 10. [Open Addressing, Cryptographic Hashing]({% link 6.006/fall-2011/lec10.md %})
+11. [Integer Arithmetic, Karatsuba Multiplication]({% link 6.006/fall-2011/lec11.md %})
 16. [Dijkstra]({% link 6.006/fall-2011/lec16.md %})
 17. [Bellman-Ford]({% link 6.006/fall-2011/lec17.md %})
 18. [Speeding up Dijkstra]({% link 6.006/fall-2011/lec18.md %})
