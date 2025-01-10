@@ -18,7 +18,7 @@ def BFS(graph, start):
         node = queue.pop(0)
         if node not in visited:
             visited.add(node)
-            queue.extend(graph[node] - visited)
+            queue.extend(graph[node])
     return visited
 ~~~
 {:.language-python}

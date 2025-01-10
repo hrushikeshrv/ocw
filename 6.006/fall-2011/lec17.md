@@ -2,7 +2,7 @@
 layout: default
 title: Lecture 17 - Bellman-Form Algorithm
 parent: MIT 6.006 - Introduction to Algorithms
-nav_order: 12
+nav_order: 17
 ---
 
 # Bellman-Ford Algorithm

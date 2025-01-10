@@ -2,7 +2,7 @@
 layout: default
 title: Lecture 16 - Dijkstra
 parent: MIT 6.006 - Introduction to Algorithms
-nav_order: 11
+nav_order: 16
 ---
 
 # Dijkstra

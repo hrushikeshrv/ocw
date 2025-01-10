@@ -16,7 +16,7 @@ Newton's method is a method for finding the root of a function through successiv
 - Find the x-intercept of the tangent line
 - Repeat the process with the new x-intercept
 
-[Newton's Method](./media/lec11-1.png)
+![Newton's Method](./media/lec11-1.png)
 
 The formula for Newton's method is given by -
 

@@ -2,7 +2,7 @@
 layout: default
 title: Lecture 19 - Dynamic Programming 1
 parent: MIT 6.006 - Introduction to Algorithms
-nav_order: 14
+nav_order: 19
 ---
 
 # Lecture 19 - Dynamic Programming 1: Fibonacci, Shortest Paths

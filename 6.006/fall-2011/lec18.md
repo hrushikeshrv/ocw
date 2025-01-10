@@ -2,7 +2,7 @@
 layout: default
 title: Lecture 18 - Speeding Up Dijkstra
 parent: MIT 6.006 - Introduction to Algorithms
-nav_order: 13
+nav_order: 18
 ---
 
 # Speeding Up Dijkstra
