@@ -35,6 +35,7 @@ problems.
 12. [Square Roots, Newton's Method]({% link 6.006/fall-2011/lec12.md %})
 13. [Breadth-First Search]({% link 6.006/fall-2011/lec13.md %})
 14. [Depth-First Search, Topological Sort]({% link 6.006/fall-2011/lec14.md %})
+15. [Single Source Shortest Paths Problem]({% link 6.006/fall-2011/lec15.md %})
 16. [Dijkstra]({% link 6.006/fall-2011/lec16.md %})
 17. [Bellman-Ford]({% link 6.006/fall-2011/lec17.md %})
 18. [Speeding up Dijkstra]({% link 6.006/fall-2011/lec18.md %})
