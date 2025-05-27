@@ -1,10 +1,11 @@
 ---
 layout: default
 title: Breadth First Search (BFS)
+parent: Algorithm Index
 ---
 
 # Breadth First Search (BFS)
-BFS is a simple graph traversal algorithm that explores all vertices of a graph reachable from the source. It uses a queue to keep track of the vertices to be explored. It has the following common applications:
+BFS is a simple graph traversal algorithm that explores all vertices of a graph reachable from the source. It has the following common applications:
 
 1. Finding the shortest path between two nodes in an unweighted graph
 2. As a subroutine in the [Ford-Fulkerson]({% link algorithms/ford-fulkerson.md %}) method to compute the max flow in a flow network
@@ -12,6 +13,9 @@ BFS is a simple graph traversal algorithm that explores all vertices of a graph 
 
 # Algorithm
 The idea behind BFS is to explore/visit all the neighbours of a node before moving on to the next level of nodes. We maintain a queue of nodes to process. We start from the root node, mark it as visited, and then add all of its neighbours that are not yet visited into the queue to be explored. We repeat this process as long as there are nodes in the queue.
+
+# Runtime Complexity
+The runtime complexity of BFS is $O(V + E)$, where $V$ is the number of vertices and $E$ is the number of edges in the graph. This is because we visit each vertex once and check each edge once.
 
 # Pseudocode
 ```

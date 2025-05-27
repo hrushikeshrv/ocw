@@ -34,7 +34,7 @@ The general algorithm works only for directed acyclic graphs which may or may no
 2. If we use DFS to sort topologically, we can say that a shortest path exists from u to v iff u comes before v in the ordering that DFS gives us.
 3. Represent the sorted graph linearly and choose a start vertex.
 4. Go through the sorted linear graph in order from left to right, relax each edge you encounter as you go, and by the end, you have found all the shortest paths.
-5. Every vertex to the left of s gets a (s, v) of .
+5. Every vertex to the left of s gets a $\delta$(s, v) of $\infty$.
 
 The depth first search takes O(V + E) time, and we only look at each edge once, which takes O(E) time, so our general algorithm takes O(V + E) time.
 

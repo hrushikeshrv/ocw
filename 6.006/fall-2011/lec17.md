@@ -30,3 +30,10 @@ bellman_ford(G, w, s):
 {: .language-python}
 
 The first nested for loop would be $\Theta$(VE) and the second for loop would be $\Theta$(E), so the overall dominating complexity is $\Theta$(VE).
+
+## Proof of Correctness
+Let $v$ be a vertex in the graph $G$, and let a path $p = \langle v_0, v_1, v_2, \ldots, v_k \rangle$ be a simple shortest path from $s$ to $v$. Then $k \leq |V|-1$, because any simple path cannot visit a vertex more than once, and there are $|V|$ vertices in the graph.
+
+Now, during every iteration of the outer for loop, we relax all the edges in the graph. This means that after the first iteration, we relax the edge $\langle s, v_1 \rangle$ at some point. This means that we have found the shortest path from $s$ to $v_1$, since it is a subset of a shortest path from $s$ to $v$, which means it is also a shortest path by itself. Similarly, after the $k$th iteration, we will have found the shortest path upto $v_{k-1}$. This means that by $|V|$ iterations, we will have found the shortest path from $s$ to $v$.
+
+However, there could be negative weight cycles in the graph. To detect these, we run one more iteration. If we notice that we can still relax an edge, that means that there is a negative weight cycle in the graph. This is because if we can still relax an edge, it means that the shortest path from $s$ to $v$ can be made shorter by going through the negative weight cycle. In that case, we fail and stop.
