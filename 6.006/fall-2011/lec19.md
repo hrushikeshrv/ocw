@@ -18,18 +18,18 @@ Guess an algorithm and all the possible steps for that algorithm. Guess all poss
 A naive algorithm to calculate fibonacci numbers is
 
 ~~~python
-fibonacci(n):
+def fibonacci(n):
     if n <= 2:
         f = 1
     else:
         f = fibonacci(n-1) + fibonacci(n-2)
-    return f
+    return f 
 ~~~
 
 This is a very inefficient algorithm because the recursion is exponential.
 The time complexity of this algorithm can be written as -
 
-$$T(n) = T(n-1) + T(n-2) +(1)$$
+$$T(n) = T(n-1) + T(n-2) + O(1)$$
 
 The solution to this complexity is exponential, $\Theta$(2<sup>n/2</sup>), which is pretty bad. A better way to do this is by dynamic programming.
 
@@ -40,7 +40,7 @@ Calculating fibonacci numbers using memoization can be implemented as -
 
 ~~~python
 memo = {}
-fibonacci(n):
+def fibonacci(n):
     if n in memo:
         return memo[n]
     if n <= 2:
