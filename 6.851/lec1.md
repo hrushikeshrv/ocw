@@ -35,3 +35,14 @@ We claim that using this approach, we can implement partial persistence in $O(1)
 2. To write to a field, we first check if the mods log is full. If it is not, we just write the new value to the mods log by storing a tuple of the form `(version, field, new_value)`. If the mods log is full, we create a new node `n'` that contains the same fields with their latest values, the same back pointers, and a new empty mods log. We then look at all the pointers coming into the old node `n`, and for each pointer to `n` from a different node `m`, we recursively call a write on `m` to change the given pointer to point to `n'` instead of `n`.
 
 Writes can clearly take a lot of work if the mods log is full, but it turns out that the amortized cost of writes is still $O(1)$, because we only create a new node when the mods log is full, and we only do this once per node. The number of nodes created is proportional to the number of writes, so the amortized cost is still $O(1)$.
+
+## Full Persistence
+To implement full persistence, we can use a similar approach to the one we used for partial persistence, but now the versions are not linear, but rather form a tree structure. Most of the process for converting a pointer machine data structure to a fully persistent data structure is the same as for partial persistence, but we need to make some changes to handle the tree structure.
+
+We "linearize" this tree of versions by simply using its inorder traversal. Furthermore, we use a special data structure called an order-maintenance data structure, which allows us to tell if a version is an ancestor of another in $O(1)$ time, and also lets us insert versions before or after any other version in $O(1)$ time. This is useful because we need to be able to insert new versions into the tree structure as we modify the data structure.
+
+Now for each node we store `2(d + p + 1)` mods, where `d` is the number of fields in the node, and `p` is the number of back pointers from this node to other nodes. The `+1` is only for the amortized analysis to work.
+
+1. Reading a field is the same as in partial persistence: we read the value of the field and then go through the mods log to see if the value was changed. However, we need to check the order-maintenance data structure to see if the version we are reading is an ancestor of the current version. We only consider the mods that are in the current version or in an ancestor of the current version.
+2. To write to a field, we first check if the mods log is full. If it is not, we just write the new value to the mods log by storing a tuple of the form `(version, field, new_value)`. If the mods log is full, we create a new node `n'` and essentially split `n` into two nodes: `n` and `n'`. We store half of the modes in `n` and the other half in `n'`. We then determine all nodes which need to point to `n'` instead of `n`, and recursively call a write on those nodes to change the pointers to point to `n'` instead of `n`.
+
