@@ -29,7 +29,7 @@ For any arbitrary boolean expression, draw a truth table or all possible input
 combinations. Then, only consider the input combinations which output a 1. 
 For each such input combination, build a circuit that would output a 1. That is,
 if one input combination that outputs a 1 for 3 inputs is $ \{X, Y, Z\} = \{0, 0, 1\} $, then
-we would build a circuit for this combination as $ \lnot X \land \lnot Y \land Z $.
+we would build a circuit for this combination as $\lnot X \land \lnot Y \land Z$.
 
 Once we have circuits for each such row (that outputs a 1 in the final boolean
 expression), we just OR all of those circuits to get our expression.
@@ -59,7 +59,7 @@ Proving that a specific circuit definitely needs an exponential number of gates
 and it cannot be represented in any fewer is an open problem. If you think about 
 it, it's the same as P vs NP. If you build a circuit to represent an NP-complete
 problem, you can't prove that it needs an exponential number of gates (at least no 
-one has proven it yet), and proving it would be the same as proving $ P \ne NP $.
+one has proven it yet), and proving it would be the same as proving $P \ne NP$.
 
 However, we can prove that a majority of boolean expressions need a circuit of
 exponential size. Sure, there are some boolean expressions for which we can have
@@ -90,7 +90,7 @@ $ (n+S)^{2S} = 2^{2^{n}} $
 
 Which gives us 
 
-$ S = \Theta(\frac{2^n}{n}) $
+$S = \Theta(\frac{2^n}{n})$
 
 This means that to represent a boolean expression with n inputs, most circuits will
-have to be of size $ S = \Theta(\frac{2^n}{n}) $.
+have to be of size $S = \Theta(\frac{2^n}{n})$.

@@ -20,11 +20,11 @@ degree 0 and the halting degree. What it means to be "between" these two degrees
 is that if we have a language L in this intermediate degree, the following relation
 holds -
 
-$$ L \le {}_{T} HALT $$
+$$L \le {}_{T} HALT$$
 
-$$ L \nle {}_{T} \text{degree} 0 $$
+$$ L \nleq {}_{T} \text{degree} 0 $$
 
-$$ HALT \nle {}_{T} L $$
+$$HALT \nleq {}_{T} L$$
 
 This means that the language L is reducible to the halting problem. That is, you 
 can build a Turing machine to recognize L given an oracle for the halting problem.

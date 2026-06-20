@@ -119,20 +119,46 @@ def create_combined_pdf(base_dir)
   true
 end
 
-# Find all directories with index.md, explicitly skipping the project root
-Dir.glob('**/index.md').each do |index_file|
-  dir = File.dirname(index_file)
+# Check if a specific file path was passed via command line arguments
+target_file = ARGV[0]
 
-  # Ignore the root directory
-  next if dir == '.' || dir.empty?
-
-  puts "\nProcessing directory: #{dir}"
-
-  Dir.glob("#{dir}/**/*.md").each do |md_file|
-    convert_markdown_to_pdf(md_file, dir)
+if target_file
+  # --- Single File Test Mode ---
+  unless File.exist?(target_file)
+    puts "ERROR: File not found: #{target_file}"
+    exit 1
   end
 
-  create_combined_pdf(dir)
+  # Determine the parent directory containing the markdown file (e.g., "6.004")
+  # If the file is in a deeper subfolder, find the one containing index.md
+  current_dir = File.dirname(target_file)
+  until current_dir == '.' || File.exist?(File.join(current_dir, 'index.md'))
+    parent = File.dirname(current_dir)
+    break if parent == current_dir # Reached filesystem root
+    current_dir = parent
+  end
+
+  # Default to the immediate folder if no parent index.md is found
+  base_dir = current_dir == '.' ? File.dirname(target_file) : current_dir
+
+  puts "Running single-file test mode..."
+  convert_markdown_to_pdf(target_file, base_dir)
+else
+  # --- Standard Batch Processing Mode ---
+  Dir.glob('**/index.md').each do |index_file|
+    dir = File.dirname(index_file)
+
+    # Ignore the root directory
+    next if dir == '.' || dir.empty?
+
+    puts "\nProcessing directory: #{dir}"
+
+    Dir.glob("#{dir}/**/*.md").each do |md_file|
+      convert_markdown_to_pdf(md_file, dir)
+    end
+
+    create_combined_pdf(dir)
+  end
 end
 
 puts "\nPDF conversion complete!"

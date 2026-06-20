@@ -42,7 +42,7 @@ everywhere in computer science, and are especially useful while proving the NP-c
 (or incompleteness) of some problem. Similarly, you can also use them to show that some 
 problems are decidable or undecidable.
 
-Formally, we represent a reduction as $ A \le {}_{T} B $, where the T stands for 
+Formally, we represent a reduction as $A \le {}_{T} B$, where the T stands for 
 Turing reducibility. This denotes that problem A can be reduced to problem B, where
 A is the problem that we want to solve, and B is the problem that we know how to solve.
 

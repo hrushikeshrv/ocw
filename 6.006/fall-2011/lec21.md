@@ -17,6 +17,6 @@ For example, if you have matrices $A_1, A_2, A_3$ with dimensions $n \times 1$, 
 
 Let $DP[i, j]$ be the minimum cost of multiplying matrices from $A_i$ to $A_j$. The recurrence relation can be defined as follows:
 
-$$ DP[i, j] = \min_{i \lt k \lt j }{\left(DP[i, k] + DP[k, j] + cost(A_i, A_k) + cost(A_k, A_j)\right)} $$
+$$ DP[i, j] = \min_{i < k < j }{\left(DP[i, k] + DP[k, j] + cost(A_i, A_k) + cost(A_k, A_j)\right)} $$
 
 The base case is when $i = j$, where the cost is zero since there is only one matrix.

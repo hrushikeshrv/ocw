@@ -69,14 +69,14 @@ $A_{odd}(x) = \sum_{k=0}^{n}{a_{2k+1} \cdot x^k}$
 
 Now, if we somehow had computed these two polynomials, we could combine them to get A(x) using the following relation -
 
-$ A(x) = A_{even}(x^2) + x \cdot A_{odd}(x^2) $
+$A(x) = A_{even}(x^2) + x \cdot A_{odd}(x^2)$
 
 So if we wanted to evaluate A(x) for all n points in X, this would take linear time. Now we can set up the recurrence. We recursively divide the 
 polynomial into smaller and smaller polynomials till we get to the base case of degree one. We then have to evaluate these polynomials over a set with n 
 elements, $X^2$, where $X^2$ is the set of all element wise squares of X (this is because we have to evaluate the odd and even polynomials at $x^2$). 
 The recurrence is -
 
-$ T(n, |X|) = 2 \cdot T(n/2, |X|) + O(n + |X|) $
+$T(n, |X|) = 2 \cdot T(n/2, |X|) + O(n + |X|)$
 
 This is not solvable by the master method, but if you draw a recursion tree, you can see that this recurrence solves to being $O(n^2)$. This is the same complexity 
 we got before, and this doesn't help us at all. We got this complexity because the size of the set X does not decrease. This is where the choice of X comes in. 
@@ -86,13 +86,13 @@ You can probably see that choosing X to be the set of nth roots of unity will gi
 we can just take it to be the closest higher power of two. That will only double the number of sample points we will get in the worst case, and having more than 
 n sample points will still uniquely identify the polynomial. The nth roots of one are represented by
 
-$ e^{2i \pi \cdot k / n} $
+$e^{2i \pi \cdot k / n}$
 
 where k goes from 0 to n-1. Verify for yourself that squaring the 4th roots of one gives you the 2nd roots of one, and so on for all powers of two.
 
 When we choose this set as the set X, it's size halves as we go down each level of recursion, and the recurrence we set up above simplifies to
 
-$ T(n) = 2 \cdot T(n/2) + O(n) $
+$T(n) = 2 \cdot T(n/2) + O(n)$
 
 which is the classic merge sort recurrence, and which solves to $O(n \cdot log n)$. This algorithm, with this particular choice of X, is called the fast 
 fourier transform.
