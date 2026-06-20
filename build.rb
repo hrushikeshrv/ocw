@@ -7,6 +7,21 @@ require 'tempfile'
 # Name of the subdirectory where PDFs will be generated
 PDF_OUTPUT_SUBDIR = 'pdf'
 
+PDF_ENGINE = 'pdflatex'
+
+# Sanitizes Jekyll/Liquid tags so they don't break compilers
+def sanitize_markdown(content)
+  # Remove YAML front matter
+  content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '')
+
+  # Convert {% link 6.004/lec1.md %} to just a regular relative path or text
+  content.gsub(/\{\%\s*link\s+([^\s\%]+)\s*\%}/) do
+    match = $1
+    # Turn "6.004/lec1.md" into "./lec1.md" or keep it clean
+    File.basename(match)
+  end
+end
+
 # Convert a markdown file to a PDF file
 def convert_markdown_to_pdf(md_file, base_dir)
   relative_path = Pathname.new(md_file).relative_path_from(Pathname.new(base_dir))
@@ -16,27 +31,38 @@ def convert_markdown_to_pdf(md_file, base_dir)
 
   puts "Converting: #{md_file} -> #{pdf_file}"
 
-  system("pandoc '#{md_file}' -o '#{pdf_file}' --pdf-engine=xelatex")
+  # Sanitize the content into a clean temp file so we don't mutate your source files
+  Tempfile.create(['sanitized', '.md']) do |tmp|
+    clean_content = sanitize_markdown(File.read(md_file))
+    tmp.puts clean_content
+    tmp.flush
 
-  unless $?.success?
-    puts "ERROR: Failed to convert #{md_file}"
-    return false
+    success = system(
+      "pandoc",
+      tmp.path,
+      "-o",
+      pdf_file,
+      "--pdf-engine=#{PDF_ENGINE}",
+      "--resource-path=#{base_dir}"
+    )
+
+    unless success
+      puts "ERROR: Failed to convert #{md_file}"
+      puts "Exit status: #{$?.exitstatus}"
+      return false
+    end
   end
 
   true
 end
 
-# Get a list of ordered markdown files in the directory,
-# but put index.md first, then sort any .md files in the directory
-# alphabetically, then recurse on subdirectories
+# Get a list of ordered markdown files in the directory
 def ordered_markdown_files(dir)
   files = []
 
-  # index.md first
   index_file = File.join(dir, 'index.md')
   files << index_file if File.exist?(index_file)
 
-  # other .md files in this directory
   Dir.children(dir)
      .select { |f| f.end_with?('.md') && f != 'index.md' }
      .sort
@@ -44,7 +70,6 @@ def ordered_markdown_files(dir)
        files << File.join(dir, f)
      end
 
-  # recurse into subdirectories
   Dir.children(dir)
      .select { |f| File.directory?(File.join(dir, f)) }
      .sort
@@ -69,28 +94,26 @@ def create_combined_pdf(base_dir)
 
   Tempfile.create(['combined', '.md']) do |tmp|
     md_files.each do |file|
-      relative_name = Pathname.new(file).relative_path_from(Pathname.new(base_dir))
+      tmp.puts "\n<div style='page-break-before: always;'></div>\n\n" # HTML-safe page break
 
-      tmp.puts
-      tmp.puts "\\newpage"
-      tmp.puts
-
-      content = File.read(file)
-
-      # Remove YAML front matter from non-index.md files
-      unless File.basename(file) == 'index.md'
-        content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '')
-      end
-
-      tmp.puts content
+      clean_content = sanitize_markdown(File.read(file))
+      tmp.puts clean_content
     end
 
     tmp.flush
 
-    system("pandoc '#{tmp.path}' -o '#{output_pdf}' --pdf-engine=xelatex")
+    success = system(
+      "pandoc",
+      tmp.path,
+      "-o",
+      output_pdf,
+      "--pdf-engine=#{PDF_ENGINE}",
+      "--resource-path=#{base_dir}"
+    )
 
-    unless $?.success?
+    unless success
       puts "ERROR: Failed to create combined PDF for #{base_dir}"
+      puts "Exit status: #{$?.exitstatus}"
       return false
     end
   end

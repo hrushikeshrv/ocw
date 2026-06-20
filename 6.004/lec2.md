@@ -12,7 +12,7 @@ A combinational device has to satisfy the following criteria in order to be a va
 1. It has to have one or more digital inputs
 2. It has to have one or more digital outputs
 3. It has to have a functional specification that details the value of each output for every possible combination of valid inputs
-4. It has to have a timing specification consisting at minimum of a propagation delay ($t_pd$), which is the maximum amount of time the device needs to produce a valid output on receiving valid inputs
+4. It has to have a timing specification consisting at minimum of a propagation delay ($t_{pd}$), which is the maximum amount of time the device needs to produce a valid output on receiving valid inputs
 
 These criteria are called the static discipline. Moreover, a combinational device consisting of many devices also has to satisfy the following:
 
