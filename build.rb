@@ -17,7 +17,6 @@ def sanitize_markdown(content)
   # Convert {% link 6.004/lec1.md %} to just a regular relative path or text
   content.gsub(/\{\%\s*link\s+([^\s\%]+)\s*\%}/) do
     match = $1
-    # Turn "6.004/lec1.md" into "./lec1.md" or keep it clean
     File.basename(match)
   end
 end
@@ -31,7 +30,6 @@ def convert_markdown_to_pdf(md_file, base_dir)
 
   puts "Converting: #{md_file} -> #{pdf_file}"
 
-  # Sanitize the content into a clean temp file so we don't mutate your source files
   Tempfile.create(['sanitized', '.md']) do |tmp|
     clean_content = sanitize_markdown(File.read(md_file))
     tmp.puts clean_content
@@ -43,6 +41,8 @@ def convert_markdown_to_pdf(md_file, base_dir)
       "-o",
       pdf_file,
       "--pdf-engine=#{PDF_ENGINE}",
+      "-V", "geometry:margin=1.25in",
+      "-V", "fontsize=11pt",
       "--resource-path=#{base_dir}"
     )
 
@@ -94,7 +94,7 @@ def create_combined_pdf(base_dir)
 
   Tempfile.create(['combined', '.md']) do |tmp|
     md_files.each do |file|
-      tmp.puts "\n<div style='page-break-before: always;'></div>\n\n" # HTML-safe page break
+      tmp.puts "\n\\newpage\n\n" # LaTeX-native page break
 
       clean_content = sanitize_markdown(File.read(file))
       tmp.puts clean_content
@@ -108,6 +108,8 @@ def create_combined_pdf(base_dir)
       "-o",
       output_pdf,
       "--pdf-engine=#{PDF_ENGINE}",
+      "-V", "geometry:margin=1.25in",
+      "-V", "fontsize=11pt",
       "--resource-path=#{base_dir}"
     )
 
@@ -125,14 +127,15 @@ end
 Dir.glob('**/index.md').each do |index_file|
   dir = File.dirname(index_file)
 
+  # Ignore the root directory (represented by "." or empty string depending on execution setup)
+  next if dir == '.' || dir.empty?
+
   puts "\nProcessing directory: #{dir}"
 
-  # Convert each markdown file individually
   Dir.glob("#{dir}/**/*.md").each do |md_file|
     convert_markdown_to_pdf(md_file, dir)
   end
 
-  # Create a single PDF containing all markdown files
   create_combined_pdf(dir)
 end
 

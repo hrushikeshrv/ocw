@@ -17,12 +17,12 @@ Since a computer is a digital system and voltage is an analog value, we need to 
 
 Instead, we define two thresholds - $V_l$ and $V_h$. Any signal below $V_l$ is a 0, and any signal above $V_h$ is a 1. Any signal in between $V_l$ and $V_h$ is _undefined_, and the system is allowed to behave however it wants in that case (even in an undefined manner).
 
-However, there is one more problem. If a system sends a signal very close to $V_l$ or $V_h$, a small amount of noise could push that signal into the undefined zone. We solve this by having different high and low thresholds for input and output - $V_ol$, $V_oh$, $V_il$, $V_ih$. This means that if a system outputs a 0 that is close to $V_ol$ and some noise pushes it to be higher, the value can still be lower that $V_il$, and the system that takes that signal as an input will still correctly interpret it as a 0. This gives us a much better tolerance towards noise. Of course, this means that $V_ol < V_il < V_ih < V_oh$.
+However, there is one more problem. If a system sends a signal very close to $V_l$ or $V_h$, a small amount of noise could push that signal into the undefined zone. We solve this by having different high and low thresholds for input and output - $V_{ol}$, $V_{oh}$, $V_{il}$, $V_{ih}$. This means that if a system outputs a 0 that is close to $V_{ol}$ and some noise pushes it to be higher, the value can still be lower that $V_{il}$, and the system that takes that signal as an input will still correctly interpret it as a 0. This gives us a much better tolerance towards noise. Of course, this means that $V_{ol} < V_{il} < V_{ih} < V_{oh}$.
 
 ![Noise margins](./media/lec1-1.png)
 
 ## Voltage Transfer Characteristic
-The VTC is a plot of $V_out$ vs $V_in$. Essentially, it is a plot showing how the output voltage changes as the input voltage changes for a particular device. It shows you static behaviour, which means it does not tell you anything about how fast the device responds.
+The VTC is a plot of $V_{out}$ vs $V_{in}$. Essentially, it is a plot showing how the output voltage changes as the input voltage changes for a particular device. It shows you static behaviour, which means it does not tell you anything about how fast the device responds.
 
 This is the VTC for a buffer, which is essentially a repeater. It outputs a 0 when it gets a valid 0, and a 1 when it gets a valid 1.
 

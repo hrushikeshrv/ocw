@@ -20,10 +20,10 @@ jobs:
           ruby-version: '3.2'
           bundle-cache: true
 
-      - name: Install Pandoc and wkhtmltopdf
+      - name: Install Pandoc and LaTeX (pdflatex)
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc wkhtmltopdf
+          sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-latex-extra
 
       - name: Run Build Script
         run: ruby build.rb
