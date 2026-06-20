@@ -9,6 +9,20 @@ PDF_OUTPUT_SUBDIR = 'pdf'
 
 PDF_ENGINE = 'pdflatex'
 
+# Centralized method to execute Pandoc with global configuration parameters
+def run_pandoc(input_path, output_path, resource_path)
+  system(
+    "pandoc",
+    input_path,
+    "-o",
+    output_path,
+    "--pdf-engine=#{PDF_ENGINE}",
+    "-V", "geometry:margin=1.5in",
+    "-V", "fontsize=11pt",
+    "--resource-path=#{resource_path}"
+  )
+end
+
 # Sanitizes Jekyll/Liquid tags so they don't break compilers
 def sanitize_markdown(content)
   # Remove YAML front matter
@@ -35,16 +49,7 @@ def convert_markdown_to_pdf(md_file, base_dir)
     tmp.puts clean_content
     tmp.flush
 
-    success = system(
-      "pandoc",
-      tmp.path,
-      "-o",
-      pdf_file,
-      "--pdf-engine=#{PDF_ENGINE}",
-      "-V", "geometry:margin=1.25in",
-      "-V", "fontsize=11pt",
-      "--resource-path=#{base_dir}"
-    )
+    success = run_pandoc(tmp.path, pdf_file, base_dir)
 
     unless success
       puts "ERROR: Failed to convert #{md_file}"
@@ -94,7 +99,7 @@ def create_combined_pdf(base_dir)
 
   Tempfile.create(['combined', '.md']) do |tmp|
     md_files.each do |file|
-      tmp.puts "\n\\newpage\n\n" # LaTeX-native page break
+      tmp.puts "\n\\newpage\n\n"
 
       clean_content = sanitize_markdown(File.read(file))
       tmp.puts clean_content
@@ -102,16 +107,7 @@ def create_combined_pdf(base_dir)
 
     tmp.flush
 
-    success = system(
-      "pandoc",
-      tmp.path,
-      "-o",
-      output_pdf,
-      "--pdf-engine=#{PDF_ENGINE}",
-      "-V", "geometry:margin=1.25in",
-      "-V", "fontsize=11pt",
-      "--resource-path=#{base_dir}"
-    )
+    success = run_pandoc(tmp.path, output_pdf, base_dir)
 
     unless success
       puts "ERROR: Failed to create combined PDF for #{base_dir}"
@@ -123,11 +119,11 @@ def create_combined_pdf(base_dir)
   true
 end
 
-# Find all directories with index.md
+# Find all directories with index.md, explicitly skipping the project root
 Dir.glob('**/index.md').each do |index_file|
   dir = File.dirname(index_file)
 
-  # Ignore the root directory (represented by "." or empty string depending on execution setup)
+  # Ignore the root directory
   next if dir == '.' || dir.empty?
 
   puts "\nProcessing directory: #{dir}"
