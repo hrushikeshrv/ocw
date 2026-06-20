@@ -20,8 +20,15 @@ These criteria are called the static discipline. Moreover, a combinational devic
 2. Every input to a sub-device must either be driven by a single previous output or a constant 1 or 0
 3. The circuit should have no cycles
 
-### Functional Specifications
+## Functional Specifications
 There are many ways to give a functional specification of a combinational device. The two main ones are:
 
 - Truth tables
 - Boolean expressions
+
+When implementing the functional specification of a circuit, we usually convert the truth table representation to a boolean expression, and implement that. However, there are many ways to optimize a standard sum-of-products type boolean expression into a minimal form that uses the fewest gates, so we use tools to synthesize circuits. These tools take as input the high-level circuit specification (in an HDL language), the set of available gates to be used, and the optimization goals (area, delay, power, etc.), and return an optimized circuit.
+
+{: .note }
+The NAND and NOR gates together are universal gates, which means you can represent any boolean expression using just those two gates.
+
+In CMOS technology, inverting gates (NAND, NOR, NOT) are faster and smaller than non-inverting gates (AND, OR).
