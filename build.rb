@@ -9,6 +9,10 @@ PDF_OUTPUT_SUBDIR = 'pdf'
 
 PDF_ENGINE = 'pdflatex'
 
+# Add any directory paths to exclude from the global combined PDF
+# Normalization will handle variations like 'algorithms', './algorithms', or 'algorithms/'
+GLOBAL_PDF_IGNORED_DIRECTORIES = ['./algorithms']
+
 # Centralized method to execute Pandoc with global configuration parameters
 def run_pandoc(input_path, output_path, resource_path)
   system(
@@ -176,15 +180,28 @@ def create_global_combined_pdf
   FileUtils.mkdir_p(root_pdf_dir)
   output_pdf = File.join(root_pdf_dir, "OCW.pdf")
 
+  # Normalize the ignore list into clean, standardized paths for strict matching
+  normalized_ignored = GLOBAL_PDF_IGNORED_DIRECTORIES.map { |d| Pathname.new(d).cleanpath.to_s }
+
   puts "\nGenerating master comprehensive PDF across all modules: #{output_pdf}"
 
   # Discover all modules containing index files, excluding the root directory
   module_dirs = Dir.glob('**/index.md')
                    .map { |f| File.dirname(f) }
                    .select { |d| d != '.' && !d.empty? }
+                   # Reject any directories that match normalized ignore list
+                   .reject { |d| normalized_ignored.include?(Pathname.new(d).cleanpath.to_s) }
                    .sort_by { |d| natural_sort_key(d) }
 
   all_md_files = []
+
+  # Prepend the project root's index.md if it exists
+  root_index = './index.md'
+  if File.exist?(root_index)
+    all_md_files << root_index
+  end
+
+  # Gather files from the rest of the valid subdirectories
   module_dirs.each do |dir|
     all_md_files.concat(ordered_markdown_files(dir))
   end
@@ -194,15 +211,41 @@ def create_global_combined_pdf
     return false
   end
 
+  # Build a global mapping of all lecture files to anchor IDs
+  global_link_mapping = {}
+  all_md_files.each do |file|
+    next if File.basename(file) == 'index.md' # Skip index structures
+
+    title = extract_h1_title(file)
+    if title
+      anchor_id = generate_pandoc_id(title)
+
+      # Map the full relative track (e.g., "6.006/fall-2011/lec1.md")
+      global_link_mapping[file.sub(/^\.\//, '')] = anchor_id
+
+      # Also map just the filename base (e.g., "lec1.md") for flexibility
+      global_link_mapping[File.basename(file)] = anchor_id
+    end
+  end
+
   Tempfile.create(['global_combined', '.md']) do |tmp|
-    # Stitch module asset spaces together so cross-directory image resolution works smoothly
-    resource_paths = module_dirs.join(File::PATH_SEPARATOR)
+    # Include the current directory '.' as part of the resource search path for assets
+    resource_paths = (['.'] + module_dirs).join(File::PATH_SEPARATOR)
 
     all_md_files.each do |file|
       tmp.puts "\n\\newpage\n\n"
 
-      # Clear front matter and handle liquid tags seamlessly
-      clean_content = sanitize_markdown(File.read(file))
+      content = File.read(file)
+      content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '') # Remove front matter
+
+      # Dynamically rewrite links for ALL index files or regular notes
+      global_link_mapping.each do |target_path, anchor_id|
+        # Matches any format: [Text]({% link 6.006/fall-2011/lec1.md %}) -> [Text](#anchor-id)
+        content = content.gsub(/\{\%\s*link\s+.*?#{Regexp.escape(target_path)}\s*\%}/, anchor_id)
+      end
+
+      # Run remaining standalone cleanups for normal Liquid tags
+      clean_content = sanitize_markdown(content)
       tmp.puts clean_content
     end
 
