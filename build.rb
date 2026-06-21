@@ -61,6 +61,11 @@ def convert_markdown_to_pdf(md_file, base_dir)
   true
 end
 
+# Helper to provide a natural sorting key by padding integers with leading zeros
+def natural_sort_key(filename)
+  filename.gsub(/\d+/) { |num| num.rjust(10, '0') }
+end
+
 # Get a list of ordered markdown files in the directory
 def ordered_markdown_files(dir)
   files = []
@@ -68,16 +73,18 @@ def ordered_markdown_files(dir)
   index_file = File.join(dir, 'index.md')
   files << index_file if File.exist?(index_file)
 
+  # Sort files naturally (lec1, lec2, ..., lec10)
   Dir.children(dir)
      .select { |f| f.end_with?('.md') && f != 'index.md' }
-     .sort
+     .sort_by { |f| natural_sort_key(f) }
      .each do |f|
        files << File.join(dir, f)
      end
 
+  # Recurse into subdirectories using natural sorting as well
   Dir.children(dir)
      .select { |f| File.directory?(File.join(dir, f)) }
-     .sort
+     .sort_by { |f| natural_sort_key(f) }
      .each do |subdir|
        files.concat(ordered_markdown_files(File.join(dir, subdir)))
      end
@@ -129,16 +136,13 @@ if target_file
     exit 1
   end
 
-  # Determine the parent directory containing the markdown file (e.g., "6.004")
-  # If the file is in a deeper subfolder, find the one containing index.md
   current_dir = File.dirname(target_file)
   until current_dir == '.' || File.exist?(File.join(current_dir, 'index.md'))
     parent = File.dirname(current_dir)
-    break if parent == current_dir # Reached filesystem root
+    break if parent == current_dir
     current_dir = parent
   end
 
-  # Default to the immediate folder if no parent index.md is found
   base_dir = current_dir == '.' ? File.dirname(target_file) : current_dir
 
   puts "Running single-file test mode..."
@@ -148,14 +152,16 @@ else
   Dir.glob('**/index.md').each do |index_file|
     dir = File.dirname(index_file)
 
-    # Ignore the root directory
     next if dir == '.' || dir.empty?
 
     puts "\nProcessing directory: #{dir}"
 
-    Dir.glob("#{dir}/**/*.md").each do |md_file|
-      convert_markdown_to_pdf(md_file, dir)
-    end
+    # Process individual files naturally
+    Dir.glob("#{dir}/**/*.md")
+       .sort_by { |f| natural_sort_key(f) }
+       .each do |md_file|
+         convert_markdown_to_pdf(md_file, dir)
+       end
 
     create_combined_pdf(dir)
   end

@@ -1,4 +1,4 @@
-name: Build Lecture PDFs
+name: Build notes PDFs
 
 on:
   push:
