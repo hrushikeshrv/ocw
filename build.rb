@@ -35,6 +35,25 @@ def sanitize_markdown(content)
   end
 end
 
+# Generates a standard Pandoc identifier anchor from a header string
+# e.g., "# Lecture 11 - Integer Arithmetic" -> "lecture-11---integer-arithmetic"
+def generate_pandoc_id(header_text)
+  id = header_text.downcase.strip
+  id = id.gsub(/[^a-z0-9\s\-]/, '') # Remove punctuation except hyphens/spaces
+  id = id.gsub(/\s+/, '-')          # Convert spaces to hyphens
+  "##{id}"
+end
+
+# Parses a markdown file to extract its main H1 title
+def extract_h1_title(file_path)
+  File.foreach(file_path) do |line|
+    if line.start_with?('# ')
+      return line.sub('# ', '').strip
+    end
+  end
+  nil
+end
+
 # Convert a markdown file to a PDF file
 def convert_markdown_to_pdf(md_file, base_dir)
   relative_path = Pathname.new(md_file).relative_path_from(Pathname.new(base_dir))
@@ -92,7 +111,7 @@ def ordered_markdown_files(dir)
   files
 end
 
-# Create a single PDF file containing all lecture notes
+# Create a single PDF file containing all lecture notes with internal working links
 def create_combined_pdf(base_dir)
   pdf_dir = File.join(base_dir, PDF_OUTPUT_SUBDIR)
   FileUtils.mkdir_p(pdf_dir)
@@ -102,14 +121,39 @@ def create_combined_pdf(base_dir)
 
   md_files = ordered_markdown_files(base_dir)
 
+  # Step 1: Map all lecture file relative tracks to their generated Pandoc header IDs
+  link_mapping = {}
+  md_files.each do |file|
+    next if File.basename(file) == 'index.md'
+
+    title = extract_h1_title(file)
+    if title
+      relative_path_from_base = Pathname.new(file).relative_path_from(Pathname.new(base_dir)).to_s
+      link_mapping[relative_path_from_base] = generate_pandoc_id(title)
+    end
+  end
+
   puts "Creating combined PDF: #{output_pdf}"
 
   Tempfile.create(['combined', '.md']) do |tmp|
     md_files.each do |file|
       tmp.puts "\n\\newpage\n\n"
 
-      clean_content = sanitize_markdown(File.read(file))
-      tmp.puts clean_content
+      content = File.read(file)
+      content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '') # Remove front matter
+
+      if File.basename(file) == 'index.md'
+        # Step 2: Swap the Liquid tags inside index.md with target cross-reference anchors
+        link_mapping.each do |rel_path, anchor_id|
+          # Matches standard or nested formats: {% link 6.006/fall-2011/lec1.md %}
+          content = content.gsub(/\{\%\s*link\s+.*?#{Regexp.escape(rel_path)}\s*\%}/, anchor_id)
+        end
+      else
+        # For non-index files, fall back to clean standard sanitization
+        content = sanitize_markdown(File.read(file))
+      end
+
+      tmp.puts content
     end
 
     tmp.flush
@@ -156,7 +200,6 @@ else
 
     puts "\nProcessing directory: #{dir}"
 
-    # Process individual files naturally
     Dir.glob("#{dir}/**/*.md")
        .sort_by { |f| natural_sort_key(f) }
        .each do |md_file|
