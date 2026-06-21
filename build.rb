@@ -82,7 +82,7 @@ end
 
 # Helper to provide a natural sorting key by padding integers with leading zeros
 def natural_sort_key(filename)
-  filename.gsub(/\d+/) { |num| num.rjust(10, '0') }
+  filename.to_s.gsub(/\d+/) { |num| num.rjust(10, '0') }
 end
 
 # Get a list of ordered markdown files in the directory
@@ -170,6 +170,57 @@ def create_combined_pdf(base_dir)
   true
 end
 
+# Compile every markdown file across all subdirectories into a single large PDF
+def create_global_combined_pdf
+  root_pdf_dir = File.join('.', PDF_OUTPUT_SUBDIR)
+  FileUtils.mkdir_p(root_pdf_dir)
+  output_pdf = File.join(root_pdf_dir, "OCW.pdf")
+
+  puts "\nGenerating master comprehensive PDF across all modules: #{output_pdf}"
+
+  # Discover all modules containing index files, excluding the root directory
+  module_dirs = Dir.glob('**/index.md')
+                   .map { |f| File.dirname(f) }
+                   .select { |d| d != '.' && !d.empty? }
+                   .sort_by { |d| natural_sort_key(d) }
+
+  all_md_files = []
+  module_dirs.each do |dir|
+    all_md_files.concat(ordered_markdown_files(dir))
+  end
+
+  if all_md_files.empty?
+    puts "No module markdown files found to aggregate."
+    return false
+  end
+
+  Tempfile.create(['global_combined', '.md']) do |tmp|
+    # Stitch module asset spaces together so cross-directory image resolution works smoothly
+    resource_paths = module_dirs.join(File::PATH_SEPARATOR)
+
+    all_md_files.each do |file|
+      tmp.puts "\n\\newpage\n\n"
+
+      # Clear front matter and handle liquid tags seamlessly
+      clean_content = sanitize_markdown(File.read(file))
+      tmp.puts clean_content
+    end
+
+    tmp.flush
+
+    success = run_pandoc(tmp.path, output_pdf, resource_paths)
+
+    unless success
+      puts "ERROR: Failed to create global master PDF"
+      puts "Exit status: #{$?.exitstatus}"
+      return false
+    end
+  end
+
+  puts "Master PDF built successfully at #{output_pdf}!"
+  true
+end
+
 # Check if a specific file path was passed via command line arguments
 target_file = ARGV[0]
 
@@ -208,6 +259,9 @@ else
 
     create_combined_pdf(dir)
   end
+
+  # Build the master combined PDF from all modules
+  create_global_combined_pdf
 end
 
 puts "\nPDF conversion complete!"
