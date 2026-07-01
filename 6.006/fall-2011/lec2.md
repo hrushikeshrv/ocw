@@ -69,7 +69,7 @@ matching, and now also machine learning and NLP.
 We find the distance between two documents using a vector representation of the documents. We 
 represent each document as an n dimensional vector, where n is the number of words in your dictionary. 
 Each element of the vector represents the frequency of that word in that document. So we represent 
-document D1 as an n dimensional vector - $ <d_1, d_2, d_3, ..., d_n> $ where di is the number of 
+document D1 as an n dimensional vector - $<d_1, d_2, d_3, ..., d_n>$ where di is the number of 
 times the ith word in the dictionary appeared in D1. We then calculate the angle between the two 
 documents by taking the inverse cosine of the dot product of the two document vectors and define the 
 angle as the similarity. A smaller angle means closely similar documents and a larger angle means 

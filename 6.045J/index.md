@@ -9,7 +9,7 @@ has_toc: false
 # MIT 6.045J - Automata, Computability, Complexity
 Taught by Prof. Scott Aaronson
 
-# Course Description
+## Course Description
 This course provides a challenging introduction to some of the central 
 ideas of theoretical computer science. It attempts to present a vision 
 of “computer science beyond computers”: that is, CS as a set of mathematical 

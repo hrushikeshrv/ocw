@@ -13,5 +13,5 @@ This course emphasizes computability and computational complexity theory. Topics
 [Course website](https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/)
 [Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLUl4u3cNGP60_JNv2MmK3wkOt9syvfQWY)
 
-# Lectures
+## Lectures
 1. [Introduction, Finite Automata, Regular Expressions]({% link 6.840/lec1.md %})

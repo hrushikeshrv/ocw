@@ -23,6 +23,8 @@ def run_pandoc(input_path, output_path, resource_path)
     "--pdf-engine=#{PDF_ENGINE}",
     "-V", "geometry:margin=1.5in",
     "-V", "fontsize=11pt",
+    "-V", "colorlinks=false",               # Set to false so the border shows up
+    "-V", "hyperrefoptions=pdfborderstyle={/S/U/W 1}", # /S/U creates an Underline style, /W 1 sets width to 1pt
     "--resource-path=#{resource_path}"
   )
 end
@@ -36,6 +38,19 @@ def sanitize_markdown(content)
   content.gsub(/\{\%\s*link\s+([^\s\%]+)\s*\%}/) do
     match = $1
     File.basename(match)
+  end
+end
+
+# Universally converts ANY {% link <path> %} sequence to its local anchor using a provided map
+def convert_jekyll_links_to_anchors(content, link_mapping)
+  content.gsub(/\{\%\s*link\s+([^\s\%]+)\s*\%}/) do
+    raw_link_path = $1.strip
+    lookup_key = raw_link_path.sub(/^\.\//, '') # Standardize lookup key format
+
+    # Try full path first, then fall back to baseline file name match
+    matched_anchor = link_mapping[lookup_key] || link_mapping[File.basename(lookup_key)]
+
+    matched_anchor ? matched_anchor : "##" # Fallback safely to a neutral marker if completely missing
   end
 end
 
@@ -56,32 +71,6 @@ def extract_h1_title(file_path)
     end
   end
   nil
-end
-
-# Convert a markdown file to a PDF file
-def convert_markdown_to_pdf(md_file, base_dir)
-  relative_path = Pathname.new(md_file).relative_path_from(Pathname.new(base_dir))
-  pdf_file = File.join(base_dir, PDF_OUTPUT_SUBDIR, relative_path.to_s.sub(/\.md$/, '.pdf'))
-
-  FileUtils.mkdir_p(File.dirname(pdf_file))
-
-  puts "Converting: #{md_file} -> #{pdf_file}"
-
-  Tempfile.create(['sanitized', '.md']) do |tmp|
-    clean_content = sanitize_markdown(File.read(md_file))
-    tmp.puts clean_content
-    tmp.flush
-
-    success = run_pandoc(tmp.path, pdf_file, base_dir)
-
-    unless success
-      puts "ERROR: Failed to convert #{md_file}"
-      puts "Exit status: #{$?.exitstatus}"
-      return false
-    end
-  end
-
-  true
 end
 
 # Helper to provide a natural sorting key by padding integers with leading zeros
@@ -115,6 +104,32 @@ def ordered_markdown_files(dir)
   files
 end
 
+# Convert a markdown file to a PDF file
+def convert_markdown_to_pdf(md_file, base_dir)
+  relative_path = Pathname.new(md_file).relative_path_from(Pathname.new(base_dir))
+  pdf_file = File.join(base_dir, PDF_OUTPUT_SUBDIR, relative_path.to_s.sub(/\.md$/, '.pdf'))
+
+  FileUtils.mkdir_p(File.dirname(pdf_file))
+
+  puts "Converting: #{md_file} -> #{pdf_file}"
+
+  Tempfile.create(['sanitized', '.md']) do |tmp|
+    clean_content = sanitize_markdown(File.read(md_file))
+    tmp.puts clean_content
+    tmp.flush
+
+    success = run_pandoc(tmp.path, pdf_file, base_dir)
+
+    unless success
+      puts "ERROR: Failed to convert #{md_file}"
+      puts "Exit status: #{$?.exitstatus}"
+      return false
+    end
+  end
+
+  true
+end
+
 # Create a single PDF file containing all lecture notes with internal working links
 def create_combined_pdf(base_dir)
   pdf_dir = File.join(base_dir, PDF_OUTPUT_SUBDIR)
@@ -134,6 +149,7 @@ def create_combined_pdf(base_dir)
     if title
       relative_path_from_base = Pathname.new(file).relative_path_from(Pathname.new(base_dir)).to_s
       link_mapping[relative_path_from_base] = generate_pandoc_id(title)
+      link_mapping[File.basename(file)] = generate_pandoc_id(title)
     end
   end
 
@@ -146,18 +162,20 @@ def create_combined_pdf(base_dir)
       content = File.read(file)
       content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '') # Remove front matter
 
-      if File.basename(file) == 'index.md'
-        # Step 2: Swap the Liquid tags inside index.md with target cross-reference anchors
-        link_mapping.each do |rel_path, anchor_id|
-          # Matches standard or nested formats: {% link 6.006/fall-2011/lec1.md %}
-          content = content.gsub(/\{\%\s*link\s+.*?#{Regexp.escape(rel_path)}\s*\%}/, anchor_id)
-        end
+      # Convert Jekyll links using the separate refactored method
+      content = convert_jekyll_links_to_anchors(content, link_mapping)
+
+      # Shift header depths dynamically while safely preserving trailing spacing
+      is_course_index = (File.basename(file) == 'index.md')
+      if is_course_index
+        content = content.gsub(/^(#+)(\s+)/) { "#{$1}##{$2}" }
       else
-        # For non-index files, fall back to clean standard sanitization
-        content = sanitize_markdown(File.read(file))
+        content = content.gsub(/^(#+)(\s+)/) { "#{$1}###{$2}" }
       end
 
-      tmp.puts content
+      # Run remaining standalone cleanups for normal Liquid tags
+      clean_content = sanitize_markdown(content)
+      tmp.puts clean_content
     end
 
     tmp.flush
@@ -238,10 +256,21 @@ def create_global_combined_pdf
       content = File.read(file)
       content = content.sub(/\A---\s*\n.*?\n---\s*\n/m, '') # Remove front matter
 
-      # Dynamically rewrite links for ALL index files or regular notes
-      global_link_mapping.each do |target_path, anchor_id|
-        # Matches any format: [Text]({% link 6.006/fall-2011/lec1.md %}) -> [Text](#anchor-id)
-        content = content.gsub(/\{\%\s*link\s+.*?#{Regexp.escape(target_path)}\s*\%}/, anchor_id)
+      # Convert Jekyll links via the refactored centralized method
+      content = convert_jekyll_links_to_anchors(content, global_link_mapping)
+
+      # Shift header depths dynamically while safely preserving trailing spacing
+      is_root_index = (file == root_index)
+      is_course_index = (File.basename(file) == 'index.md' && !is_root_index)
+      is_lecture_file = (!is_root_index && !is_course_index)
+
+      # For the global combined PDF we want each course to appear as a top-level
+      # heading (not nested under the root "Course List"). Therefore, do NOT
+      # increase header depth for course index files — leave their headers as-is
+      # so the course title remains an H1. Lecture files still get their headers
+      # shifted down to remain nested under their course.
+      if is_lecture_file
+        content = content.gsub(/^(#+)(\s+)/) { "#{$1}###{$2}" }
       end
 
       # Run remaining standalone cleanups for normal Liquid tags

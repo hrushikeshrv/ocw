@@ -37,7 +37,7 @@ which is the _complement_ of $HALT$, it lies even outside the class of recogniza
 ## Reductions
 Reductions are a way of solving a problem that you don't know how to solve using
 a solution to a problem that you do know how to solve. Reductions were seen before
-in [6.006](../6.006/index.md) and [6.046](../6.046/index.md). Reductions are seen 
+in [6.006]({% link 6.006/fall-2011/index.md %}) and [6.046]({% link 6.046/index.md %}). Reductions are seen 
 everywhere in computer science, and are especially useful while proving the NP-completeness
 (or incompleteness) of some problem. Similarly, you can also use them to show that some 
 problems are decidable or undecidable.

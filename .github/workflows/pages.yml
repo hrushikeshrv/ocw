@@ -21,16 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          ruby-version: '3.2'
-          bundler-cache: true
-          cache-version: 0
-
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
+          python-version: '3.14'
 
       - name: Install Pandoc and LaTeX (pdflatex)
         run: |
@@ -38,7 +32,11 @@ jobs:
           sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-latex-extra
 
       - name: Generate PDFs
-        run: ruby build.rb
+        run: python build.py
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
 
       # Jekyll will automatically include the generated pdf/ subdirectories into ./_site
       - name: Build with Jekyll

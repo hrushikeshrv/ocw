@@ -9,7 +9,7 @@ has_toc: false
 # MIT 6.046 - Design & Analysis of Algorithms
 Taught by Prof. Erik Demaine, Prof. Srini Devadas, and Prof. Nancy Lynch
 
-# Course Description
+## Course Description
 This is an intermediate algorithms course with an emphasis on teaching techniques for the design and 
 analysis of efficient algorithms, emphasizing methods of application. Topics include divide-and-conquer, randomization, 
 dynamic programming, greedy algorithms, incremental improvement, complexity, and cryptography.
