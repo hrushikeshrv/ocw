@@ -33,6 +33,10 @@ from tempfile import NamedTemporaryFile
 # PDFs will be generated in the "pdf" subdirectory in each directory
 PDF_OUTPUT_SUBDIR = "pdf"
 PDF_ENGINE = "pdflatex"
+IGNORED_DIRECTORIES = [
+    "algorithms",
+    "test"
+]
 
 # The build script should always be run from the project root
 # so this should always give us the project root
@@ -63,13 +67,21 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         "-V", "geometry:margin=1.5in",
         "-V", "fontsize=11pt",
         "-V" "colorlinks=false",
-        "-V", "hyperrefoptions=pdfborderstyle={/S/U/W 1},pdfnewwindow=true",
+        '-V', 'header-includes=\\usepackage{fancyhdr}',
+        '-V', 'header-includes=\\pagestyle{fancy}',
+        '-V', 'header-includes=\\fancyhf{}',
+        '-V', 'header-includes=\\renewcommand{\\headrulewidth}{0pt}',
+        '-V', 'header-includes=\\renewcommand{\\footrulewidth}{0.4pt}',
+        '-V', 'header-includes=\\usepackage{hyperref}',
+        '-V', 'header-includes=\\hypersetup{pdfborderstyle={/S/U/W 1}}',
+        '-V', 'header-includes=\\lfoot{\\href{https://hrus.in/ocw}{hrus.in/ocw}}',
+        '-V', 'header-includes=\\cfoot{\\thepage}'
     ]
     try:
         subprocess.run(cmd, check=True)
         return True
     except subprocess.CalledProcessError as e:
-        print(f'Error running pandoc on {input_path}: {e}')
+        print(f'Error generating {output_path}')
         return False
 
 
@@ -94,11 +106,12 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
     )
 
     if mode == ConversionType.SINGLE_FILE:
-        print(f'Getting file directory relative to root for {file_path}')
+        # Get the parent directory for this markdown file. Example:
+        # 6.004/index.md -> PROJECT_ROOT / 6.004
         file_dir_rel_to_root = (PROJECT_ROOT / file_path).parent
-        print(f'Got {file_dir_rel_to_root}')
 
         def link_replacer(match: re.Match) -> str:
+            # Matched a standard Markdown link (./media/lec1.png)
             if match.group(1) is not None:
                 link_text = match.group(1)
                 raw_path = str(match.group(2).lstrip('/'))
@@ -108,10 +121,12 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
                 else:
                     root_path = Path(raw_path)
                 return f"[{link_text}]({root_path.as_posix()})"
+            # Matched a liquid style link ({% link 6.004/lec2.md %})
             else:
                 link_text = match.group(3)
                 root_path = Path(str(match.group(4).strip()))
                 return f"[{link_text}]({root_path.as_posix()})"
+
         return link_regex.sub(link_replacer, content)
     return content
 
@@ -145,8 +160,32 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
         with open(input_path, "r", encoding="utf-8") as f:
             content = f.read()
 
+        # If the file is a lecture file, and it has front matter, replace
+        # the title property in the front matter of this file with the
+        # title property in the front matter of the index.md file in this
+        # directory, if present
+        index_md_path = base_dir / "index.md"
+        index_title = ""
+        if input_path.name.startswith("lec") and index_md_path.exists():
+            with open(index_md_path, encoding="utf-8") as f:
+                matches = re.findall(r"^title:\s*(.*)$", f.read(), flags=re.MULTILINE)
+                if matches:
+                    index_title = matches[0].strip()
+
         with NamedTemporaryFile(mode="w+", suffix=".md", delete=False, encoding="utf-8") as tnf:
-            tnf.write(sanitize_markdown(content, input_path, mode))
+            sanitized_content = sanitize_markdown(content, input_path, mode)
+
+            # Replace the title inside the front matter if index_title was successfully found
+            if index_title:
+                # Find the front matter boundaries explicitly at the start of the sanitized content
+                front_matter_match = re.match(r"\A---.*?---", sanitized_content, flags=re.DOTALL)
+                if front_matter_match:
+                    front_matter = front_matter_match.group(0)
+                    # Safely swap out just the line beginning with "title:" inside the front matter block
+                    updated_front_matter = re.sub(r"(^title:\s*)(.*)$", r"\1" + index_title, front_matter, flags=re.MULTILINE)
+                    sanitized_content = sanitized_content.replace(front_matter, updated_front_matter, 1)
+
+            tnf.write(sanitized_content)
             tnf.flush()
             tmp_name = tnf.name
 
@@ -161,11 +200,19 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "input",
-        help="Input markdown file path",
+        help="Path to the markdown file or a directory containing markdown files. An index.md must be present if passing a directory.",
         type=str,
         default=""
     )
     args = parser.parse_args()
 
     if args.input:
-        markdown_to_pdf(Path(args.input), ConversionType.SINGLE_FILE)
+        ip_path = Path(args.input)
+        if not ip_path.exists():
+            print("Input path does not exist")
+            sys.exit(1)
+
+        if ip_path.is_dir():
+            markdown_to_pdf(ip_path, ConversionType.DIRECTORY)
+        elif ip_path.is_file():
+            markdown_to_pdf(ip_path, ConversionType.SINGLE_FILE)
