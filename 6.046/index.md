@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MIT 6.046 - Design & Analysis of Algorithms
-nav_order: 4
 has_children: true
 has_toc: false
 ---

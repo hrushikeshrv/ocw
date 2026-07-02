@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MIT 6.004 - Computation Structures
-nav_order: 3
 has_children: true
 has_toc: false
 ---

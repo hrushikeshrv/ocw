@@ -80,6 +80,6 @@ Merge sort involves dividing the arrays ${log}_{2}(n)$ times, and the merge rout
 
 $$ T(n) = \Theta(1) + \Theta(n) + 2 \cdot T(n/2) $$
 
-The $O(1)$ comes from splitting the array into two halves, and the $O(n)$ comes from the work required to merge the two half-arrays after they have been sorted. Solving this recurrence using the techniques given in [6.042J lecture 15]({% link 6.042J/lec15.md %}), we get the time complexity of merge sort to be $O(n \cdot log\,n)$.
+The $O(1)$ comes from splitting the array into two halves, and the $O(n)$ comes from the work required to merge the two half-arrays after they have been sorted. Solving this recurrence using the techniques given in 6.042J lecture 15, we get the time complexity of merge sort to be $O(n \cdot log\,n)$.
 
 One disadvantage of merge sort is that it is not in place. To sort an array you have to essentially create a sorted copy of it in memory, which may not be possible if the array is too big to fit twice into memory. In this case, insertion sort may be preferred, since even though it is $O(n^2)$, it is in place. There does exist an in place version of merge sort, but it doesn’t do too well on the constant factors, so we prefer quick sort, or any other in place algorithm instead of merge sort.

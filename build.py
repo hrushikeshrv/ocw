@@ -122,6 +122,9 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
                     root_path = Path(raw_path)
                 return f"[{link_text}]({root_path.as_posix()})"
             # Matched a liquid style link ({% link 6.004/lec2.md %})
+            # In single file conversion mode, if this link does not
+            # point to the same file, just remove the link and return
+            # the normal text.
             else:
                 link_text = match.group(3)
                 root_path = Path(str(match.group(4).strip()))
@@ -200,19 +203,29 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "input",
-        help="Path to the markdown file or a directory containing markdown files. An index.md must be present if passing a directory.",
+        help="Path to the markdown file or directory containing markdown files. An index.md must be present if passing a directory.",
         type=str,
+        nargs="*",
         default=""
+    )
+    parser.add_argument(
+        '--test',
+        help="Test the build script by running on the test/ directory",
+        action="store_true"
     )
     args = parser.parse_args()
 
-    if args.input:
-        ip_path = Path(args.input)
-        if not ip_path.exists():
-            print("Input path does not exist")
-            sys.exit(1)
+    if args.test:
+        print('Testing')
 
-        if ip_path.is_dir():
-            markdown_to_pdf(ip_path, ConversionType.DIRECTORY)
-        elif ip_path.is_file():
-            markdown_to_pdf(ip_path, ConversionType.SINGLE_FILE)
+    if args.input:
+        for path in args.input:
+            ip_path = Path(path)
+            if not ip_path.exists():
+                print(f"Input path {path} does not exist")
+                sys.exit(1)
+
+            if ip_path.is_dir():
+                markdown_to_pdf(ip_path, ConversionType.DIRECTORY)
+            elif ip_path.is_file():
+                markdown_to_pdf(ip_path, ConversionType.SINGLE_FILE)
