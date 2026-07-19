@@ -105,33 +105,118 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
         r'\[([^]]+)]\(\{%\s*link\s+([^%}]+)\s*%}\)'
     )
 
-    if mode == ConversionType.SINGLE_FILE:
-        # Get the parent directory for this markdown file. Example:
-        # 6.004/index.md -> PROJECT_ROOT / 6.004
-        file_dir_rel_to_root = (PROJECT_ROOT / file_path).parent
+    # Get the parent directory for this markdown file. Example:
+    # 6.004/index.md -> PROJECT_ROOT / 6.004
+    # In directory conversion mode or global conversion mode,
+    # This will still point to the right parent directory
+    # since the named temp file to store the markdown contents
+    # will be created in the right subdirectory.
+    #
+    # For example:
+    # if converting the single file PROJECT_ROOT/6.004/lec1.md, we will
+    # get PROJECT_ROOT/6.004.
+    # If converting the whole directory PROJECT_ROOT/6.004, we will still
+    # get PROJECT_ROOT/6.004
+    # If converting globally, we will get PROJECT_ROOT
+    file_dir_rel_to_root = (PROJECT_ROOT / file_path).parent
 
-        def link_replacer(match: re.Match) -> str:
-            # Matched a standard Markdown link (./media/lec1.png)
-            if match.group(1) is not None:
-                link_text = match.group(1)
-                raw_path = str(match.group(2).lstrip('/'))
+    def link_replacer(match: re.Match) -> str:
+        # Matched a standard Markdown link (./media/lec1.png)
+        # The conversion process is the same for all conversion modes
+        if match.group(1) is not None:
+            link_text = match.group(1)
+            raw_path = str(match.group(2).lstrip('/'))
 
-                if file_dir_rel_to_root != Path("."):
-                    root_path = file_dir_rel_to_root / raw_path
-                else:
-                    root_path = Path(raw_path)
-                return f"[{link_text}]({root_path.as_posix()})"
-            # Matched a liquid style link ({% link 6.004/lec2.md %})
-            # In single file conversion mode, if this link does not
-            # point to the same file, just remove the link and return
-            # the normal text.
+            if file_dir_rel_to_root != Path("."):
+                root_path = file_dir_rel_to_root / raw_path
             else:
-                link_text = match.group(3)
-                root_path = Path(str(match.group(4).strip()))
-                return f"[{link_text}]({root_path.as_posix()})"
+                root_path = Path(raw_path)
+            return f"[{link_text}]({root_path.as_posix()})"
 
-        return link_regex.sub(link_replacer, content)
-    return content
+        # Matched a liquid style link ({% link 6.004/lec2.md %})
+        else:
+            link_text = match.group(3)
+            # In single file conversion mode just remove the link and return
+            # the normal text.
+            if mode == ConversionType.SINGLE_FILE:
+                return link_text
+            # In directory conversion mode, check if the link points to a file
+            # in the same directory. If so, convert it. If not, remove it.
+            elif mode == ConversionType.DIRECTORY:
+                link_parent_directory = match.group(4).split('/')[0]
+                link_path_after_directory = '/'.join(match.group(4).split('/')[1:])
+                if file_dir_rel_to_root.name == link_parent_directory:
+                    return f"[{link_text}]({(file_dir_rel_to_root / link_path_after_directory).as_posix()})"
+                return link_text
+            # We should always be able to convert links in global mode.
+            else:
+                assert mode == ConversionType.GLOBAL
+                link_path = Path(str(match.group(4).lstrip('/')))
+                return f"[{link_text}]({(PROJECT_ROOT / link_path).as_posix()})"
+
+    return link_regex.sub(link_replacer, content)
+
+
+def get_ordered_markdown_files(directory: Path) -> list[Path]:
+    """
+    Return a list of markdown files in the directory, ordered by the natural sort
+    order instead of the strict alphabetical order. Example: lec2.md is returned before
+    lec10.md
+    :param directory: The directory to search for markdown files (recurses into subdirectories)
+    :return: A list of `Path` objects in natural sort order
+    """
+    def natural_sort_key(filename):
+        filename_str = str(filename)
+        return [int(text) if text.isdigit() else text.lower() for text in re.split(r"(\d+)", filename_str)]
+
+    files = []
+    index_path = directory / "index.md"
+    if index_path.exists():
+        files.append(index_path)
+
+    # Sort files naturally
+    try:
+        children = sorted(directory.iterdir(), key=lambda p: natural_sort_key(p.name))
+    except FileNotFoundError:
+        return files
+
+    for child in children:
+        if child.is_file() and child.suffix == ".md" and child.name != "index.md":
+            files.append(child)
+
+    # Recurse into subdirectories using natural sorting
+    for child in children:
+        if child.is_dir():
+            files.extend(get_ordered_markdown_files(child))
+
+    return files
+
+
+def get_markdown_for_directory(input_path: Path, mode: ConversionType) -> str:
+    """
+    Returns the combined content for all markdown files in the passed `input_path`.
+    First appends the contents of `index.md` if present, then the sanitized content
+    of all markdown files in the current directory (in natural alphabetical order),
+    then recursively gets content for subdirectories.
+    :param input_path: The directory to search for markdown files
+    :param mode: The conversion mode
+    :return: Valid markdown contents as a string
+    """
+    if not input_path.is_dir():
+        raise ValueError("input_path must be a directory")
+
+    result = ""
+    ordered_files = get_ordered_markdown_files(input_path)
+
+    for file in ordered_files:
+        if result:
+            contents = file.read_text(encoding="utf-8")
+            contents = re.sub(r"^\s*---.*?---", "", contents, count=1, flags=re.DOTALL | re.MULTILINE)
+            result += sanitize_markdown(contents, file, mode)
+        else:
+            result += sanitize_markdown(file.read_text(encoding="utf-8"), file, mode)
+        result += "\n\\newpage\n\n"
+    return result
 
 
 def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
@@ -143,7 +228,12 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
         a single file. If `mode` is `ConversationType.DIRECTORY`, `input_path` must be
         a path to a directory containing an index.md file. If `mode` is
         `ConversationType.GLOBAL`, `input_path` must be None.
-    :param mode: The type of PDF file being generated
+    :param mode: The type of PDF file being generated. If mode is `ConversionType.SINGLE_FILE`,
+        converts a single file from Markdown to PDF. If mode is `ConversionType.DIRECTORY`,
+        combines the content of all the markdown files in the `input_path` directory (recursively
+        visiting subdirectories) and generates one PDF from the combined content. If mode is
+        `ConversionType.GLOBAL`, does the same operation as directory level conversion, but at
+        the project root level.
     :return:
     """
     if mode == ConversionType.GLOBAL and input_path is not None:
@@ -185,7 +275,7 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
                 if front_matter_match:
                     front_matter = front_matter_match.group(0)
                     # Safely swap out just the line beginning with "title:" inside the front matter block
-                    updated_front_matter = re.sub(r"(^title:\s*)(.*)$", r"\1" + index_title, front_matter, flags=re.MULTILINE)
+                    updated_front_matter = re.sub(r"(^title:\s*)(.*)$", r"\1" + index_title + r" \2", front_matter, flags=re.MULTILINE)
                     sanitized_content = sanitized_content.replace(front_matter, updated_front_matter, 1)
 
             tnf.write(sanitized_content)
@@ -195,6 +285,26 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
         success = run_pandoc(Path(tmp_name), output_path, base_dir, mode)
         os.unlink(tmp_name)
         
+        if not success:
+            print(f"Error: failed to convert {input_path}")
+
+    else:
+        assert (mode == ConversionType.DIRECTORY or mode == ConversionType.GLOBAL)
+        if mode == ConversionType.GLOBAL:
+            input_path = PROJECT_ROOT
+        output_path = input_path / PDF_OUTPUT_SUBDIR / (input_path.name + ".pdf")
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"Converting [{mode}]: {input_path} -> {output_path}")
+
+        with NamedTemporaryFile(mode="w+", suffix=".md", delete=False, encoding="utf-8") as tnf:
+            tnf.write(get_markdown_for_directory(input_path, mode))
+            tnf.flush()
+            tmp_name = tnf.name
+
+        success = run_pandoc(Path(tmp_name), output_path, input_path, mode)
+        os.unlink(tmp_name)
+
         if not success:
             print(f"Error: failed to convert {input_path}")
 
