@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 6
 ---
 
-# Decidability
+# Lecture 6 - Decidability
 An important theorem regarding Turing machines is that a Turing machine can simulate other Turing 
 machines, which can potentially be more complicated than itself. That is, a Turing machine A can
 act as an _interpreter_ for Turing machine B, and B can be much more complicated than A.

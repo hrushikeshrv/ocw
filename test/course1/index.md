@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Course 1 
-nav_order: 1
 has_children: true
 nav_exclude: true
 has_toc: false
@@ -29,5 +28,5 @@ topics.
 [Lecture Videos (YouTube)](https://www.youtube.com/playlist?list=PLmUkKyGlHupqtANK5Pmo1gjLlmW1pF1q7)
 
 ## Lectures
-1. [Introduction]({% link test/course1/lec1.md %})
+1. [Turing Recognizability, Oracles]({% link test/course1/lec1.md %})
 2. [Logic, Circuits, and Gates]({% link test/course1/lec2.md %})

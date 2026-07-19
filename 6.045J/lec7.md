@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 7
 ---
 
-# Turing Recognizability, Oracles
+# Lecture 7 - Turing Recognizability, Oracles
 
 ## Turing Recognizability
 We now define a new kind of language, a Turing Recognizable language - very similar

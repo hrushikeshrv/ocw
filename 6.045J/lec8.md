@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 8
 ---
 
-# Turing Degrees, Dovetailing, Godel
+# Lecture 8 - Turing Degrees, Dovetailing, Godel
 
 In the last lecture we defined Turing degrees, which are basically sets of languages.
 A Turing degree consists of a set of languages that can all be reduced to another 

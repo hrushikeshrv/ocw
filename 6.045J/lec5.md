@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 5
 ---
 
-# Turing Machines
+# Lecture 5 - Turing Machines
 Alan Turing, in 1936, proposed a more powerful model of the finite automata, called the Turing machine
 (On Computable Numbers, [A.M. Turing, 1936](https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf)).
 

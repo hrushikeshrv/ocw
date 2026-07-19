@@ -5,9 +5,15 @@ parent: Course 1
 nav_order: 1
 ---
 
-# Turing Recognizability, Oracles
-
+# Lecture 1 - Turing Recognizability, Oracles
 ## Turing Recognizability
+
+[Test link to next section](#reductions)
+
+[Test link to next lecture]({% link test/course1/lec2.md %})
+
+[Test link to next course]({% link test/course2/lec1.md %})
+
 We now define a new kind of language, a Turing Recognizable language - very similar
 to a decidable language, with one key difference.
 
