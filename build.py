@@ -136,6 +136,8 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
         # Matched a liquid style link ({% link 6.004/lec2.md %})
         else:
             link_text = match.group(3)
+            link_path = Path(str(match.group(4).lstrip('/')))
+            link_path_absolute = link_path.resolve()
             # In single file conversion mode just remove the link and return
             # the normal text.
             if mode == ConversionType.SINGLE_FILE:
@@ -145,13 +147,16 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
             elif mode == ConversionType.DIRECTORY:
                 link_parent_directory = match.group(4).split('/')[0]
                 link_path_after_directory = '/'.join(match.group(4).split('/')[1:])
-                if file_dir_rel_to_root.name == link_parent_directory:
-                    return f"[{link_text}]({(file_dir_rel_to_root / link_path_after_directory).as_posix()})"
+                if link_path_absolute.is_relative_to(file_dir_rel_to_root):
+                    # The link points to a file in the same directory. Open the file
+                    # to extract the first H1 in the file and return that link. This
+                    # assumes that all Markdown files start with an H1, which sounds
+                    # like an OK assumption.
+                    return f"[{link_text}]({link_path.as_posix()})"
                 return link_text
             # We should always be able to convert links in global mode.
             else:
                 assert mode == ConversionType.GLOBAL
-                link_path = Path(str(match.group(4).lstrip('/')))
                 return f"[{link_text}]({(PROJECT_ROOT / link_path).as_posix()})"
 
     return link_regex.sub(link_replacer, content)
