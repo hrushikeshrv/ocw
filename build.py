@@ -85,6 +85,14 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         return False
 
 
+def get_anchor_from_md_heading(header_text: str) -> str:
+    """Generates a standard Pandoc identifier anchor from a Markdown header string."""
+    id_str = header_text.lower().strip()
+    id_str = re.sub(r"[^a-z0-9\s\-]", "", id_str)  # Remove punctuation except hyphens/spaces
+    id_str = re.sub(r"\s+", "-", id_str)           # Convert spaces to hyphens
+    return f"#{id_str}"
+
+
 def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> str:
     """
     Sanitizes content and links found in any arbitrary markdown file into content and links
@@ -98,11 +106,11 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
     """
     # Combined regex pattern
     # Group 1 & 2: Text and Path for standard relative links like [text](./path)
-    # Group 3 & 4: Text and Path for Liquid tags like [text]({% link path %})
+    # Group 3, 4, & 5: Text, File Path, and Anchor (#heading-id) for Liquid links
     link_regex = re.compile(
         r'\[([^]]+)]\(\.(/[^)]+)\)'
         r'|'
-        r'\[([^]]+)]\(\{%\s*link\s+([^%}]+)\s*%}\)'
+        r'\[([^]]+)]\(\{%\s*link\s+([^%}\s]+)\s*%}\s*(#[^)]+)?\)'
     )
 
     # Get the parent directory for this markdown file. Example:
@@ -138,6 +146,7 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
             link_text = match.group(3)
             link_path = Path(str(match.group(4).lstrip('/')))
             link_path_absolute = link_path.resolve()
+            anchor_fragment = match.group(5) or ""
             # In single file conversion mode just remove the link and return
             # the normal text.
             if mode == ConversionType.SINGLE_FILE:
@@ -145,19 +154,43 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
             # In directory conversion mode, check if the link points to a file
             # in the same directory. If so, convert it. If not, remove it.
             elif mode == ConversionType.DIRECTORY:
-                link_parent_directory = match.group(4).split('/')[0]
-                link_path_after_directory = '/'.join(match.group(4).split('/')[1:])
                 if link_path_absolute.is_relative_to(file_dir_rel_to_root):
                     # The link points to a file in the same directory. Open the file
                     # to extract the first H1 in the file and return that link. This
-                    # assumes that all Markdown files start with an H1, which sounds
+                    # assumes that all Markdown files start with an H1, which seems
                     # like an OK assumption.
-                    return f"[{link_text}]({link_path.as_posix()})"
+                    # If an anchor fragment exists (e.g., #specific-section), use it as a local anchor link
+                    if anchor_fragment:
+                        return f"[{link_text}]({anchor_fragment})"
+
+                    # Otherwise, extract the H1 title from target file and generate Pandoc anchor
+                    if link_path_absolute.exists():
+                        with open(link_path_absolute, 'r', encoding='utf-8') as f:
+                            for line in f:
+                                if line.startswith("# "):
+                                    h1_title = line.replace("# ", "").strip()
+                                    anchor_id = get_anchor_from_md_heading(h1_title)  # Uses your Pandoc ID generator
+                                    return f"[{link_text}]({anchor_id})"
+                    return link_text
                 return link_text
             # We should always be able to convert links in global mode.
             else:
                 assert mode == ConversionType.GLOBAL
-                return f"[{link_text}]({(PROJECT_ROOT / link_path).as_posix()})"
+                # If pointing to a specific section fragment, prefer local internal link (#specific-section)
+                if anchor_fragment:
+                    return f"[{link_text}]({anchor_fragment})"
+
+                # Otherwise, target the top H1 anchor of the referenced file
+                if link_path_absolute.exists():
+                    with open(link_path_absolute, 'r', encoding='utf-8') as f:
+                        for line in f:
+                            if line.startswith("# "):
+                                h1_title = line.replace("# ", "").strip()
+                                anchor_id = get_anchor_from_md_heading(h1_title)
+                                return f"[{link_text}]({anchor_id})"
+
+                # Fallback to just removing the link
+                return link_text
 
     return link_regex.sub(link_replacer, content)
 

@@ -12,7 +12,9 @@ nav_order: 1
 
 [Test link to next lecture]({% link test/course1/lec2.md %})
 
-[Test link to next course]({% link test/course2/lec1.md %})
+[Test link to specific heading in next lecture]({% link test/course1/lec2.md %}#gates-and-p-vs-np)
+
+[Test link to next course]({% link test/course2/index.md %})
 
 We now define a new kind of language, a Turing Recognizable language - very similar
 to a decidable language, with one key difference.
