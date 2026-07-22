@@ -30,3 +30,4 @@ topics.
 ## Lectures
 1. [Turing Recognizability, Oracles]({% link test/course1/lec1.md %})
 2. [Logic, Circuits, and Gates]({% link test/course1/lec2.md %})
+3. [Turing Degrees, Dovetailing, Godel]({% link test/course1/lec10.md %})

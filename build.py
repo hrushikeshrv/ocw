@@ -58,6 +58,45 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
     :param mode: The type of PDF file being generated
     :return: True if successful, False otherwise
     """
+    latex_callouts_setup = (
+        "\\usepackage[most]{tcolorbox}\n"
+        "\\usepackage{xcolor}\n"
+
+        # Base setup for Textbook-Style Callout Boxes
+        "\\tcbset{\n"
+        "  textbookbox/.style={\n"
+        "    frame hidden,\n"                  # Remove top, right, bottom borders
+        "    leftrule=4pt,\n"                   # Clean vertical accent bar on the left
+        "    rightrule=0pt, toprule=0pt, bottomrule=0pt,\n"
+        # "    arc=0pt, outer arc=0pt,\n"         # Sharp corners for a classic textbook feel
+        "    left=10pt, right=10pt, top=8pt, bottom=8pt,\n" # Padding
+        "    fonttitle=\\bfseries\\sffamily,\n"  # Sans-serif bold title
+        "    coltitle=black,\n"
+        "    attach title to upper={\\par\\vspace{2pt}},\n" # Title sits nicely above content
+        "  }\n"
+        "}\n"
+
+        # 1. 'Note' or 'Remark' Box 
+        "\\newtcolorbox{calloutnote}[1][Note]{"
+        "  textbookbox, colback=gray!8!white, colframe=cyan!60!black, title={#1}"
+        "}\n"
+
+        # 2. 'Warning' or 'Caution' Box 
+        "\\newtcolorbox{calloutwarning}[1][Warning]{"
+        "  textbookbox, colback=orange!8!white, colframe=yellow!70!black, title={#1}"
+        "}\n"
+
+        # 3. 'Important' or 'Theorem / Lemma' Box
+        "\\newtcolorbox{calloutimportant}[1][Important]{"
+        "  textbookbox, colback=green!6!white, colframe=lime!40!black, title={#1}"
+        "}\n"
+
+        # 4. Fallback 'New' / 'Aside' Box
+        "\\newtcolorbox{calloutnew}[1][Aside]{"
+        "  textbookbox, colback=gray!10!white, colframe=gray!70!black, title={#1}"
+        "}\n"
+    )
+
     cmd = [
         "pandoc",
         str(input_path),
@@ -75,6 +114,7 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         '-V', 'header-includes=\\usepackage{hyperref}',
         '-V', 'header-includes=\\hypersetup{pdfborderstyle={/S/U/W 1}}',
         '-V', 'header-includes=\\lfoot{\\href{https://hrus.in/ocw}{hrus.in/ocw}}',
+        '-V', f'header-includes={latex_callouts_setup}',
         '-V', 'header-includes=\\cfoot{\\thepage}'
     ]
     try:
@@ -192,8 +232,30 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
                 # Fallback to just removing the link
                 return link_text
 
-    return link_regex.sub(link_replacer, content)
+    def callout_replacer(match: re.Match) -> str:
+        """
+        Converts Just the Docs paragraphs into LaTeX textbook environments
+        """
+        text = match.group(1).strip()
+        callout_type = match.group(2).lower()
+        custom_title = match.group(3)
 
+        env_map = {
+            "note": "calloutnote",
+            "warning": "calloutwarning",
+            "important": "calloutimportant",
+            "new": "calloutnew"
+        }
+        env_name = env_map.get(callout_type, "calloutnote")
+        title_str = custom_title if custom_title else callout_type.capitalize()
+        return f"\\begin{{{env_name}}}[{title_str}]\n{text}\n\\end{{{env_name}}}"
+
+    callout_regex = re.compile(
+        r'([^\n]+(?:\n[^\n]+)*)\n*\{\:\s*\.([a-zA-Z0-9_-]+)(?:\s+title=["\']([^"\']+)["\'])?\s*\}'
+    )
+
+    content = callout_regex.sub(callout_replacer, content)
+    return link_regex.sub(link_replacer, content)
 
 def get_ordered_markdown_files(directory: Path) -> list[Path]:
     """
