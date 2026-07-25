@@ -39,3 +39,4 @@ problems.
 17. [Bellman-Ford]({% link 6.006/fall-2011/lec17.md %})
 18. [Speeding up Dijkstra]({% link 6.006/fall-2011/lec18.md %})
 19. [Dynamic Programming 1: Fibonacci, Shortest Paths]({% link 6.006/fall-2011/lec19.md %})
+20. [Dynamic Programming 3: Parenthesization, Edit Distance, Knapsack]({% link 6.006/fall-2011/lec21.md %})

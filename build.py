@@ -121,6 +121,8 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         str(input_path),
         "-o",
         str(output_path),
+        '-s' if mode == ConversionType.GLOBAL else '',
+        '--toc' if mode == ConversionType.GLOBAL else '',
         f"--pdf-engine={PDF_ENGINE}",
         "-V", "geometry:margin=1.5in",
         "-V", "fontsize=11pt",
@@ -391,12 +393,32 @@ def get_markdown_for_directory(input_path: Path, mode: ConversionType) -> str:
     ordered_files = get_ordered_markdown_files(input_path)
 
     for file in ordered_files:
+        # If we already have content, strip the front matter
         if result:
             contents = file.read_text(encoding="utf-8")
             contents = re.sub(r"^\s*---.*?---", "", contents, count=1, flags=re.DOTALL | re.MULTILINE)
             result += sanitize_markdown(contents, file, mode)
         else:
-            result += sanitize_markdown(file.read_text(encoding="utf-8"), file, mode)
+            content = file.read_text(encoding="utf-8")
+            content_lines = content.split('\n')
+            title = ''
+            for line in content_lines:
+                if line.startswith('# '):
+                    title = line.split('# ')[1].strip()
+                    break
+
+            if mode == ConversionType.GLOBAL and file.name == "index.md":
+                # Replace the title key in the front matter with "OpenCourseWare & Other Course Notes"
+                content = re.sub(
+                    r"(?m)^title:\s*.*$", f"title: {title}", content, count=1
+                )
+                # Put \newpage after the end of the frontmatter to force a new page after pandoc
+                # autogenerates a table of contents
+                content = re.sub(
+                    r"(^\s*---.*?---)", r"\1\n\\newpage\n", content, count=1, flags=re.DOTALL | re.MULTILINE
+                )
+
+            result += sanitize_markdown(content, file, mode)
         result += "\n\\newpage\n\n"
     return result
 
