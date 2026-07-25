@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Lecture 2 - Combinational Devices and Boolean Algebra 
-parent: MIT 6.004 - Computation Structures
+title: Lecture 2 - Combinational Devices and Boolean Algebra
+parent: Course 2 
 nav_order: 2
 ---
 

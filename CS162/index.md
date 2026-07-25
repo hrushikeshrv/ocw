@@ -1,7 +1,6 @@
 ---
 layout: default
 title: UCB CS 162 - Operating Systems and Systems Programming
-nav_order: 6
 has_children: true
 has_toc: false
 ---

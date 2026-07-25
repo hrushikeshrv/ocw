@@ -20,7 +20,7 @@ Newton's method is a method for finding the root of a function through successiv
 
 The formula for Newton's method is given by -
 
-$ x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)} $
+$$ x_{i+1} = x_i - \frac{f(x_i)}{f^\prime(x_i)} $$
 
 $ x_{i+1} $ is an approximation of the root of the function $ f(x) $, which gets better on every iteration. Newton's method converges quadratically, which means that the number of correct digits doubles on every iteration. This means that to get an approximation with $ n $ correct digits, we need to perform $ O(log\,n) $ iterations.
 

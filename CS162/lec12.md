@@ -65,7 +65,7 @@ There are 4 common ways of dealing with deadlock -
 - Deadlock prevention - Write your code in such a way that deadlock won't occur. This means that you trust the apps running on your machine to be written this way as well.
 - Deadlock recovery - Let deadlock happen, and then figure out how to recover from it, maybe by rolling back a transaction (if transactions and rollbacks are supported).
 - Deadlock avoidance - Dynamically delay resource requests so that deadlock doesn't happen. Requires you to do extra work while writing and maintaining the kernel.
-- Deadlock denial - Don't deal with deadlock 🤷‍♂️
+- Deadlock denial - Don't deal with deadlock
 
 The Linux operating system makes sure that the kernel is not involved in any deadlock, but ignores any deadlock that happens in applications.
 

@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MIT 6.858 - Computer Systems Security
-nav_order: 8
 has_children: true
 has_toc: false
 ---

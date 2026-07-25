@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Lecture 1 - The Digital Abstraction
-parent: MIT 6.004 - Computation Structures 
+parent: Course 2 
 nav_order: 1
 ---
 

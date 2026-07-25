@@ -2,3 +2,10 @@ _pvt/
 pvt_/
 _test/
 test_/
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+.jekyll_cache/
+_site/
+pdf/

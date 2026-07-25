@@ -11,7 +11,7 @@ The general ideology behind divide and conquer is a simple idea - we divide a pr
 equal to 1 and b is an integer greater than 1. We then usually use the solutions to all other problems and combine them into a single solution for the original problem.
 We can write a recurrence for the time complexity of a general divide and conquer algorithm as -
 
-$ T(n) = a \cdot T(n/b) + [w] $
+$T(n) = a \cdot T(n/b) + [w]$
 
 Where w is the work required to merge the “a” solutions to the subproblems.
 
@@ -106,7 +106,7 @@ up of x are greater than x, and elements to the left and below x are less than x
 This means that choosing this as x will give us fairly balanced subproblems. If we do the math to calculate how many elements will be in each problem, 
 we get that the recurrence for the complete algorithm is
 
-$ T(n) = T(n/5) + T(7n/10 + 6) + \Theta(n) $
+$T(n) = T(n/5) + T(7n/10 + 6) + \Theta(n)$
 
 ![Image](./media/image257.png)
 

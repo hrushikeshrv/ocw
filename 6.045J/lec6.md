@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 6
 ---
 
-# Decidability
+# Lecture 6 - Decidability
 An important theorem regarding Turing machines is that a Turing machine can simulate other Turing 
 machines, which can potentially be more complicated than itself. That is, a Turing machine A can
 act as an _interpreter_ for Turing machine B, and B can be much more complicated than A.
@@ -34,7 +34,7 @@ Now, say we have another machine Q that takes the description of a Turing machin
 and goes into an infinite loop if M halts, and halts if M loops. If we pass the description of Q into
 Q itself, we get a paradox. Therefore, we contradict ourselves, and we cannot have a Turing machine P.
 
-# Busy Beaver & Infinities
+## Busy Beaver & Infinities
 Busy Beaver is a sequence that grows faster than any other countable sequence. Scott introduces it in 
 the lecture as a way to introduce countability, sets of infinities, and prove that most languages are not
 countable.

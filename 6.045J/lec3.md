@@ -15,16 +15,16 @@ state.
 
 The notation we will use for these quantities is the following -
 
-| $ Q $ | Finite set of states |  
-| $ \Sigma $ | Finite alphabet |  
-| $ \delta: Q \times \Sigma \rightarrow Q $ | Transition function |  
-| $ q_0 $ | Start state |
-| $ F \subset Q $ | Accepted states |
+| $Q$ | Finite set of states |  
+| $\Sigma$ | Finite alphabet |  
+| $\delta: Q \times \Sigma \rightarrow Q$ | Transition function |  
+| $q_0$ | Start state |
+| $F \subset Q$ | Accepted states |
 
-We call $$ L = {{0, 1}}^{*} $$ a _language_. In this case, a language is the set of all binary
+We call $$L = {{0, 1}}^{*}$$ a _language_. In this case, a language is the set of all binary
 strings of length 0 or more. A language is just any set of strings. We say that a language is 
 _accepted_ or _recognized_ by an automaton if the automaton ends up in an accepting state for 
-all strings in the language, and we denote that as $ L(M) $, meaning $L$ is a language recognized 
+all strings in the language, and we denote that as $L(M)$, meaning $L$ is a language recognized 
 by the finite automaton $M$. We say that $L$ is a _regular_ language if we can design an automaton
 to accept that language.
 
@@ -52,7 +52,7 @@ when it reads the symbol 0, for example, whereas a DFA only has one path per sym
 For example, we have the NDFA that accepts the language where the 3rd to last bit is a 1, which
 can be drawn as given below -
 
-![NDFA accepting language where 3rd to last bit is 1](media/lec3-1.jpg)
+![NDFA accepting language where 3rd to last bit is 1](./media/lec3-1.jpg)
 
 It turns out that NDFAs are essentially equivalent to DFAs. For every NDFA that accepts a language $L$,
 we can construct a DFA that accepts the same language, and for every DFA that accepts a language $L$, 
@@ -72,4 +72,4 @@ state 01.
 An example conversion is shown below for the NDFA that accepts languages where the second to last bit 
 is a 1 to its corresponding DFA.
 
-![Converting from NDFAs to DFAs](media/lec3-2.jpg)
+![Converting from NDFAs to DFAs](./media/lec3-2.jpg)

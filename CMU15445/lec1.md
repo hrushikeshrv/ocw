@@ -49,10 +49,11 @@ new relations. You can think of a relation as a table in a database. Relational
 algebra operators take a relation as an input and produce another relation.
 
 The basic few relational algebra operators are - 
-1. Select ($\sigma$<sub>predicate</sub>(R)) - Acts like a filter. Selects tuples from the relation that satisfy the predicate.
-2. Projection ($\pi$<sub>A1,A2,...</sub>(R)) - Returns the same relation but only with the attributes A1, A2, ... selected from the relation.
+
+1. Select ($\sigma_{\text{predicate}}$(R)) - Acts like a filter. Selects tuples from the relation that satisfy the predicate.
+2. Projection ($\pi_{\text{A1,A2,...}}$(R)) - Returns the same relation but only with the attributes A1, A2, ... selected from the relation.
 3. Union (R $\cup$ S) - Produces a new relation that contains all the tuples in at least one of the relations (the relations need to have the same attributes).
 4. Intersection (R $\cap$ S) - Produces a new relation that contains only those tuples that exist in both R and S (the relations need to have the same attributes).
 5. Difference (R - S) - Produces a new relation that contains all tuples that appear in the first relation but not in the second relation (the relations need to have the same attributes).
 6. Product (R $\times$ S) - Product takes in two relations and outputs a relation that contains all possible combinations for tuples from the input relations.
-7. Join (R \Join S) - outputs a relation that contains all the tuples that are a combination of two tuples where for each attribute that the two relations share, the values for that attribute of both tuples is the same.
+7. Join (R $\Join$ S) - outputs a relation that contains all the tuples that are a combination of two tuples where for each attribute that the two relations share, the values for that attribute of both tuples is the same.

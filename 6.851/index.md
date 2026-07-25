@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MIT 6.851 - Advanced Data Structures
-nav_order: 2
 has_children: true
 has_toc: false
 ---

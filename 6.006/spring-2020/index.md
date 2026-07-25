@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MIT 6.006 - Introduction to Algorithms (Spring 2020)
-nav_order: 2
 has_children: true
 has_toc: false
 ---

@@ -5,7 +5,7 @@ parent: MIT 6.045J - Automata, Computability, Complexity
 nav_order: 4
 ---
 
-# Regular Expressions, Context-Free Grammars
+# Lecture 4 - Regular Expressions, Context-Free Grammars
 
 ## Regular Expressions to DFAs
 Regular expressions are basically equivalent to DFAs. To show this, we have to show that,
