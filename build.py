@@ -34,6 +34,7 @@ from tempfile import NamedTemporaryFile
 PDF_OUTPUT_SUBDIR = "pdf"
 PDF_ENGINE = "pdflatex"
 IGNORED_DIRECTORIES = [
+    "vendor",
     "pdf",
     ".git",
     ".github",
