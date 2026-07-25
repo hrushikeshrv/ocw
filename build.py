@@ -147,7 +147,7 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
 def get_anchor_from_md_heading(header_text: str) -> str:
     """Generates a standard Pandoc identifier anchor from a Markdown header string."""
     id_str = header_text.lower().strip()
-    id_str = re.sub(r"[^a-z0-9\s\-]", "", id_str)  # Remove punctuation except hyphens/spaces
+    id_str = re.sub(r"[^a-z0-9\.\s\-]", "", id_str)  # Remove punctuation except hyphens/spaces
     id_str = re.sub(r"\s+", "-", id_str)           # Convert spaces to hyphens
     return f"#{id_str}"
 
@@ -278,6 +278,17 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
             r'([^\n]+(?:\n[^\n]+)*)\n*\{\:\s*\.([a-zA-Z0-9_-]+)(?:\s+title=["\']([^"\']+)["\'])?\s*\}\n*([^\n]+(?:\n[^\n]+)*)'
         )
         content = callout_regex.sub(callout_replacer, content)
+
+    # If we are sanitizing Markdown for the global PDF, and we are not processing
+    # an index.md file, make sure there are no H1's in this file. Reduce the heading level
+    # of each heading by 1 to make sure there is no H1.
+    if mode == ConversionType.GLOBAL and file_path.name != "index.md":
+        content_lines = content.split('\n')
+        for i in range(len(content_lines)):
+            if content_lines[i].startswith("#"):
+                content_lines[i] = "#" + content_lines[i]
+        content = '\n'.join(content_lines)
+
     return link_regex.sub(link_replacer, content)
 
 def get_ordered_markdown_files(directory: Path) -> list[Path]:
@@ -504,6 +515,12 @@ if __name__ == "__main__":
         help="Test the build script by running on the test/ directory",
         action="store_true"
     )
+    parser.add_argument(
+        "--global", '-g',
+        dest="build_global",
+        help="Build the global PDF only",
+        action="store_true"
+    )
     args = parser.parse_args()
 
     n_success = 0
@@ -534,6 +551,12 @@ if __name__ == "__main__":
         print(get_ordered_markdown_directories(PROJECT_ROOT))
         print('Testing')
         sys.exit(0)
+
+    if args.build_global:
+        _convert(None, ConversionType.GLOBAL)
+        print(f'{n_success} conversions succeeded, {n_failed} failed.')
+        sys.exit(n_failed)
+
 
     if args.input:
         for path in args.input:

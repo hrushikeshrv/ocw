@@ -6,7 +6,7 @@ nav_order: 1
 
 # OpenCourseWare & Course Notes
 This collection of pages contains notes for all the MIT OCW and other online courses I have taken, mainly for my own reference. 
-You can view the source files for the website on [GitHub](https://github.com/hrushikeshrv/ocw).
+You can view the source files for these notes on [GitHub](https://github.com/hrushikeshrv/ocw).
 
 **These notes may contain errors, including formatting errors, especially in the auto-generated PDF versions of these notes. If you notice an error, please [raise an issue on GitHub (@hrushikeshrv/ocw)](https://github.com/hrushikeshrv/ocw/issues) and I will be happy to fix it.**
 
