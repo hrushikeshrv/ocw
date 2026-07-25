@@ -7,7 +7,7 @@ nav_order: 4
 
 # Heaps and Heap Sort
 ## Heaps
-Heaps are an implementation of a priority queue. Heaps can do the following operations -
+Heaps are an implementation of a priority queue. Heaps can do the following operations -  
 1. Insert(x) - Insert element x into the heap
 2. Max(x) - Return the max element in the heap
 3. Extract_max(x) - Return the max element and remove it from the heap
@@ -25,7 +25,7 @@ For heaps to be useful, we need the heaps to maintain their max/min property as 
 
     Max or min heapify starts at the violation, compares the violating element with its children, and then swaps the violating element with the bigger child if max, smaller child if min, and then calls itself on the node with which it was just swapped to see if it didn’t create a new violation. Max/min heapify takes in 2 arguments - the tree visualization of the array, and the index in the tree at which the violation occurs.
 
-2. Build_max_heap() or build_min_heap() - Builds a max/min heap given a normal array. The pseudocode for build_max_heap() of build_min_heap() can be written as -
+2. build_max_heap() or build_min_heap() - Builds a max/min heap given a normal array. The pseudocode for build_max_heap() of build_min_heap() can be written as -
 
 ~~~
 def build_heap(A, n, max = True):

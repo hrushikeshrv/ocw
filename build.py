@@ -1,18 +1,18 @@
 """
-Build script to convert all markdown files into PDF files.
+Build script to convert all Markdown files into PDF files.
 
 Specifically, this script recursively walks through all subdirectories in
 the project which have an `index.md` file and generates 3 kinds of PDFs,
 all using `pandoc`:
 
-1. Converts each markdown file it finds into a PDF file
+1. Converts each Markdown file it finds into a PDF file
 2. For each directory with an `index.md` file, generates a combined PDF file
     with the directory name as the PDF name, containing the contents of the
-    `index.md` file first, and then the contents of all other markdown files
+    `index.md` file first, and then the contents of all other Markdown files
     in natural alphabetical order
 3. Creates a "global" PDF named OCW.pdf, which contains the contents of the
     `index.md` file at the project root, then a detailed table of contents,
-    and then appends the contents of all other markdown files in natural
+    and then appends the contents of all other Markdown files in natural
     alphabetical order, grouped by the directory name
 
 In each generated PDF file, it tries hard to generate working links every time
@@ -34,8 +34,24 @@ from tempfile import NamedTemporaryFile
 PDF_OUTPUT_SUBDIR = "pdf"
 PDF_ENGINE = "pdflatex"
 IGNORED_DIRECTORIES = [
+    "pdf",
+    ".git",
+    ".github",
+    ".jekyll-cache",
+    ".idea",
+    "_includes",
+    "_pvt",
+    "_sass",
+    "_site",
+    "media",
+    "degree-paths",
+
     "algorithms",
     "test"
+]
+IGNORED_FILE_NAMES = [
+    "README.md",
+    "LICENSE.md"
 ]
 
 # The build script should always be run from the project root
@@ -48,11 +64,14 @@ class ConversionType(Enum):
     DIRECTORY = 2
     GLOBAL = 3
 
+    def __str__(self):
+        return ["SINGLE FILE", "DIRECTORY", "GLOBAL"][self.value-1]
+
 
 def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: ConversionType) -> bool:
     """
-    Run pandoc on an input markdown file
-    :param input_path: The input path for the markdown file
+    Run pandoc on an input Markdown file
+    :param input_path: The input path for the Markdown file
     :param output_path: The output path for the PDF file
     :param resource_path: The resource path for looking up linked resources
     :param mode: The type of PDF file being generated
@@ -135,7 +154,7 @@ def get_anchor_from_md_heading(header_text: str) -> str:
 
 def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> str:
     """
-    Sanitizes content and links found in any arbitrary markdown file into content and links
+    Sanitizes content and links found in any arbitrary Markdown file into content and links
     safe to be used with pandoc to generate a PDF depending on the
     file conversion mode
     :param content: The input markdown
@@ -153,11 +172,11 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
         r'\[([^]]+)]\(\{%\s*link\s+([^%}\s]+)\s*%}\s*(#[^)]+)?\)'
     )
 
-    # Get the parent directory for this markdown file. Example:
+    # Get the parent directory for this Markdown file. Example:
     # 6.004/index.md -> PROJECT_ROOT / 6.004
     # In directory conversion mode or global conversion mode,
     # This will still point to the right parent directory
-    # since the named temp file to store the markdown contents
+    # since the named temp file to store the Markdown contents
     # will be created in the right subdirectory.
     #
     # For example:
@@ -236,7 +255,8 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
         """
         Converts Just the Docs paragraphs into LaTeX textbook environments
         """
-        text = match.group(1).strip()
+        pre_text = match.group(1).strip()
+        text = match.group(4).strip()
         callout_type = match.group(2).lower()
         custom_title = match.group(3)
 
@@ -246,23 +266,26 @@ def sanitize_markdown(content: str, file_path: Path, mode: ConversionType) -> st
             "important": "calloutimportant",
             "new": "calloutnew"
         }
-        env_name = env_map.get(callout_type, "calloutnote")
+        env_name = env_map.get(callout_type, None)
+        if env_name is None:
+            return pre_text + '\n\n' + text
         title_str = custom_title if custom_title else callout_type.capitalize()
-        return f"\\begin{{{env_name}}}[{title_str}]\n{text}\n\\end{{{env_name}}}"
+        return f"{pre_text}\n\\begin{{{env_name}}}[{title_str}]\n{text}\n\\end{{{env_name}}}"
 
-    callout_regex = re.compile(
-        r'([^\n]+(?:\n[^\n]+)*)\n*\{\:\s*\.([a-zA-Z0-9_-]+)(?:\s+title=["\']([^"\']+)["\'])?\s*\}'
-    )
-
-    content = callout_regex.sub(callout_replacer, content)
+    # Skip expensive regex comparison if we don't have any callouts in the content
+    if "{:" in content:
+        callout_regex = re.compile(
+            r'([^\n]+(?:\n[^\n]+)*)\n*\{\:\s*\.([a-zA-Z0-9_-]+)(?:\s+title=["\']([^"\']+)["\'])?\s*\}\n*([^\n]+(?:\n[^\n]+)*)'
+        )
+        content = callout_regex.sub(callout_replacer, content)
     return link_regex.sub(link_replacer, content)
 
 def get_ordered_markdown_files(directory: Path) -> list[Path]:
     """
-    Return a list of markdown files in the directory, ordered by the natural sort
-    order instead of the strict alphabetical order. Example: lec2.md is returned before
-    lec10.md
-    :param directory: The directory to search for markdown files (recurses into subdirectories)
+    Return a list of Markdown files in the directory (and recursively all subdirectories),
+    ordered by the natural sort order instead of the strict alphabetical order.
+    Example: lec2.md is returned before lec10.md
+    :param directory: The directory to search for Markdown files (recurses into subdirectories)
     :return: A list of `Path` objects in natural sort order
     """
     def natural_sort_key(filename):
@@ -281,26 +304,74 @@ def get_ordered_markdown_files(directory: Path) -> list[Path]:
         return files
 
     for child in children:
-        if child.is_file() and child.suffix == ".md" and child.name != "index.md":
+        if (
+            child.is_file()
+            and child.suffix == ".md"
+            and child.name != "index.md"
+            and child.name not in IGNORED_FILE_NAMES
+        ):
             files.append(child)
 
     # Recurse into subdirectories using natural sorting
     for child in children:
-        if child.is_dir():
+        if child.is_dir() and child.name not in IGNORED_DIRECTORIES:
             files.extend(get_ordered_markdown_files(child))
 
     return files
 
 
+def get_ordered_markdown_directories(directory: Path) -> list[Path]:
+    """
+    Return a list of directories (and recursively all subdirectories), that contain an index.md file
+    ordered by the natural sort order instead of the strict alphabetical order.
+    :param directory: The directory to search for Markdown containing subdirectories (recurses into subdirectories)
+    :return: A list of `Path` objects in natural sort order
+    """
+    def natural_sort_key(filename):
+        filename_str = str(filename)
+        return [int(text) if text.isdigit() else text.lower() for text in re.split(r"(\d+)", filename_str)]
+
+    directories = []
+    index_path = directory / "index.md"
+    if not index_path.exists():
+        return directories
+    if not directory.is_dir():
+        return directories
+
+    # Sort files naturally
+    try:
+        children = sorted(directory.iterdir(), key=lambda p: natural_sort_key(p.name))
+    except FileNotFoundError:
+        return directories
+
+    for child in children:
+        if (
+            child.is_dir()
+            and child.name not in IGNORED_DIRECTORIES
+            and (child / "index.md").exists()
+        ):
+            directories.append(child)
+
+    # Recurse into subdirectories using natural sorting
+    for child in children:
+        if (
+            child.is_dir()
+            and child.name not in IGNORED_DIRECTORIES
+        ):
+            directories.extend([x for x in get_ordered_markdown_files(child) if x.is_dir()])
+
+    return directories
+
+
 def get_markdown_for_directory(input_path: Path, mode: ConversionType) -> str:
     """
-    Returns the combined content for all markdown files in the passed `input_path`.
+    Returns the combined content for all Markdown files in the passed `input_path`.
     First appends the contents of `index.md` if present, then the sanitized content
-    of all markdown files in the current directory (in natural alphabetical order),
+    of all Markdown files in the current directory (in natural alphabetical order),
     then recursively gets content for subdirectories.
-    :param input_path: The directory to search for markdown files
+    :param input_path: The directory to search for Markdown files
     :param mode: The conversion mode
-    :return: Valid markdown contents as a string
+    :return: Valid Markdown contents as a string
     """
     if not input_path.is_dir():
         raise ValueError("input_path must be a directory")
@@ -319,31 +390,32 @@ def get_markdown_for_directory(input_path: Path, mode: ConversionType) -> str:
     return result
 
 
-def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
+def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> bool:
     """
-    Reads a markdown file or directory containing markdown files and
+    Reads a Markdown file or directory containing Markdown files and
     correctly converts it into a PDF depending on `mode`
-    :param input_path: Can be a path to a single markdown file or a directory.
+    :param input_path: Can be a path to a single Markdown file or a directory.
         If `mode` is `ConversationType.SINGLE_FILE`, `input_path` must be a path to
         a single file. If `mode` is `ConversationType.DIRECTORY`, `input_path` must be
         a path to a directory containing an index.md file. If `mode` is
         `ConversationType.GLOBAL`, `input_path` must be None.
     :param mode: The type of PDF file being generated. If mode is `ConversionType.SINGLE_FILE`,
         converts a single file from Markdown to PDF. If mode is `ConversionType.DIRECTORY`,
-        combines the content of all the markdown files in the `input_path` directory (recursively
+        combines the content of all the Markdown files in the `input_path` directory (recursively
         visiting subdirectories) and generates one PDF from the combined content. If mode is
         `ConversionType.GLOBAL`, does the same operation as directory level conversion, but at
         the project root level.
-    :return:
+    :return: True if the conversion succeeded, False otherwise
     """
     if mode == ConversionType.GLOBAL and input_path is not None:
-        raise ValueError("input_path must be None if mode is ConversionType.GLOBAL")
-    if mode == ConversionType.DIRECTORY and not input_path.is_dir():
-        raise ValueError("input_path must be a directory if mode is ConversionType.DIRECTORY")
-    if mode == ConversionType.SINGLE_FILE and not input_path.is_file():
-        raise ValueError("input_path must be a file if mode is ConversionType.SINGLE_FILE")
+        raise ValueError(f"input_path must be None if mode is ConversionType.GLOBAL. Got {input_path}")
+    if mode == ConversionType.DIRECTORY and (input_path is None or not input_path.is_dir()):
+        raise ValueError(f"input_path must be a directory if mode is ConversionType.DIRECTORY. Got {input_path or 'None'}")
+    if mode == ConversionType.SINGLE_FILE and (input_path is None or not input_path.is_file()):
+        raise ValueError(f"input_path must be a file if mode is ConversionType.SINGLE_FILE. Got {input_path or 'None'}")
 
     if mode == ConversionType.SINGLE_FILE:
+        assert input_path is not None
         base_dir = input_path.parent
         output_path = base_dir / PDF_OUTPUT_SUBDIR / (input_path.stem + ".pdf")
 
@@ -375,7 +447,13 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
                 if front_matter_match:
                     front_matter = front_matter_match.group(0)
                     # Safely swap out just the line beginning with "title:" inside the front matter block
-                    updated_front_matter = re.sub(r"(^title:\s*)(.*)$", r"\1" + index_title + r" \2", front_matter, flags=re.MULTILINE)
+                    # Safely swap out the title line, replacing any colons in the original title (\2) with a dash
+                    updated_front_matter = re.sub(
+                        r"(^title:\s*)(.*)$",
+                        lambda match: f'{match.group(1)}{index_title} {match.group(2).replace(":", "-")}',
+                        front_matter,
+                        flags=re.MULTILINE
+                    )
                     sanitized_content = sanitized_content.replace(front_matter, updated_front_matter, 1)
 
             tnf.write(sanitized_content)
@@ -392,6 +470,8 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
         assert (mode == ConversionType.DIRECTORY or mode == ConversionType.GLOBAL)
         if mode == ConversionType.GLOBAL:
             input_path = PROJECT_ROOT
+
+        assert input_path is not None
         output_path = input_path / PDF_OUTPUT_SUBDIR / (input_path.name + ".pdf")
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -407,13 +487,14 @@ def markdown_to_pdf(input_path: Path | None, mode: ConversionType) -> None:
 
         if not success:
             print(f"Error: failed to convert {input_path}")
+    return success
 
 
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "input",
-        help="Path to the markdown file or directory containing markdown files. An index.md must be present if passing a directory.",
+        help="Path to the Markdown file or directory containing Markdown files. An index.md must be present if passing a directory.",
         type=str,
         nargs="*",
         default=""
@@ -425,8 +506,34 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    n_success = 0
+    n_failed = 0
+    def _convert(input_path: Path | None, mode: ConversionType) -> tuple[int, int]:
+        """
+        Thin wrapper around `markdown_to_pdf` to catch exceptions and report success
+        or failure
+        :param input_path: `Path` to input file or `None` if global conversion mode
+        :param mode: Conversion type
+        :return: A one-hot 2-tuple. The first element is 1 if conversion succeeds, the second element
+            is 1 if it fails
+        """
+        global n_success, n_failed
+        try:
+            s = markdown_to_pdf(input_path, mode)
+            if s:
+                n_success += 1
+                return 1, 0
+            n_failed += 1
+            return 0, 1
+        except Exception as e:
+            print(e)
+            n_failed += 1
+            return 0, 1
+
     if args.test:
+        print(get_ordered_markdown_directories(PROJECT_ROOT))
         print('Testing')
+        sys.exit(0)
 
     if args.input:
         for path in args.input:
@@ -436,6 +543,24 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             if ip_path.is_dir():
-                markdown_to_pdf(ip_path, ConversionType.DIRECTORY)
-            elif ip_path.is_file():
-                markdown_to_pdf(ip_path, ConversionType.SINGLE_FILE)
+                m = ConversionType.DIRECTORY
+            else:
+                m = ConversionType.SINGLE_FILE
+            _convert(ip_path, m)
+
+    else:
+        # First convert all markdown files in single file conversion mode
+        md_files = get_ordered_markdown_files(PROJECT_ROOT)
+        for f in md_files:
+            _convert(f, ConversionType.SINGLE_FILE)
+
+        # Then generate the directory level PDF for all directories containing an index.md
+        md_dirs = get_ordered_markdown_directories(PROJECT_ROOT)
+        for d in md_dirs:
+            _convert(d, ConversionType.DIRECTORY)
+
+        # Finally, generate the global PDF
+        _convert(None, ConversionType.GLOBAL)
+
+    print(f'{n_success} conversions succeeded, {n_failed} failed.')
+    sys.exit(n_failed)

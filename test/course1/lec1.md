@@ -16,6 +16,24 @@ nav_order: 1
 
 [Test link to next course]({% link test/course2/index.md %})
 
+Test note block:
+
+{: .note }
+The NAND and NOR gates together are universal gates, which means you can represent any boolean expression using just those two gates.
+
+Test Python code block:
+
+~~~
+def build_heap(A, n, max = True):
+    for i in range(n/2, 1, -1):
+       if max:
+           max_heapify(A, i)
+       else:
+           min_heapify(A, i)
+    return A
+~~~
+{: .language-python}
+
 We now define a new kind of language, a Turing Recognizable language - very similar
 to a decidable language, with one key difference.
 

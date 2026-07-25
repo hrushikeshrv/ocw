@@ -22,7 +22,7 @@ and we have three representations of polynomials available. Each representation 
 2.Root Representation - We can uniquely specify a polynomial by specifying all of its roots.
 3.Sample Representation - We can uniquely specify a polynomial of degree k by specifying the value the polynomial takes at at least k distinct points.
 
-The advantages and disadvantage of each representation is as follows -
+The advantages and disadvantage of each representation is shown in the figure -
 
 ![Image](./media/image273.png)
 
