@@ -122,8 +122,12 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         str(input_path),
         "-o",
         str(output_path),
-        '-s' if mode == ConversionType.GLOBAL else '',
-        '--toc' if mode == ConversionType.GLOBAL else '',
+    ]
+    if mode == ConversionType.GLOBAL:
+        cmd += [
+           '-s', '--toc'
+        ]
+    cmd += [
         f"--pdf-engine={PDF_ENGINE}",
         "-V", "geometry:margin=1.5in",
         "-V", "fontsize=11pt",
@@ -139,6 +143,7 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         '-V', f'header-includes={latex_callouts_setup}',
         '-V', 'header-includes=\\cfoot{\\thepage}'
     ]
+
     try:
         subprocess.run(cmd, check=True)
         return True
