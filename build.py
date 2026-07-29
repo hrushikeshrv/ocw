@@ -143,7 +143,7 @@ def run_pandoc(input_path: Path, output_path: Path, resource_path: Path, mode: C
         subprocess.run(cmd, check=True)
         return True
     except subprocess.CalledProcessError as e:
-        print(f'Error generating {output_path}')
+        print(f'Error generating {output_path}: {e}')
         return False
 
 
